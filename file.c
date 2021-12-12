@@ -5,7 +5,7 @@ git branch // shows all branches and where I am
 git pull origin main // pulls from branch main into where I am now
 git fetch // get git branch changes
 
-git add .
+git add . // OR git add <filename>
 git commit -m "<changes>"
 git push
 
