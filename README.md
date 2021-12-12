@@ -1,2 +1,2 @@
 # minishell
-Group project with @elenz
+Group project with 42elenz
