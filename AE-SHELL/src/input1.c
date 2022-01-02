@@ -1,4 +1,5 @@
 #include "../includes/minishell.h"
+#include "../libft/libft.h"
 
 /* void	part1(char *str)
 {
@@ -23,6 +24,7 @@ void	handle_meta(char c, t_frame *frame)
 	next_node(frame);
 	frame->current_node->quote_st = NO_Q;
 	add_letter(c, frame);
+	next_node(frame);
 }
 
 void	set_quote_state(char c, t_frame *frame)
@@ -54,6 +56,8 @@ void	init_node(t_frame *frame)
 	t_node	*node;
 
 	node = ft_calloc(1, sizeof(t_node));
+	node->prev = NULL;
+	node->next = NULL;
 	frame->current_node = node;
 	frame->current_node->quote_st = NO_Q;
 }
@@ -65,9 +69,12 @@ void add_letter(char c, t_frame *frame)
 
 	conlen = ft_strlen(frame->current_node->content);
 	new_string = ft_calloc(sizeof(char), (2 + conlen));
-	ft_memcpy(new_string, frame->current_node->content, conlen);
+	if (frame->current_node->content != NULL)
+	{
+		ft_memcpy(new_string, frame->current_node->content, conlen);
+		free(frame->current_node->content);
+	}
 	new_string[conlen] = c;
-	free(frame->current_node->content);
 	frame->current_node->content = new_string;
 }
 
@@ -96,8 +103,8 @@ void	part1(char *str, t_frame *frame)
 			handle_meta(str[i], frame);
 			i++;
 		}
-		printf("%s\n", frame->current_node->content);
 	}
+	ft_print_stack(frame);
 }
 
 void	ft_lexer(char *str, t_frame *frame)
