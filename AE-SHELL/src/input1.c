@@ -21,11 +21,9 @@
 
 void	handle_meta(char c, t_frame *frame)
 {
-	if(frame->current_node == NULL)
+	if (frame->current_node->content != NULL)
 		next_node(frame);
-	frame->current_node->quote_st = NO_Q;
 	add_letter(c, frame);
-	next_node(frame);
 }
 
 void	set_quote_state(char c, t_frame *frame)
@@ -84,10 +82,12 @@ void	part1(char *str, t_frame *frame)
 	int	i;
 
 	i = 0;
+	if (frame->current_node == NULL)
+		init_node(frame);
 	while (str[i] != '\0')
 	{
-		if (frame->current_node == NULL)
-			init_node(frame);
+		if(frame->current_node->content != NULL)
+			next_node(frame);
 		while (str[i] == ' ' && frame->current_node->quote_st == NO_Q)
 			i++;
 		while ((ft_strrchr("<>| ", str[i]) == NULL && str[i] != '\0' && frame->current_node->quote_st == NO_Q)
@@ -99,7 +99,7 @@ void	part1(char *str, t_frame *frame)
 			add_letter(str[i], frame);
 			i++;
 		}
-		if (ft_strchr("<>| ", str[i]) != NULL && str[i] != '\0')
+		while (ft_strchr("<>| ", str[i]) != NULL && str[i] != '\0')
 		{
 			handle_meta(str[i], frame);
 			i++;

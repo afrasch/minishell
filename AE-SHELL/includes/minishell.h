@@ -38,4 +38,6 @@ void	init_frame(t_frame *frame);
 void	next_node(t_frame *frame);
 void	add_letter(char c, t_frame *frame);
 void	ft_print_stack(t_frame *frame);
+void	reset_frame(t_frame *frame);
+void	ft_clear_nodes(t_node **current_node);
 #endif

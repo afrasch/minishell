@@ -15,4 +15,5 @@ void	next_node(t_frame *frame)
 	next_node->content = NULL;
 	frame->current_node->next = next_node;
 	frame->current_node = next_node;
+	frame->current_node->quote_st = NO_Q;
 }

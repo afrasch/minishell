@@ -6,7 +6,7 @@
 #    By: elenz <elenz@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 14:02:35 by elenz             #+#    #+#              #
-#    Updated: 2021/12/26 17:49:27 by elenz            ###   ########.fr        #
+#    Updated: 2022/01/02 15:49:41 by elenz            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,8 @@ ft_utoa.c\
 ft_hex2int.c\
 ft_get_next_line.c\
 ft_get_next_line_utils.c\
+ft_free_2d.c \
+ft_free_1d.c \
 
 
 

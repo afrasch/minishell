@@ -14,7 +14,10 @@ SRC_DIR = ./src/
 SRC_LIST =	main.c \
 			input1.c \
 			initframe.c \
-			helpers.c
+			helpers.c \
+			err_free.c \
+			lst_fct.c \
+			
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))
 

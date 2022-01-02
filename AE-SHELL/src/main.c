@@ -8,12 +8,13 @@ int	main(void)
 	init_frame(&frame);
 	while (1)
 	{
-		//str = readline(PROMPT);
-		str = "\"'echo hi'\" '> >'  |  \"> > > \"";
+		str = readline(PROMPT);
+		//str = "'h' > > \"> >\"     ";
 		ft_lexer(str, &frame);
 		if (ft_strlen(str) > 0)
 			add_history(str);
-		//free(str);
-		break ;
+		reset_frame(&frame);
+		free(str);
+		str = NULL;
 	}
 }
