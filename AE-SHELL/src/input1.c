@@ -1,5 +1,5 @@
 #include "../includes/minishell.h"
-#include "../libft/libft.h"
+
 
 /* void	part1(char *str)
 {
@@ -21,7 +21,8 @@
 
 void	handle_meta(char c, t_frame *frame)
 {
-	next_node(frame);
+	if(frame->current_node == NULL)
+		next_node(frame);
 	frame->current_node->quote_st = NO_Q;
 	add_letter(c, frame);
 	next_node(frame);

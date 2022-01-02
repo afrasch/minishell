@@ -1,5 +1,4 @@
 #include "../includes/minishell.h"
-#include "../libft/libft.h"
 
 void	init_frame(t_frame *frame)
 {

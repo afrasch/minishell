@@ -13,7 +13,8 @@ HEADERS = $(addprefix $(HEADERS_DIR), $(HEADERS_LIST))
 SRC_DIR = ./src/
 SRC_LIST =	main.c \
 			input1.c \
-			initframe.c
+			initframe.c \
+			helpers.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))
 

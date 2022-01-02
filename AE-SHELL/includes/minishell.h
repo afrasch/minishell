@@ -21,6 +21,7 @@ typedef struct s_node
 	int					type;
 	int					quote_st;
 	struct s_node		*next;
+	struct s_node		*prev;
 }	t_node;
 
 typedef struct s_frame
@@ -35,5 +36,6 @@ typedef struct s_frame
 void	ft_lexer(char *str, t_frame *frame);
 void	init_frame(t_frame *frame);
 void	next_node(t_frame *frame);
-void 	add_letter(char c, t_frame *frame);
+void	add_letter(char c, t_frame *frame);
+void	ft_print_stack(t_frame *frame);
 #endif

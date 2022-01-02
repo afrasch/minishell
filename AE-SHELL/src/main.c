@@ -1,5 +1,4 @@
 #include "../includes/minishell.h"
-#include "../libft/libft.h"
 
 int	main(void)
 {
@@ -10,9 +9,11 @@ int	main(void)
 	while (1)
 	{
 		//str = readline(PROMPT);
-		str = "echo hi";
+		str = "\"'echo hi'\" '> >'  |  \"> > > \"";
 		ft_lexer(str, &frame);
 		if (ft_strlen(str) > 0)
 			add_history(str);
+		//free(str);
+		break ;
 	}
 }
