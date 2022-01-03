@@ -59,6 +59,7 @@ void	init_node(t_frame *frame)
 	node->next = NULL;
 	frame->current_node = node;
 	frame->current_node->quote_st = NO_Q;
+	frame->node_start = frame->current_node;
 }
 
 void add_letter(char c, t_frame *frame)
@@ -77,7 +78,7 @@ void add_letter(char c, t_frame *frame)
 	frame->current_node->content = new_string;
 }
 
-void	part1(char *str, t_frame *frame)
+void	split_in_nodes(char *str, t_frame *frame)
 {
 	int	i;
 
@@ -99,7 +100,7 @@ void	part1(char *str, t_frame *frame)
 			add_letter(str[i], frame);
 			i++;
 		}
-		while (ft_strchr("<>| ", str[i]) != NULL && str[i] != '\0')
+		while (ft_strchr("<>|", str[i]) != NULL && str[i] != '\0')
 		{
 			handle_meta(str[i], frame);
 			i++;
@@ -110,5 +111,6 @@ void	part1(char *str, t_frame *frame)
 
 void	ft_lexer(char *str, t_frame *frame)
 {
-	part1(str, frame);
+	split_in_nodes(str, frame);
+	handle_quotes(frame);
 }
