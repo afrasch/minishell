@@ -6,6 +6,14 @@ void	del_letter(int i, t_frame *frame)
 	ft_strlen(frame->current_node->content) - i);
 }
 
+void expand_var(int i, t_frame *frame)
+{
+	if ((frame->current_node->content)[i] == '$' && frame->current_node->quote_st != SINGLE_Q)
+	{
+		if
+	}
+}
+
 void	solve_quotes(t_frame *frame)
 {
 	int	i;
@@ -15,6 +23,7 @@ void	solve_quotes(t_frame *frame)
 	str = frame->current_node->content;
 	while (str[i] != '\0')
 	{
+		expand_var(i, frame);
 		if ((str[i]=='\"' && frame->current_node->quote_st != SINGLE_Q) ||
 			(str[i]=='\'' && frame->current_node->quote_st != DOUBLE_Q))
 		{
@@ -23,7 +32,6 @@ void	solve_quotes(t_frame *frame)
 		}
 		else
 			i++;
-		
 	}
 }
 
