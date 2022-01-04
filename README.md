@@ -1,3 +1,2 @@
 # minishell
-Group project with 42elenz
- Hello there
+Watch how 42elenz and afrasch try to code a minishell in C.

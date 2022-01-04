@@ -1,3 +1,5 @@
+hello back Elenz
+
 git branch allie // erstellt branch "allie"
 git checkout allie // geht in "allie branch"
 git push --set-upstream origin allie // activates "push" in branch allie
