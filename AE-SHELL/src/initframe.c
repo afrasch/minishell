@@ -10,13 +10,13 @@ void	next_node(t_frame *frame)
 	t_node	*next_node;
 
 	next_node = ft_calloc(1, sizeof(t_node));
-	next_node->prev = frame->cn;
+	next_node->prev = frame->cc->cn;
 	next_node->next = NULL;
 	next_node->content = NULL;
-	frame->cn->next = next_node;
-	frame->cn = next_node;
-	frame->cn->quote_st = NO_Q;
-	frame->cn->general_st = NO_Q;
+	frame->cc->cn->next = next_node;
+	frame->cc->cn = next_node;
+	frame->cc->cn->quote_st = NO_Q;
+	frame->cc->cn->general_st = NO_Q;
 }
 
 void	next_chunk(t_frame *frame)
