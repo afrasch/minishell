@@ -127,8 +127,8 @@ void	split_in_chunks(char *str, t_frame *frame)
 		init_chunk(frame);
 	while (str[i] != '\0')
 	{
-		/* if(frame->cc->content != NULL)
-			next_chunk(frame); */
+		if(frame->cc->content != NULL)
+			next_chunk(frame);
 		while (str[i] == ' ' && frame->cc->quote_st == NO_Q)
 			i++;
 		while ((str[i] != '|' && str[i] != '\0')
@@ -138,11 +138,6 @@ void	split_in_chunks(char *str, t_frame *frame)
 			// if (ft_strchr("\"\'", str[i]) != NULL)
 			// 	set_quote_state(str[i], frame->cc->quote_st, frame->cc->general_st);
 			add_node(str[i], frame);
-			i++;
-		}
-		while (ft_strchr("<>|", str[i]) != NULL && str[i] != '\0')
-		{
-			handle_meta(str[i], frame);
 			i++;
 		}
 	}
@@ -157,11 +152,12 @@ void	add_node(char c, t_frame *frame)
 
 	if (frame->cc->cn == NULL)
 		init_node(frame);
-	if ((ft_strchr("<>| ", c) != NULL && frame->cc->cn->quote_st == NO_Q))
+	if ((ft_strchr("<> ", c) != NULL && frame->cc->cn->quote_st == NO_Q))
 	{
 		if (frame->cc->cn->content != NULL)
 			next_node(frame);
 		add_letter(c, frame);
+		frame->cc->cn = frame->cc->cn->next;
 	}
 	if((ft_strchr("<>| ", c) == NULL && frame->cc->cn->quote_st == NO_Q)
 	|| (frame->cc->cn->quote_st == DOUBLE_Q)
