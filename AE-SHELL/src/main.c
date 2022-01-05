@@ -9,7 +9,7 @@ int	main(void)
 	while (1)
 	{
 		str = readline(PROMPT);//ctrl+D -> EOF
-		//str = "\"echo | \" | hallo ich | $a ";
+		//str = "\"e \" | i | $ ";
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);
@@ -22,10 +22,11 @@ int	main(void)
 			//ft_print_stack(&frame);
 		}
 		//reset_frame(&frame);
-		if (str != NULL)
+		/* if (str != NULL)
 		{
-			free(str);
-			str = NULL;
-		}
+			//free(str);
+			//str = NULL;
+		} */
+		//break ;
 	}
 }

@@ -173,7 +173,7 @@ void	split_in_chunks(char *str, t_frame *frame)
 	{
 		while (str[i] == ' ' && frame->cc->quote_st == NO_Q)
 			i++;
-		while ((str[i] != '|' && str[i] != '\0')
+		while ((ft_strchr("|",str[i]) == NULL && str[i] != '\0')
 		|| (frame->cc->quote_st == DOUBLE_Q && str[i] != '\0')
 		|| (frame->cc->quote_st == SINGLE_Q && str[i] != '\0'))
 		{
