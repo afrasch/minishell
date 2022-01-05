@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: afrasch <afrasch@student.42.fr>            +#+  +:+       +#+         #
+#    By: elenz <elenz@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 14:02:35 by elenz             #+#    #+#              #
-#    Updated: 2022/01/04 11:10:39 by afrasch          ###   ########.fr        #
+#    Updated: 2022/01/05 20:25:35 by elenz            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ CFLAGS = -Wall -Wextra -Werror
 CC = gcc
 
 SOURCE = ft_bzero.c \
+ft_add_chr_to_str.c \
 ft_atoi.c\
 ft_calloc.c\
 ft_isalnum.c\

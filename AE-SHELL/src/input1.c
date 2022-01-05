@@ -182,9 +182,10 @@ void	split_in_chunks(char *str, t_frame *frame)
 		|| (frame->cc->quote_st == DOUBLE_Q && str[i] != '\0')
 		|| (frame->cc->quote_st == SINGLE_Q && str[i] != '\0'))
 		{
-			if (str[i] == '$' && frame->cc->quote_st != SINGLE_Q)
-				expansion(str, &i, frame);
-			add_node(str[i], frame);
+			if (str[i] == '$' && frame->cc->quote_st != SINGLE_Q && str[i + 1] != ' ' && str[i + 1] != '\0')
+				expand(str, &i, frame);
+			else
+				add_node(str[i], frame);
 			i++;
 		}
 		if (str[i] == '|')
