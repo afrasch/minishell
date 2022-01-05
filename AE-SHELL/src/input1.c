@@ -26,61 +26,65 @@
 	add_letter(c, frame);
 } */
 
-void	set_quote_state(char c, int *quote_st, int *general_st, int *cc_quote_st)
-{
-	if (c == '\"' && *quote_st == NO_Q)
-	{
-		*quote_st = DOUBLE_Q;
-		*general_st = DOUBLE_Q;
-		*cc_quote_st = DOUBLE_Q;
-		return ;
-	}
-	if (c == '\''&& *quote_st == NO_Q)
-	{
-		*quote_st = SINGLE_Q;
-		*general_st = SINGLE_Q;
-		*cc_quote_st = SINGLE_Q;
-		return ;
-	}
-	if (c == '\''&& *quote_st == SINGLE_Q)
-	{
-		*quote_st = NO_Q;
-		*cc_quote_st = NO_Q;
-		return ;
-	}
-	if (c == '\"' && *quote_st == DOUBLE_Q)
-	{
-		*quote_st = NO_Q;
-		*cc_quote_st = NO_Q;
-		return ;
-	}
-}
-
-// void	set_quote_state(char c, t_frame *frame)
+// void	set_quote_state(char c, t_frame)
 // {
-// 	if (c == '\"' && frame->cn->quote_st == NO_Q)
+// 	if (c == '\"' && *quote_st == NO_Q)
 // 	{
-// 		frame->cn->quote_st = DOUBLE_Q;
-// 		frame->cn->general_st = DOUBLE_Q;
+// 		*quote_st = DOUBLE_Q;
+// 		*general_st = DOUBLE_Q;
+// 		*cc_quote_st = DOUBLE_Q;
 // 		return ;
 // 	}
-// 	if (c == '\''&& frame->cn->quote_st == NO_Q)
+// 	if (c == '\''&& *quote_st == NO_Q)
 // 	{
-// 		frame->cn->quote_st = SINGLE_Q;
-// 		frame->cn->general_st = SINGLE_Q;
+// 		*quote_st = SINGLE_Q;
+// 		*general_st = SINGLE_Q;
+// 		*cc_quote_st = SINGLE_Q;
 // 		return ;
 // 	}
-// 	if (c == '\''&& frame->cn->quote_st == SINGLE_Q)
+// 	if (c == '\''&& *quote_st == SINGLE_Q)
 // 	{
-// 		frame->cn->quote_st = NO_Q;
+// 		*quote_st = NO_Q;
+// 		*cc_quote_st = NO_Q;
 // 		return ;
 // 	}
-// 	if (c == '\"' && frame->cn->quote_st == DOUBLE_Q)
+// 	if (c == '\"' && *quote_st == DOUBLE_Q)
 // 	{
-// 		frame->cn->quote_st = NO_Q;
+// 		*quote_st = NO_Q;
+// 		*cc_quote_st = NO_Q;
 // 		return ;
 // 	}
 // }
+
+void	set_quote_state(char c, t_frame *frame)
+{
+	if (c == '\"' && frame->cc->cn->quote_st == NO_Q)
+	{
+		frame->cc->cn->quote_st = DOUBLE_Q;
+		frame->cc->cn->word = DOUBLE_Q;
+		frame->cc->quote_st = DOUBLE_Q;
+		return ;
+	}
+	if (c == '\''&& frame->cc->cn->quote_st == NO_Q)
+	{
+		frame->cc->cn->quote_st = SINGLE_Q;
+		frame->cc->cn->word = SINGLE_Q;
+		frame->cc->quote_st = SINGLE_Q;
+		return ;
+	}
+	if (c == '\''&& frame->cc->cn->quote_st == SINGLE_Q)
+	{
+		frame->cc->cn->quote_st = NO_Q;
+		frame->cc->quote_st = NO_Q;
+		return ;
+	}
+	if (c == '\"' && frame->cc->cn->quote_st == DOUBLE_Q)
+	{
+		frame->cc->cn->quote_st = NO_Q;
+		frame->cc->quote_st = NO_Q;
+		return ;
+	}
+}
 
 void	init_node(t_frame *frame)
 {
@@ -91,7 +95,7 @@ void	init_node(t_frame *frame)
 	node->next = NULL;
 	frame->cc->cn = node;
 	frame->cc->cn->quote_st = NO_Q;
-	frame->cc->cn->general_st = NO_Q;
+	frame->cc->cn->word = NO_Q;
 	frame->cc->node_start = frame->cc->cn;
 }
 
@@ -122,6 +126,7 @@ void add_letter(char c, t_frame *frame)
 	frame->cc->cn->content = new_string;
 }
 
+//if "<><<>>|" -> META && entsprechende enum
 void	add_node(char c, t_frame *frame)
 {
 	int	i;
@@ -143,7 +148,7 @@ void	add_node(char c, t_frame *frame)
 	|| (frame->cc->cn->quote_st == SINGLE_Q))
 	{
 		if (ft_strrchr("\"\'", c) != NULL)
-			set_quote_state(c, &frame->cc->cn->quote_st, &frame->cc->cn->general_st, &frame->cc->quote_st);
+			set_quote_state(c, frame);
 		add_letter(c, frame);
 	}
 	/* while (str[i] == ' ' && frame->cn->quote_st == NO_Q)
