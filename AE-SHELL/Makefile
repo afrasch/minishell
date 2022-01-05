@@ -15,6 +15,8 @@ SRC_LIST =	main.c \
 			input1.c \
 			initframe.c \
 			helpers.c \
+			expand.c \
+			environment.c \
 
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))

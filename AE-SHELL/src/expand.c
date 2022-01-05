@@ -2,7 +2,7 @@
 
 int	is_alnum_uscore(char c)
 {
-	if (ft_isalnum(c) != NULL || c == '_')
+	if (ft_isalnum(c) != 0 || c == '_')
 		return (1);
 	return(0);
 }
@@ -38,7 +38,7 @@ char	*var_ident(t_env *var, char *str)
 void	expansion(char *str, int *i, t_frame *frame)
 {
 	// t_env	*fake_list;
-	t_env	*env;
+	t_env	*env = NULL;
 	char	*var_name;
 	char	*var_content;
 
