@@ -183,7 +183,11 @@ void	split_in_chunks(char *str, t_frame *frame)
 		|| (frame->cc->quote_st == SINGLE_Q && str[i] != '\0'))
 		{
 			if (str[i] == '$' && frame->cc->quote_st != SINGLE_Q && str[i + 1] != ' ' && str[i + 1] != '\0')
-				expand(str, &i, frame);
+			{
+				frame->expan = 1;//damit nur einmal expandet wird
+				expansion(str, &i, frame);
+				frame->expan = 0;//zurücksetzen für eventuelle weitere Variablen
+			}
 			else
 				add_node(str[i], frame);
 			i++;
@@ -196,8 +200,6 @@ void	split_in_chunks(char *str, t_frame *frame)
 	}
 	ft_print_stack(frame);//prints with quotes
 }
-
-
 
 void	ft_lexer(char *str, t_frame *frame)
 {
