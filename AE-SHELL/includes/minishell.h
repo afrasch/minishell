@@ -16,7 +16,12 @@ enum e_quote_status
 	NO_Q,
 	SINGLE_Q,
 	DOUBLE_Q,
-
+	META,
+	PIPE,
+	S_REDIR_L,
+	S_REDIR_R,
+	D_REDIR_L,//here_doc
+	D_REDIR_R,
 
 };
 
@@ -25,7 +30,7 @@ typedef struct s_node
 	char				*content;
 	int					type;
 	int					quote_st;
-	int					general_st;
+	int					word;
 	struct s_node		*next;
 	struct s_node		*prev;
 }	t_node;
@@ -36,7 +41,6 @@ typedef struct s_chunk
 	char				*content;
 	int					type;
 	int					quote_st;
-	int					general_st;
 	struct s_chunk		*next;
 	struct s_chunk		*prev;
 	t_node				*cn;
@@ -63,5 +67,5 @@ void	reset_frame(t_frame *frame);
 void	ft_clear_nodes(t_node **current_node);
 void	set_list_2start(t_frame *frame);
 void	handle_quotes(t_frame *frame);
-void	set_quote_state(char c, int *quote_st, int *general_st, int *cc_quote_st);
+void	set_quote_state(char c, t_frame *frame);
 #endif
