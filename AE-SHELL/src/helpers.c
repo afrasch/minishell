@@ -2,7 +2,7 @@
 
 void	set_list_2start(t_frame *frame)
 {
-	frame->cn = frame->node_start;
+	frame->cc = frame->chunk_start;
 	/* while (frame->cn->prev != NULL)
 		frame->cn = frame->cn->prev; */
 }
@@ -10,10 +10,15 @@ void	set_list_2start(t_frame *frame)
 void ft_print_stack(t_frame *frame)
 {
 	set_list_2start(frame);
-	while (frame->cn->next != NULL)
+	while (frame->cc != NULL)
 	{
-		printf("%s\n", frame->cn->content);
-		frame->cn = frame->cn->next;
+		printf("New Chunk\n");
+		frame->cc->cn = frame->cc->node_start;
+		while (frame->cc->cn != NULL)
+		{
+			printf("%s\n", frame->cc->cn->content);
+			frame->cc->cn = frame->cc->cn->next;
+		}
+		frame->cc = frame->cc->next;
 	}
-	printf("%s\n", frame->cn->content);//prints without quotes
 }
