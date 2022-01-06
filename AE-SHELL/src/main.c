@@ -10,7 +10,7 @@ int	main(void)
 	{
 		str = readline(PROMPT);//ctrl+D -> EOF
 		//str = "\"e \" | i | $ ";
-		if (ft_strncmp(str, "exit", 4) == 0)
+		if (ft_strncmp(str, EXIT, 4) == 0)
 		{
 			free(str);
 			exit(EXIT_SUCCESS);

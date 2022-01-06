@@ -3,13 +3,13 @@
 /* Save the environment variables in a list, name and content separately. */
 void	set_environment_list(t_env *env)
 {
-	extern char	**environ;
+	extern char	**environ;// oder mit getenv("var_name")?
 	int			i;
 	int			j;
 
 	i = 0;
 	//create list (ft_lstnew ?)
-	while (environ[i])
+	while (environ[i] + 1)
 	{
 		j = 0;
 		while (environ[i][j] != '=')

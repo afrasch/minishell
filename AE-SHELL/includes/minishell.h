@@ -7,8 +7,14 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 
-# define PROMPT		"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
-
+# define PROMPT	"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
+# define EXPORT	"export "
+# define UNSET "unset "
+# define CD "cd "
+# define ECHO "echo "// plus -n ?
+# define PWD "pwd"
+# define ENV "env"
+# define EXIT "exit"
 
 enum e_quote_status
 {

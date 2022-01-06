@@ -44,7 +44,7 @@ void	expansion(char *str, int *i, t_frame *frame)
 
 	// fake_list = init_fake_list();
 	var_name = ft_calloc(1, sizeof(char));
-	var_content = ft_calloc(1, sizeof(char));
+	var_content = ft_calloc(10, sizeof(char));
 	while (is_alnum_uscore(str[*i + 1]) == 1) // error handling: wenn invalid char später kommt ist var
 	{
 		var_name = ft_add_chr_to_str(str, str[*i + 1]);
