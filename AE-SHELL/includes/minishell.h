@@ -25,6 +25,13 @@ enum e_quote_status
 
 };
 
+typedef struct s_var
+{
+	char			*name;
+	char			*con;
+	struct s_var	*next;
+}	t_var;
+
 typedef struct s_node
 {
 	char				*content;
@@ -50,7 +57,8 @@ typedef struct s_chunk
 /*cc = current chunk*/
 typedef struct s_frame
 {
-	char				**shell_env;
+	t_var				*shell_env;
+	t_var				*shell_env_start;
 	int					in_fd;
 	int					out_fd;
 	t_chunk				*cc;
@@ -63,10 +71,13 @@ void	next_node(t_frame *frame);
 void	next_chunk(t_frame *frame);
 void	add_letter(char c, t_frame *frame);
 void	ft_print_stack(t_frame *frame);
+void	print_var(t_frame *frame);
 void	reset_frame(t_frame *frame);
 void	ft_clear_nodes(t_node **current_node);
 void	set_list_2start(t_frame *frame);
 void	handle_quotes(t_frame *frame);
 void	set_quote_state(char c, t_frame *frame);
 void	expand(char *str, int *i, t_frame *frame);
+int		is_alnum_uscore(char c);
+int		expand_prequ(t_frame *frame, char cur_c, char next_c);
 #endif

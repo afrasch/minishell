@@ -6,7 +6,7 @@
 /*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 15:24:56 by elenz             #+#    #+#             */
-/*   Updated: 2022/01/05 20:24:52 by elenz            ###   ########.fr       */
+/*   Updated: 2022/01/09 20:07:31 by elenz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ char		*ft_gstrjoin(char *rest, char *c);
 char		*get_next_line(int fd, int buffersize);
 void		ft_free_1d(void **to_free);
 void		ft_free_2d(void ***to_free);
+int			ft_int_strchr(char *s, int c);
 
 #endif

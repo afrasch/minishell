@@ -6,7 +6,7 @@
 #    By: elenz <elenz@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 14:02:35 by elenz             #+#    #+#              #
-#    Updated: 2022/01/05 20:25:35 by elenz            ###   ########.fr        #
+#    Updated: 2022/01/09 20:06:20 by elenz            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,8 @@ ft_get_next_line.c\
 ft_get_next_line_utils.c\
 ft_free_2d.c \
 ft_free_1d.c \
+ft_int_strchr.c \
+
 
 
 
