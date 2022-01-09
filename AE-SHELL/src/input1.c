@@ -133,7 +133,7 @@ void	add_node(char c, t_frame *frame)
 
 	i = 0;
 
-	if (frame->cc->cn == NULL)
+	if (!frame->cc->cn)
 		init_node(frame);
 	if ((ft_strchr("<> ", c) != NULL && frame->cc->cn->quote_st == NO_Q))
 	{
@@ -185,8 +185,10 @@ void	split_in_chunks(char *str, t_frame *frame)
 			if (str[i] == '$' && frame->cc->quote_st != SINGLE_Q && str[i + 1] != ' ' && str[i + 1] != '\0')
 				expand(str, &i, frame);
 			else
+			{
 				add_node(str[i], frame);
-			i++;
+				i++;
+			}
 		}
 		if (str[i] == '|')
 		{

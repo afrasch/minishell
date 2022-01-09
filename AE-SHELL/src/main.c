@@ -8,8 +8,8 @@ int	main(void)
 	init_frame(&frame);
 	while (1)
 	{
-		str = readline(PROMPT);//ctrl+D -> EOF
-		//str = "\"e \" | i | $ ";
+		//str = readline(PROMPT);//ctrl+D -> EOF
+		str = "$_hallo";
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);

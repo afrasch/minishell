@@ -68,5 +68,5 @@ void	ft_clear_nodes(t_node **current_node);
 void	set_list_2start(t_frame *frame);
 void	handle_quotes(t_frame *frame);
 void	set_quote_state(char c, t_frame *frame);
-void	expansion(char *str, int *i, t_frame *frame);
+void	expand(char *str, int *i, t_frame *frame);
 #endif
