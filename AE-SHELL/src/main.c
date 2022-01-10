@@ -1,34 +1,5 @@
 #include "../includes/minishell.h"
 
-char	*ft_get_path(char *com, char **env)
-{
-	int		i;
-	int		j;
-	char	**possible_path;
-	char	*path;
-	char	*path_slash;
-
-	i = 0;
-	j = 0;
-	while (env[i] != NULL)
-	{
-		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-			break ;
-		i++;
-	}
-	possible_path = ft_split(env[i] + 5, ':');
-	while (possible_path[j] != NULL)
-	{
-		path_slash = ft_strjoin(possible_path[j], "/");
-		path = ft_strjoin(path_slash, com);
-		free(path_slash);
-		if (access(path, X_OK) == 0)
-			return (path);
-		j++;
-	}
-	return (NULL); 
-}
-
 void	add_var_node(t_frame *frame, char *name, char *content)
 {
 	t_var	*node;
@@ -78,9 +49,9 @@ int	main(int argc, char **argv, char **env)
 	get_env(env, &frame);
 	while (1)
 	{
-		//str = readline(PROMPT);//ctrl+D -> EOF
+		str = readline(PROMPT);//ctrl+D -> EOF
 		//str = "$OS_ACTIVITY_DT_MODE";
-		str = "hi | hi";
+		//str = "hi | hi";
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);
@@ -99,7 +70,7 @@ int	main(int argc, char **argv, char **env)
 			//free(str);
 			//str = NULL;
 		} */
-		break ;
+		//break ;
 	}
 	(void)argc;
 	(void)argv;
