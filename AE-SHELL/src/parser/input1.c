@@ -134,7 +134,7 @@ void	add_node(char c, char c_plus, t_frame *frame)
 	i = 0;
 
 	if (!frame->cc->cn)
-		init_node(frame);
+		init_node(frame);//hier werden alle quote states auf NO_Q gesetzt ( evtl quote states von prev abfragen und übernehmen)
 	if (ft_strchr("<> ", c) != NULL && frame->cc->cn->quote_st == NO_Q)
 	{
 		if (frame->cc->cn->content != NULL
@@ -151,6 +151,7 @@ void	add_node(char c, char c_plus, t_frame *frame)
 	{
 		if (ft_strrchr("\"\'", c) != NULL)
 			set_quote_state(c, frame);
+		
 		add_letter(c, frame);
 	}
 }
