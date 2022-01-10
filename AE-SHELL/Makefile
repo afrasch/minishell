@@ -13,10 +13,12 @@ HEADERS = $(addprefix $(HEADERS_DIR), $(HEADERS_LIST))
 SRC_DIR = ./src/
 SRC_LIST =	main/main.c \
 			parser/input1.c \
-			error/input2.c \
-			error/initframe.c \
-			error/helpers.c \
-			error/expansion.c \
+			parser/input2.c \
+			error/err_free.c \
+			init/initframe.c \
+			init/lst_fct.c \
+			helpers/helpers.c \
+			vars/expansion.c \
 
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))
