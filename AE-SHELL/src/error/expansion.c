@@ -18,8 +18,9 @@
 
 int	expand_prequ(t_frame *frame, char cur_c, char next_c)
 {
-	if (cur_c == '$' && frame->cc->quote_st != SINGLE_Q && next_c != ' ' && next_c != '\0' &&
-				(is_alnum_uscore(next_c) == 1 || next_c == '\'' || next_c == '\"'))
+	if (cur_c == '$' && frame->cc->quote_st != SINGLE_Q
+		&& next_c != ' ' && next_c != '\0'
+		&& (is_alnum_uscore(next_c) == 1 || next_c == '\'' || next_c == '\"'))
 		return (1);
 	return (0);
 }

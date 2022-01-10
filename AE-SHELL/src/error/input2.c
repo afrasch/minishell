@@ -34,11 +34,8 @@ void handle_quotes(t_frame *frame)
 		frame->cc->cn = frame->cc->node_start;
 		while (frame->cc->cn != NULL)
 		{
-			if (frame->cc->cn->content != NULL)
-			{
-				solve_quotes(frame);
-				frame->cc->cn = frame->cc->cn->next;
-			}
+			solve_quotes(frame);
+			frame->cc->cn = frame->cc->cn->next;
 		}
 		frame->cc = frame->cc->next;
 	}

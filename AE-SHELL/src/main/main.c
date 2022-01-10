@@ -1,10 +1,10 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	add_var_node(t_frame *frame, char *name, char *content)
 {
 	t_var	*node;
 
-	node = calloc(1, sizeof(t_var));
+	node = ft_calloc(1, sizeof(t_var));
 	node->con = content;
 	node->name = name;
 	node->next = NULL;
@@ -72,6 +72,6 @@ int	main(void)
 			//str = NULL;
 		} */
 		// break ;
-		print_env(frame.shell_env_start);
+		// print_env(frame.shell_env_start);
 	}
 }
