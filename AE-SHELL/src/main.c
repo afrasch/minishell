@@ -78,8 +78,9 @@ int	main(int argc, char **argv, char **env)
 	get_env(env, &frame);
 	while (1)
 	{
-		str = readline(PROMPT);//ctrl+D -> EOF
+		//str = readline(PROMPT);//ctrl+D -> EOF
 		//str = "$OS_ACTIVITY_DT_MODE";
+		str = "hi | hi";
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);
@@ -98,7 +99,7 @@ int	main(int argc, char **argv, char **env)
 			//free(str);
 			//str = NULL;
 		} */
-		//break ;
+		break ;
 	}
 	(void)argc;
 	(void)argv;

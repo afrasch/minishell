@@ -45,7 +45,6 @@ typedef struct s_node
 /*cn = current node*/
 typedef struct s_chunk
 {
-	char				*content;
 	int					type;
 	int					quote_st;
 	struct s_chunk		*next;
@@ -66,6 +65,7 @@ typedef struct s_frame
 }	t_frame;
 
 void	ft_lexer(char *str, t_frame *frame);
+void	split_in_chunks(char *str, t_frame *frame);
 void	init_frame(t_frame *frame);
 void	next_node(t_frame *frame);
 void	next_chunk(t_frame *frame);

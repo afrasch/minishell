@@ -28,7 +28,6 @@ void	next_chunk(t_frame *frame)
 	next_chunk = ft_calloc(1, sizeof(t_chunk));
 	next_chunk->prev = frame->cc;
 	next_chunk->next = NULL;
-	next_chunk->content = NULL;
 	frame->cc->next = next_chunk;
 	frame->cc = next_chunk;
 	frame->cc->quote_st = NO_Q;
