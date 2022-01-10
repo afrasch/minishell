@@ -42,6 +42,7 @@ void	print_env(t_env *env)// aufgerufen if (ft_strncmp(str, "env", 3) == 0)
 	}
 }
 
+//for execve we'll need a char ** as environ input
 void	export(char *variable, t_env *env)// aufgerufen nach "export " mit variablen string (eg. a=4)
 {
 	int	i;
@@ -55,7 +56,7 @@ void	export(char *variable, t_env *env)// aufgerufen nach "export " mit variable
 			ft_add_chr_to_str(env->name, variable[i]);
 			i++;
 		}
-		i++;
+		i++;// skip '='
 		while (variable[i])
 		{
 			ft_add_chr_to_str(env->con, variable[i]);

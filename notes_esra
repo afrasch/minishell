@@ -56,4 +56,7 @@ Sspecial cases um Leute zu argern:
 cat hello >| test Muss eigentlich funktionieren; outputted einfach in file
 <> input und output in einem definieren
 
-Builtins/variables werden nur ausgeführt wenn nur ein chunk existiert (keine Pipes)?
+Builtins/variables werden nur ausgeführt wenn nur ein chunk existiert (also keine Pipes vorhanden sidn)?
+
+$var gibt zur Zeit pointer being freed was not allocated
+

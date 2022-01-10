@@ -27,7 +27,6 @@ enum e_quote_status
 	S_REDIR_R,
 	D_REDIR_L,//here_doc
 	D_REDIR_R,
-
 };
 
 typedef struct s_node
