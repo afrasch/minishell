@@ -39,3 +39,16 @@ void	print_var(t_frame *frame)
 		frame->shell_env = frame->shell_env->next;
 	}
 }
+
+// "export" auch handeln? -> zählt zusätzlich zu env auch variables ohne '=' auf
+void	print_env(t_var *var)// aufgerufen if (ft_strncmp(str, "var", 3) == 0)
+{
+	while (var != NULL && var->con != NULL)
+	{
+		if (var->con != NULL)
+			printf("%s=%s\n", var->name, var->con);
+		else
+			printf("%s=\n", var->name);
+		var = var->next;
+	}
+}
