@@ -7,6 +7,7 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 
+// # define PROMPT		"\033[1;34mAE/SHELL ~ %\033[m"
 # define PROMPT		"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
 // # define PIPE	'|'
 
@@ -80,4 +81,5 @@ void	set_quote_state(char c, t_frame *frame);
 void	expand(char *str, int *i, t_frame *frame);
 int		is_alnum_uscore(char c);
 int		expand_prequ(t_frame *frame, char cur_c, char next_c);
+void	print_env(t_var *var);
 #endif

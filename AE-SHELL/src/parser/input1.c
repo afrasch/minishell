@@ -127,7 +127,7 @@ void add_letter(char c, t_frame *frame)
 }
 
 //if "<><<>>|" -> META && entsprechende enum
-void	add_node(char c, t_frame *frame)
+void	add_node(char c, char c_plus, t_frame *frame)
 {
 	int	i;
 
@@ -137,7 +137,8 @@ void	add_node(char c, t_frame *frame)
 		init_node(frame);
 	if ((ft_strchr("<> ", c) != NULL && frame->cc->cn->quote_st == NO_Q))
 	{
-		if (frame->cc->cn->content != NULL)
+		if (frame->cc->cn->content != NULL
+			&& (c_plus != ' ' && c_plus != '|' && c_plus != '\0'))
 			next_node(frame);
 		if (c != ' ')
 			add_letter(c, frame);
@@ -151,6 +152,7 @@ void	add_node(char c, t_frame *frame)
 			set_quote_state(c, frame);
 		add_letter(c, frame);
 	}
+	// c != ' ' &&
 	/* while (str[i] == ' ' && frame->cn->quote_st == NO_Q)
 		i++;
 	while ((ft_strrchr("<>| ", str[i]) == NULL && str[i] != '\0' && frame->cn->quote_st == NO_Q)
@@ -185,7 +187,7 @@ void	split_in_chunks(char *str, t_frame *frame)
 			if (expand_prequ(frame, str[i], str[i + 1]))
 				expand(str, &i, frame);
 			else
-				add_node(str[i], frame);
+				add_node(str[i], str[i + 1], frame);
 			i++;
 		}
 		if (str[i] == '|')

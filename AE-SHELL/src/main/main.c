@@ -1,10 +1,10 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	add_var_node(t_frame *frame, char *name, char *content)
 {
 	t_var	*node;
 
-	node = calloc(1, sizeof(t_var));
+	node = ft_calloc(1, sizeof(t_var));
 	node->con = content;
 	node->name = name;
 	node->next = NULL;
@@ -27,31 +27,32 @@ void	split_env(char *str, t_frame *frame)
 	add_var_node(frame, name, content);
 }
 
-void get_env(char **env, t_frame *frame)
+void get_env(t_frame *frame)
 {
 	int	i;
+	extern char** environ;
 
 	i = 0;
-	while (env[i] != NULL)
+	while (environ[i] != NULL)
 	{
-		split_env(env[i], frame);
+		split_env(environ[i], frame);
 		i++;
 	}
 }
 
 
-int	main(int argc, char **argv, char **env)
+int	main(void)
 {
 	char		*str;
 	t_frame		frame;
 
 	init_frame(&frame);
-	get_env(env, &frame);
+	get_env(&frame);
 	while (1)
 	{
 		str = readline(PROMPT);//ctrl+D -> EOF
 		//str = "$OS_ACTIVITY_DT_MODE";
-		//str = "hi | hi";
+		// str = "hi | hi";
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);
@@ -70,8 +71,7 @@ int	main(int argc, char **argv, char **env)
 			//free(str);
 			//str = NULL;
 		} */
-		//break ;
+		// break ;
+		// print_env(frame.shell_env_start);
 	}
-	(void)argc;
-	(void)argv;
 }
