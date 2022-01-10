@@ -32,7 +32,7 @@ void handle_quotes(t_frame *frame)
 	while (frame->cc != NULL)
 	{
 		frame->cc->cn = frame->cc->node_start;
-		while (frame->cc->cn != NULL)
+		while (frame->cc->cn != NULL && frame->cc->cn->content)
 		{
 			solve_quotes(frame);
 			frame->cc->cn = frame->cc->cn->next;

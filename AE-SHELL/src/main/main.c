@@ -52,7 +52,7 @@ int	main(void)
 	{
 		str = readline(PROMPT);//ctrl+D -> EOF
 		//str = "$OS_ACTIVITY_DT_MODE";
-		// str = "hi | hi";
+		//str = "file> ";
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);
@@ -71,7 +71,7 @@ int	main(void)
 			//free(str);
 			//str = NULL;
 		} */
-		// break ;
+		//break ;
 		// print_env(frame.shell_env_start);
 	}
 }
