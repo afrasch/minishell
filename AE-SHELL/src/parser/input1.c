@@ -96,7 +96,8 @@ void	init_node(t_frame *frame)
 	frame->cc->cn = node;
 	frame->cc->cn->quote_st = NO_Q;
 	frame->cc->cn->word = NO_Q;
-	frame->cc->node_start = frame->cc->cn;
+	if (frame->cc->cn != NULL)
+		frame->cc->node_start = frame->cc->cn;
 }
 
 void	init_chunk(t_frame *frame)
@@ -169,7 +170,8 @@ void	add_exp_node(char c, char c_plus, t_frame *frame)
 	{
 		// if (frame->cc->cn->content != NULL
 		// 	&& (c_plus != ' ' && c_plus != '\0'))
-		next_node(frame);
+		// if (c_plus == ' ')
+			next_node(frame);
 		// if (c != ' ')
 		add_letter(c, frame);
 		// if ((ft_strchr("<>", c) != NULL && (c_plus != ' ' && c_plus != '|' && c_plus != '\0')) )

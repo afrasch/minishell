@@ -51,8 +51,8 @@ int	main(void)
 	while (1)
 	{
 		str = readline(PROMPT);//ctrl+D -> EOF
-		//str = "$OS_ACTIVITY_DT_MODE";
-		// str = "e|h|d";
+		// str = "$OS_ACTIVITY_DT_MODE";
+		// str = "'    echo    hallo   '";
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);

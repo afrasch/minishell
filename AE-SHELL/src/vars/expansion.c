@@ -25,6 +25,24 @@ int	expand_prequ(t_frame *frame, char cur_c, char next_c)
 	return (0);
 }
 
+void	var_expansion(char *str, t_frame *frame)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		while (str[i]== ' ')
+			i++;
+		// printf("%p\n", frame->cc->cn);
+		if (i == 0 || str[i - 1] == ' ')
+			next_node(frame);
+	// printf("check %s\n", __func__);
+		add_letter(str[i], frame);
+		i++;
+	}
+}
+
 void	check_for_var(char *var_name, t_frame *frame)
 {
 	int	var_len;
@@ -37,7 +55,8 @@ void	check_for_var(char *var_name, t_frame *frame)
 		if (ft_strncmp(var_name, frame->shell_env->name, var_len) == 0)
 		{
 			frame->exp_st = ON;
-			split_in_chunks(frame->shell_env->con, frame);
+			// split_in_chunks(frame->shell_env->con, frame);
+			var_expansion(frame->shell_env->con, frame);
 			frame->exp_st = OFF;
 		}
 		frame->shell_env = frame->shell_env->next;

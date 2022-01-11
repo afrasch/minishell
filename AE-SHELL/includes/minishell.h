@@ -6,9 +6,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
-// 🌬⇨💨⚙️🎲⟹ AESHELL  🄰🄴 SHELL ❄️⚇▶️♾ ©️
+// 🌬⇨💨⚙️🎲⟹ AESHELL  🄰🄴 SHELL ⚇▶️♾ ©️
 // # define PROMPT		"<AE/SHELL> "
-# define PROMPT		"\033[1;34m 𝔸𝔼𝕊ℍ𝔼𝕃𝕃 \033[m"
+# define PROMPT		"\033[1;34m 𝔸𝔼❄️𝕊ℍ𝔼𝕃𝕃 \033[m"
 // # define PROMPT		"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
 # define ON 1
 # define OFF 0
@@ -86,4 +86,5 @@ int		is_alnum_uscore(char c);
 int		expand_prequ(t_frame *frame, char cur_c, char next_c);
 void	print_env(t_var *var);
 void	add_exp_node(char c, char c_plus, t_frame *frame);
+void	init_chunk(t_frame *frame);
 #endif
