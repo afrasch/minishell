@@ -55,3 +55,7 @@ $USER
 Sspecial cases um Leute zu argern:
 cat hello >| test Muss eigentlich funktionieren; outputted einfach in file
 <> input und output in einem definieren
+
+bash-3.2$ export d="echo     |hallo"
+bash-3.2$ echo $d
+echo |hallo
