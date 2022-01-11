@@ -6,10 +6,12 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
-
-# define PROMPT		"AE/SHELL ~ %"
+// 🌬⇨💨⚙️🎲⟹ AESHELL  🄰🄴 SHELL ❄️⚇▶️♾ ©️
+// # define PROMPT		"<AE/SHELL> "
+# define PROMPT		"\033[1;34m 𝔸𝔼𝕊ℍ𝔼𝕃𝕃 \033[m"
 // # define PROMPT		"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
-// # define PIPE	'|'
+# define ON 1
+# define OFF 0
 
 
 enum e_quote_status
@@ -61,6 +63,7 @@ typedef struct s_frame
 	t_var				*shell_env_start;
 	int					in_fd;
 	int					out_fd;
+	int					exp_st;
 	t_chunk				*cc;
 	t_chunk				*chunk_start;
 }	t_frame;
@@ -82,4 +85,5 @@ void	expand(char *str, int *i, t_frame *frame);
 int		is_alnum_uscore(char c);
 int		expand_prequ(t_frame *frame, char cur_c, char next_c);
 void	print_env(t_var *var);
+void	add_exp_node(char c, char c_plus, t_frame *frame);
 #endif

@@ -35,7 +35,11 @@ void	check_for_var(char *var_name, t_frame *frame)
 	while (frame->shell_env != NULL)
 	{
 		if (ft_strncmp(var_name, frame->shell_env->name, var_len) == 0)
+		{
+			frame->exp_st = ON;
 			split_in_chunks(frame->shell_env->con, frame);
+			frame->exp_st = OFF;
+		}
 		frame->shell_env = frame->shell_env->next;
 	}
 }

@@ -151,7 +151,38 @@ void	add_node(char c, char c_plus, t_frame *frame)
 	{
 		if (ft_strrchr("\"\'", c) != NULL)
 			set_quote_state(c, frame);
-		
+
+		add_letter(c, frame);
+	}
+}
+
+void	add_exp_node(char c, char c_plus, t_frame *frame)
+{
+	int	i;
+
+	i = 0;
+	// c_plus = 2;
+	if (!frame->cc->cn)
+		init_node(frame);//hier werden alle quote states auf NO_Q gesetzt ( evtl quote states von prev abfragen und übernehmen)
+	if ((ft_strchr("| ", c) != NULL && frame->cc->cn->quote_st == NO_Q)
+		|| frame->exp_st == ON)
+	{
+		// if (frame->cc->cn->content != NULL
+		// 	&& (c_plus != ' ' && c_plus != '\0'))
+		next_node(frame);
+		// if (c != ' ')
+		add_letter(c, frame);
+		// if ((ft_strchr("<>", c) != NULL && (c_plus != ' ' && c_plus != '|' && c_plus != '\0')) )
+		if (c_plus == ' ')
+			next_node(frame);
+	}
+	if((ft_strchr("<>| ", c) == NULL && frame->cc->cn->quote_st == NO_Q)
+	|| (frame->cc->cn->quote_st == DOUBLE_Q)
+	|| (frame->cc->cn->quote_st == SINGLE_Q))
+	{
+		if (ft_strrchr("\"\'", c) != NULL)
+			set_quote_state(c, frame);
+
 		add_letter(c, frame);
 	}
 }
@@ -167,7 +198,8 @@ void	split_in_chunks(char *str, t_frame *frame)
 	{
 		while (str[i] == ' ' && frame->cc->quote_st == NO_Q)
 			i++;
-		while ((ft_strchr("|",str[i]) == NULL && str[i] != '\0')
+		// && frame->exp_st == OFF
+		while ((ft_strchr("|", str[i]) == NULL && str[i] != '\0')
 		|| (frame->cc->quote_st == DOUBLE_Q && str[i] != '\0')
 		|| (frame->cc->quote_st == SINGLE_Q && str[i] != '\0'))
 		{
@@ -177,7 +209,12 @@ void	split_in_chunks(char *str, t_frame *frame)
 				add_node(str[i], str[i + 1], frame);
 			i++;
 		}
-		if (str[i] == '|')
+		if (frame->exp_st == ON && str[i] == '|')
+		{
+			add_exp_node(str[i], str[i + 1], frame);
+			i++;
+		}
+		else if (str[i] == '|')
 		{
 			next_chunk(frame);
 			i++;

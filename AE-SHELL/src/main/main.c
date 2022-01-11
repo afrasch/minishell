@@ -52,7 +52,7 @@ int	main(void)
 	{
 		str = readline(PROMPT);//ctrl+D -> EOF
 		//str = "$OS_ACTIVITY_DT_MODE";
-		//str = "file> ";
+		// str = "e|h|d";
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);
@@ -60,18 +60,19 @@ int	main(void)
 		}
 		if (str[0] != '\0')
 		{
+			if (ft_strncmp(str, "env", 3) == 0)
+				print_env(frame.shell_env_start);
 			ft_lexer(str, &frame);
 			add_history(str);
 			//ft_print_stack(&frame);
 		}
-		ft_print_stack(&frame);//prints with quotes
+		ft_print_stack(&frame);
 		//reset_frame(&frame);
-		/* if (str != NULL)
-		{
-			//free(str);
-			//str = NULL;
-		} */
-		//break ;
-		// print_env(frame.shell_env_start);
+		// if (str != NULL)
+		// {
+			// free(str);
+		// 	str = NULL;
+		// }
+		// break ;
 	}
 }
