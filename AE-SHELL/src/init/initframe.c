@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	init_frame(t_frame *frame)
 {
@@ -17,9 +17,8 @@ void	next_node(t_frame *frame)
 	next_node->prev = frame->cc->cn;
 	next_node->next = NULL;
 	next_node->content = NULL;
-	// printf("check %s pointer %p\n", __func__, next_node);
-	frame->cc->cn->next = next_node;//segfault
 	frame->cc->cn = next_node;
+	frame->cc->cn->next = next_node;
 	frame->cc->cn->quote_st = NO_Q;
 	frame->cc->cn->word = NO_Q;
 }

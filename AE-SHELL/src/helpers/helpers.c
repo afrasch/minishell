@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	set_list_2start(t_frame *frame)
 {
@@ -20,7 +20,7 @@ void ft_print_stack(t_frame *frame)
 	while (frame->cc != NULL)
 	{
 		printf("New Chunk\n");
-		frame->cc->cn = frame->cc->node_start;
+		frame->cc->cn = frame->cc->node_start;//both NULL
 		while (frame->cc->cn != NULL)
 		{
 			printf("%s\n", frame->cc->cn->content);
@@ -49,6 +49,20 @@ void	print_env(t_var *var)// aufgerufen if (ft_strncmp(str, "var", 3) == 0)
 			printf("%s=%s\n", var->name, var->con);
 		else
 			printf("%s=\n", var->name);
+		var = var->next;
+	}
+}
+
+void	print_export(t_var *var)
+{
+	while (var != NULL)
+	{
+		if (var->con != NULL)
+			printf("declare -x %s=\"%s\"\n", var->name, var->con);
+		// else if (var->con == NULL && '=')
+		// 	printf("declare -x %s=\"\"\n", var->name);
+		// else if (var->con == NULL && != '=')
+		// 	printf("declare -x %s\n", var->name);
 		var = var->next;
 	}
 }

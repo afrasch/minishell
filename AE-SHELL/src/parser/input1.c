@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 
 /* void	part1(char *str)
@@ -96,8 +96,7 @@ void	init_node(t_frame *frame)
 	frame->cc->cn = node;
 	frame->cc->cn->quote_st = NO_Q;
 	frame->cc->cn->word = NO_Q;
-	if (frame->cc->cn != NULL)
-		frame->cc->node_start = frame->cc->cn;
+	frame->cc->node_start = frame->cc->cn;
 }
 
 void	init_chunk(t_frame *frame)
@@ -125,6 +124,7 @@ void add_letter(char c, t_frame *frame)
 	}
 	new_string[con_len] = c;
 	frame->cc->cn->content = new_string;
+	// printf("content: %s\n", frame->cc->cn->content);
 }
 
 //if "<><<>>|" -> META && entsprechende enum
@@ -200,7 +200,6 @@ void	split_in_chunks(char *str, t_frame *frame)
 	{
 		while (str[i] == ' ' && frame->cc->quote_st == NO_Q)
 			i++;
-		// && frame->exp_st == OFF
 		while ((ft_strchr("|", str[i]) == NULL && str[i] != '\0')
 		|| (frame->cc->quote_st == DOUBLE_Q && str[i] != '\0')
 		|| (frame->cc->quote_st == SINGLE_Q && str[i] != '\0'))

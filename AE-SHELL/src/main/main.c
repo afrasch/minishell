@@ -52,8 +52,8 @@ int	main(void)
 	{
 		str = readline(PROMPT);//ctrl+D -> EOF
 		// str = "$OS_ACTIVITY_DT_MODE";
-		// str = "'    echo    hallo   '";
-		if (ft_strncmp(str, "exit", 4) == 0)
+		// str = "'echo    hallo   '";
+		if (ft_strncmp(str, "exit", 4) == 0)//error if sth after exit
 		{
 			free(str);
 			exit(EXIT_SUCCESS);

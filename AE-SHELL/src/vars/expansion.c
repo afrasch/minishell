@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 /* t_var	*init_fake_list(void)
 {
@@ -30,14 +30,17 @@ void	var_expansion(char *str, t_frame *frame)
 	int	i;
 
 	i = 0;
+	while (str[i] == ' ')
+		i++;
 	while (str[i] != '\0')
 	{
-		while (str[i]== ' ')
+		while (str[i] == ' ' && str[i + 1] == ' ')
 			i++;
-		// printf("%p\n", frame->cc->cn);
 		if (i == 0 || str[i - 1] == ' ')
+		{
 			next_node(frame);
-	// printf("check %s\n", __func__);
+			frame->cc->cn->word = DOUBLE_Q;
+		}
 		add_letter(str[i], frame);
 		i++;
 	}
@@ -55,7 +58,6 @@ void	check_for_var(char *var_name, t_frame *frame)
 		if (ft_strncmp(var_name, frame->shell_env->name, var_len) == 0)
 		{
 			frame->exp_st = ON;
-			// split_in_chunks(frame->shell_env->con, frame);
 			var_expansion(frame->shell_env->con, frame);
 			frame->exp_st = OFF;
 		}
@@ -77,7 +79,5 @@ void	expand(char *str, int *i, t_frame *frame)
 		var_name = ft_add_chr_to_str(var_name, str[*i + 1]);
 		(*i)++;
 	}
-	//printf("%s\n", var_name);
 	check_for_var(var_name, frame);
-	//ft_print_stack(frame);
 }
