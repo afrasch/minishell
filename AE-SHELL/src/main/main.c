@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	add_var_node(t_frame *frame, char *name, char *content)
 {
@@ -52,7 +52,7 @@ int	main(void)
 	{
 		str = readline(PROMPT);//ctrl+D -> EOF
 		//str = "$OS_ACTIVITY_DT_MODE";
-		//str = ">>";
+		//str = "hallo|>>file4 | echo >>file4 |<< end";
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);
@@ -62,10 +62,12 @@ int	main(void)
 		{
 			if (ft_strncmp(str, "env", 3) == 0)
 				print_env(frame.shell_env_start);
-			ft_lexer(str, &frame);
+			if (ft_lexer(str, &frame) < 0)
+				printf("\n***ERROR: SHELL SCHOCK***\n");
 			add_history(str);
 			//ft_print_stack(&frame);
 		}
+		ft_print_stack_plain(&frame);
 		//ft_print_stack(&frame);//prints with quotes
 		//reset_frame(&frame);
 		/* if (str != NULL)

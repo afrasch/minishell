@@ -40,3 +40,4 @@ void handle_quotes(t_frame *frame)
 		frame->cc = frame->cc->next;
 	}
 }
+

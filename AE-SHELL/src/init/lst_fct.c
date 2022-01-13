@@ -12,3 +12,35 @@ void	ft_clear_nodes(t_node **current_node)
 		(*current_node) = node;
 	}
 }
+
+
+void	delete_node(t_frame	*frame, t_node *node)
+{
+
+	if (node->prev == NULL)
+	{
+		if (node->next != NULL)
+		{
+			node->next->prev = NULL;
+			frame->cc->node_start = node->next;
+			frame->cc->cn = node->next;
+		}
+		else
+			frame->cc->node_start = NULL;
+	}
+	else
+	{
+		if (node->next == NULL)
+		{
+			node->prev->next = NULL;
+			frame->cc->cn = node->next;
+		}
+		else
+		{
+			node->prev->next = node->next;
+			node->next->prev = node->prev;
+			frame->cc->cn = node->next;
+		}
+	}
+	free_node(node);
+}

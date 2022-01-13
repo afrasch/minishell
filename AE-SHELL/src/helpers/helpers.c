@@ -19,13 +19,35 @@ void ft_print_stack(t_frame *frame)
 	set_list_2start(frame);
 	while (frame->cc != NULL)
 	{
-		printf("New Chunk\n");
+		printf("\nNew Chunk\n\n");
 		frame->cc->cn = frame->cc->node_start;
 		while (frame->cc->cn != NULL)
 		{
 			printf("%s\n", frame->cc->cn->content);
-			printf("*****\nwordstate= %d\n", frame->cc->cn->word);
+			printf("******\nwordstate= %d\n", frame->cc->cn->word);
 			printf("IN FD FOR CHUNK: %i\n", frame->cc->in_fd);
+			printf("NODE TYPE: %s\n*****\n", frame->cc->cn->typ);
+
+			frame->cc->cn = frame->cc->cn->next;
+		}
+		frame->cc = frame->cc->next;
+	}
+}
+
+void ft_print_stack_plain(t_frame *frame)
+{
+	set_list_2start(frame);
+	while (frame->cc != NULL)
+	{
+		printf("\nNew Chunk\n");
+		frame->cc->cn = frame->cc->node_start;
+		while (frame->cc->cn != NULL)
+		{
+			printf("%s\n", frame->cc->cn->content);
+			/* printf("******\nwordstate= %d\n", frame->cc->cn->word);
+			printf("IN FD FOR CHUNK: %i\n", frame->cc->in_fd);
+			printf("NODE TYPE: %s\n*****\n", frame->cc->cn->typ); */
+
 			frame->cc->cn = frame->cc->cn->next;
 		}
 		frame->cc = frame->cc->next;

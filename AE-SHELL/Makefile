@@ -16,6 +16,7 @@ SRC_LIST =	main/main.c \
 			parser/input2.c \
 			parser/input3.c \
 			parser/input4.c \
+			parser/input5.c \
 			error/err_free.c \
 			init/initframe.c \
 			init/lst_fct.c \

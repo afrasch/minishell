@@ -9,11 +9,12 @@
 # include <fcntl.h>
 # include "../libft/libft.h"
 
-# define PROMPT		"AE/SHELL ~ %"
+# define PROMPT		"AE/SHELL ~ % "
 // # define PROMPT		"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
 // # define PIPE	'|'
 # define ON 1
 # define OFF 0
+# define ERROR -1
 
 
 enum e_quote_status
@@ -27,6 +28,7 @@ enum e_quote_status
 	S_REDIR_R,
 	D_REDIR_L,//here_doc
 	D_REDIR_R,
+	WORD,
 
 };
 
@@ -45,7 +47,7 @@ typedef struct s_node
 	int					word;
 	struct s_node		*next;
 	struct s_node		*prev;
-	char				typ[4];
+	char				typ[15];
 }	t_node;
 
 /*cn = current node*/
@@ -71,13 +73,14 @@ typedef struct s_frame
 	t_chunk				*chunk_start;
 }	t_frame;
 
-void	ft_lexer(char *str, t_frame *frame);
+int		ft_lexer(char *str, t_frame *frame);
 void	split_in_chunks(char *str, t_frame *frame);
 void	init_frame(t_frame *frame);
 void	next_node(t_frame *frame);
 void	next_chunk(t_frame *frame);
 void	add_letter(char c, t_frame *frame);
 void	ft_print_stack(t_frame *frame);
+void	ft_print_stack_plain(t_frame *frame);
 void	print_var(t_frame *frame);
 void	reset_frame(t_frame *frame);
 void	ft_clear_nodes(t_node **current_node);
@@ -89,8 +92,11 @@ void 	add_letter(char c, t_frame *frame);
 int		is_alnum_uscore(char c);
 int		expand_prequ(t_frame *frame, char cur_c, char next_c);
 void	print_env(t_var *var);
-void	free_nodes(t_node *node);
+void	free_node(t_node *node);
 void	re_arrange_list(t_frame *frame);
-void	handle_meta_arrows(t_frame *frame);
+int		handle_meta_arrows(t_frame *frame);
 void	init_node(t_frame *frame);
+int		control_nodes_raw(t_frame *frame);
+void	delete_node(t_frame	*frame, t_node *node);
+int		check_for_redir(t_frame *frame);
 #endif

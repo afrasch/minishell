@@ -1,39 +1,32 @@
 #include "../includes/minishell.h"
 
-void	set_fd_here_doc(t_frame *frame)
+int	control_node(t_node *node)
 {
-	int	fd;
-
-	fd = open("tmp_here_doc", O_RDWR | O_CREAT | O_TRUNC, 0777);
-	//fill_here_doc()
-	if (fd < 0)
-		printf("ERROR");
-	frame->cc->in_fd = fd;
-}
-
-
-void	check_for_here_docs(t_frame *frame)
-{
-	while (frame->cc->cn != NULL)
+	if (node->type == S_REDIR_L || node->type == S_REDIR_R || node->type == D_REDIR_L
+		|| node->type == D_REDIR_R)
 	{
-		if (ft_strncmp(frame->cc->cn->content, "<<", 2) == 0 && frame->cc->cn->word == NO_Q)
-		{
-			if (frame->cc->in_fd > 3)
-				close(frame->cc->in_fd);
-			set_fd_here_doc(frame);
-		}
-		frame->cc->cn = frame->cc->cn->next;
+		if (node->next != NULL)
+			if (node->next->type != WORD)
+				return (ERROR); 
+		if (node->next == NULL)
+			return (ERROR);
 	}
+	return (0);
 }
 
-
-void	handle_meta_arrows(t_frame *frame)
+int control_nodes_raw(t_frame *frame)
 {
 	set_list_2start(frame);
 	while (frame->cc != NULL)
 	{
 		frame->cc->cn = frame->cc->node_start;
-		check_for_here_docs(frame);
+		while (frame->cc->cn != NULL)
+		{
+			if (control_node(frame->cc->cn) < 0)
+				return (ERROR);
+			frame->cc->cn = frame->cc->cn->next;
+		}
 		frame->cc = frame->cc->next;
 	}
+	return (0);
 }

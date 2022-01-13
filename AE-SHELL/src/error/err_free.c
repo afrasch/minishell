@@ -10,7 +10,7 @@
 // 	}
 // }
 
-void	free_nodes(t_node *node)
+void	free_node(t_node *node)
 {
 	free(node->content);
 	free(node);
