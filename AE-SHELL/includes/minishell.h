@@ -9,7 +9,7 @@
 # include <fcntl.h>
 # include "../libft/libft.h"
 
-# define PROMPT		"AE/SHELL ~ % "
+# define PROMPT		"SHELL~SHOCK % "
 // # define PROMPT		"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
 // # define PIPE	'|'
 # define ON 1
