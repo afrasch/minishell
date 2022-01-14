@@ -13,18 +13,22 @@ void	add_var_node(t_frame *frame, char *name, char *content)
 	else
 		frame->shell_env_start = node;
 	frame->shell_env = node;
+	printf("%s var name: %s\n", __func__, node->con);
 }
 
 void	split_env(char *str, t_frame *frame)
 {
 	char	*name;
 	char	*content;
+	char	*tmp;
 	int		find_nbr;
 
 	find_nbr = ft_int_strchr(str, '=');
+	str[find_nbr] = '"';
 	name = ft_substr(str, 0, find_nbr);
-	content = ft_substr(str, find_nbr + 1, ft_strlen(str) - find_nbr);
-	add_var_node(frame, name, content);
+	content = ft_substr(str, find_nbr, ft_strlen(str) - find_nbr);
+	tmp = ft_add_chr_to_str(content, '"');
+	add_var_node(frame, name, tmp);
 }
 
 void get_env(t_frame *frame)

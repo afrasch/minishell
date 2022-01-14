@@ -64,6 +64,24 @@ void	print_var(t_frame *frame)
 	}
 }
 
+// void	ft_skip_char(char *str, char c)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (str && str[i] != c)
+// 	{
+// 		write(1, str[i], 1);
+// 		i++;
+// 	}
+// 	i++;
+// 	while (str && str[i] != c)
+// 	{
+// 		write(1, str[i], 1);
+// 		i++;
+// 	}
+// }
+
 // "export" auch handeln? -> zählt zusätzlich zu env auch variables ohne '=' auf
 void	print_env(t_var *var)// aufgerufen if (ft_strncmp(str, "var", 3) == 0)
 {

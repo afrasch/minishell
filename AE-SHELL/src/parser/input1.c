@@ -138,8 +138,8 @@ void	add_node(char c, char c_plus, t_frame *frame)
 		init_node(frame);//hier werden alle quote states auf NO_Q gesetzt ( evtl quote states von prev abfragen und übernehmen)
 	if (ft_strchr("<> ", c) != NULL && frame->cc->cn->quote_st == NO_Q)
 	{
-		if ((frame->cc->cn->content != NULL 
-			&& (c_plus != ' ' && c_plus != '|' && c_plus != '\0')) || 
+		if ((frame->cc->cn->content != NULL
+			&& (c_plus != ' ' && c_plus != '|' && c_plus != '\0')) ||
 			(frame->cc->cn->content != NULL && ft_strchr("<>", c) != NULL))
 			next_node(frame);
 		if (c != ' ')
@@ -153,7 +153,7 @@ void	add_node(char c, char c_plus, t_frame *frame)
 	{
 		if (ft_strrchr("\"\'", c) != NULL)
 			set_quote_state(c, frame);
-		
+
 		add_letter(c, frame);
 	}
 }
@@ -221,7 +221,7 @@ void	split_in_chunks(char *str, t_frame *frame)
 int	ft_lexer(char *str, t_frame *frame)
 {
 	split_in_chunks(str, frame);
-	ft_print_stack_plain(frame);
+	// ft_print_stack_plain(frame);
 	handle_quotes(frame);
 	re_arrange_list(frame); //and tag
 	if (control_nodes_raw(frame) < 0)
