@@ -49,7 +49,7 @@ char	**add_slash(char **paths)
 	while (paths)
 	{
 		ft_add_chr_to_str(paths[i], '/');
-		printf("%s\n", paths[i]);
+		// printf("%s\n", paths[i]);
 		i++;
 	}
 	return (paths);
@@ -82,7 +82,7 @@ int	get_access(t_frame *frame, char	*cmd)
 	i = 0;
 	while (frame->paths)
 	{
-		tmp_argv = ft_strjoin(frame->paths[i], cmd);
+		tmp_argv = ft_strjoin(frame->paths[i], cmd);//low letter cmd
 		if (access(tmp_argv, X_OK) == 0)
 		{
 			frame->cc->cn->content = NULL;
