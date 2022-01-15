@@ -117,4 +117,6 @@ void	get_path(t_frame *frame);
 void	executer(t_frame *frame, char *cmd);
 char	**list_to_arr(t_node *node_start);
 int		execute_function(t_frame *frame);
+t_builtin	check_for_builtin(char *input_cmd);
+void	execute_builtin(t_frame *frame, char *cmd);
 #endif

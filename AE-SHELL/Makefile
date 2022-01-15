@@ -24,6 +24,7 @@ SRC_LIST =	main/main.c \
 			vars/expansion.c \
 			execution/exec1.c \
 			execution/exec2.c \
+			builtins/echo.c \
 
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))
