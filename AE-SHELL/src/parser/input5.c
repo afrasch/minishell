@@ -23,24 +23,16 @@ int	set_out_fd(t_frame *frame, char mode)
 	return (0);
 }
 
-int	check_for_here_docs(t_frame *frame)
+int	set_here_docs(t_frame *frame)
 {
 	t_node	*cn;
 
-	while (frame->cc->cn != NULL)
-	{
-		cn = frame->cc->cn;
-		if (frame->cc->cn->type == D_REDIR_L)
-		{
-			if (frame->cc->in_fd > 3)
-				close(frame->cc->in_fd);
-			set_fd_here_doc(frame);
-			delete_node(frame, frame->cc->cn);
-			delete_node(frame, cn->next);
-		}
-		else
-			frame->cc->cn = frame->cc->cn->next;
-	}
+	cn = frame->cc->cn;
+	if (frame->cc->in_fd > 3)
+		close(frame->cc->in_fd);
+	set_fd_here_doc(frame);
+	delete_node(frame, frame->cc->cn);
+	delete_node(frame, cn->next);
 	return (0);
 }
 
@@ -48,7 +40,6 @@ int	check_for_redir(t_frame *frame)
 {
 	t_node	*cn;
 
-	
 	while (frame->cc->cn != NULL)
 	{
 		cn = frame->cc->cn;
@@ -71,10 +62,25 @@ int	check_for_redir(t_frame *frame)
 			delete_node(frame, frame->cc->cn);
 			delete_node(frame, cn->next);
 		}
+		else if (frame->cc->cn->type == D_REDIR_L)
+			set_here_docs(frame);
 		else
 			frame->cc->cn = frame->cc->cn->next;
 	}
 	return (0);
+}
+
+void prepare_pipe(t_frame *frame)
+{
+	int fd[2];
+
+	if (frame->cc->next != NULL)
+	{
+		if (pipe(fd) < 0)
+			printf("ERROR\n");
+		frame->cc->out_fd = fd[1];
+		frame->cc->next->in_fd = fd[0];
+	}
 }
 
 int		handle_meta_arrows(t_frame *frame)
@@ -83,13 +89,7 @@ int		handle_meta_arrows(t_frame *frame)
 	while (frame->cc != NULL)
 	{
 		frame->cc->cn = frame->cc->node_start;
-		check_for_here_docs(frame);
-		frame->cc = frame->cc->next;
-	}
-	set_list_2start(frame);
-	while (frame->cc != NULL)
-	{
-		frame->cc->cn = frame->cc->node_start;
+		prepare_pipe(frame);
 		check_for_redir(frame);
 		frame->cc = frame->cc->next;
 	}
