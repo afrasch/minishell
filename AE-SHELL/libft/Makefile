@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: elenz <elenz@student.42.fr>                +#+  +:+       +#+         #
+#    By: afrasch <afrasch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 14:02:35 by elenz             #+#    #+#              #
-#    Updated: 2022/01/09 20:06:20 by elenz            ###   ########.fr        #
+#    Updated: 2022/01/15 14:40:28 by afrasch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ ft_strlcat.c\
 ft_strlcpy.c\
 ft_strlen.c\
 ft_strmapi.c\
+ft_strcmp.c \
 ft_strncmp.c\
 ft_strnstr.c\
 ft_strrchr.c\

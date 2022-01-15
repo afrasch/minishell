@@ -13,7 +13,6 @@ void	add_var_node(t_frame *frame, char *name, char *content)
 	else
 		frame->shell_env_start = node;
 	frame->shell_env = node;
-	printf("%s var name: %s\n", __func__, node->con);
 }
 
 void	split_env(char *str, t_frame *frame)
@@ -53,6 +52,8 @@ int	main(void)
 
 	init_frame(&frame);
 	get_env(&frame);
+	get_path(&frame);
+	// save_builtins(&frame);
 	while (1)
 	{
 		str = readline(PROMPT);//ctrl+D -> EOF

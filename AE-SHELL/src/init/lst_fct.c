@@ -44,3 +44,20 @@ void	delete_node(t_frame	*frame, t_node *node)
 	}
 	free_node(node);
 }
+
+char	**list_to_arr(t_node *node_start)
+{
+	t_node	*tmp;
+	char	**arr;
+	int		i;
+
+	i = 0;
+	tmp = node_start;
+	while (tmp != NULL)
+	{
+		arr[i] = ft_strdup(tmp->content);
+		tmp = tmp->next;
+		i++;
+	}
+	return (arr);
+}

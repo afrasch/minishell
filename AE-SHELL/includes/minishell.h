@@ -11,25 +11,34 @@
 
 # define PROMPT		"SHELL~SHOCK % "
 // # define PROMPT		"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
-// # define PIPE	'|'
 # define ON 1
 # define OFF 0
 # define ERROR -1
 
+typedef enum e_builtin
+{
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT,
+	NONE,
+} t_builtin;
 
 enum e_quote_status
 {
 	NO_Q,
 	SINGLE_Q,
 	DOUBLE_Q,
-	META,
-	PIPE,
-	S_REDIR_L,
-	S_REDIR_R,
-	D_REDIR_L,//here_doc
-	D_REDIR_R,
-	WORD,
-
+	// META,
+	// PIPE,
+	// S_REDIR_L,
+	// S_REDIR_R,
+	// D_REDIR_L,//here_doc
+	// D_REDIR_R,
+	// WORD,
 };
 
 typedef struct s_var
@@ -71,6 +80,7 @@ typedef struct s_frame
 	int					exp_st;
 	t_chunk				*cc;
 	t_chunk				*chunk_start;
+	char				**paths;
 }	t_frame;
 
 int		ft_lexer(char *str, t_frame *frame);
@@ -99,4 +109,8 @@ void	init_node(t_frame *frame);
 int		control_nodes_raw(t_frame *frame);
 void	delete_node(t_frame	*frame, t_node *node);
 int		check_for_redir(t_frame *frame);
+void	get_path(t_frame *frame);
+void	executer(t_frame *frame, char *cmd);
+char	**list_to_arr(t_node *node_start);
+
 #endif
