@@ -22,6 +22,7 @@ SRC_LIST =	main/main.c \
 			init/lst_fct.c \
 			helpers/helpers.c \
 			vars/expansion.c \
+			executer/exec1.c \
 
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))

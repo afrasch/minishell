@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <errno.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -61,6 +62,8 @@ typedef struct s_chunk
 	int					out_fd;
 	t_node				*cn;
 	t_node				*node_start;
+	int					cc_errno;
+	char				**cmd_arr;
 }	t_chunk;
 
 /*cc = current chunk*/
@@ -99,4 +102,5 @@ void	init_node(t_frame *frame);
 int		control_nodes_raw(t_frame *frame);
 void	delete_node(t_frame	*frame, t_node *node);
 int		check_for_redir(t_frame *frame);
+int		execute_function(t_frame *frame);
 #endif

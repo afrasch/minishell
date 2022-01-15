@@ -227,6 +227,7 @@ int	ft_lexer(char *str, t_frame *frame)
 	re_arrange_list(frame); //and tag
 	if (control_nodes_raw(frame) < 0)
 		return (ERROR);
-	handle_meta_arrows(frame);
+	if (handle_meta_arrows(frame) < 0)
+		return (ERROR);
 	return (0);
 }
