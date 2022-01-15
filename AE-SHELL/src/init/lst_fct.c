@@ -48,7 +48,7 @@ void	delete_node(t_frame	*frame, t_node *node)
 char	**list_to_arr(t_node *node_start)
 {
 	t_node	*tmp;
-	char	**arr;
+	char	**arr = NULL;
 	int		i;
 
 	i = 0;

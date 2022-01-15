@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <errno.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -32,13 +33,13 @@ enum e_quote_status
 	NO_Q,
 	SINGLE_Q,
 	DOUBLE_Q,
-	// META,
-	// PIPE,
-	// S_REDIR_L,
-	// S_REDIR_R,
-	// D_REDIR_L,//here_doc
-	// D_REDIR_R,
-	// WORD,
+	META,
+	PIPE,
+	S_REDIR_L,
+	S_REDIR_R,
+	D_REDIR_L,//here_doc
+	D_REDIR_R,
+	WORD,
 };
 
 typedef struct s_var
@@ -70,6 +71,8 @@ typedef struct s_chunk
 	int					out_fd;
 	t_node				*cn;
 	t_node				*node_start;
+	int					cc_errno;
+	char				**cmd_arr;
 }	t_chunk;
 
 /*cc = current chunk*/
@@ -113,4 +116,5 @@ void	get_path(t_frame *frame);
 void	executer(t_frame *frame, char *cmd);
 char	**list_to_arr(t_node *node_start);
 
+int		execute_function(t_frame *frame);
 #endif

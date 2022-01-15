@@ -108,6 +108,8 @@ void	init_chunk(t_frame *frame)
 	chunk->prev = NULL;
 	chunk->next = NULL;
 	frame->cc = chunk;
+	frame->cc->in_fd = STDIN_FILENO;
+	frame->cc->out_fd = STDOUT_FILENO;
 	frame->chunk_start = frame->cc;
 }
 
@@ -221,11 +223,11 @@ void	split_in_chunks(char *str, t_frame *frame)
 int	ft_lexer(char *str, t_frame *frame)
 {
 	split_in_chunks(str, frame);
-	// ft_print_stack_plain(frame);
 	handle_quotes(frame);
 	re_arrange_list(frame); //and tag
 	if (control_nodes_raw(frame) < 0)
 		return (ERROR);
-	handle_meta_arrows(frame);
+	if (handle_meta_arrows(frame) < 0)
+		return (ERROR);
 	return (0);
 }

@@ -41,7 +41,7 @@ void get_env(t_frame *frame)
 		split_env(environ[i], frame);
 		i++;
 	}
-	//add_var_node(frame,"a", "cho");
+	//add_var_node(frame,"a", "\"'cho'\"");
 }
 
 
@@ -58,7 +58,7 @@ int	main(void)
 	{
 		str = readline(PROMPT);//ctrl+D -> EOF
 		//str = "$OS_ACTIVITY_DT_MODE";
-		//str = "hallo|>>file4 | echo >>file4 |<< end";
+		//str = "echo hallo | << end >file1 cat  <file2";
 		//str = "e\"$a\"";
 		//str = "e$a";
 		if (ft_strncmp(str, "exit", 4) == 0)
