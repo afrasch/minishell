@@ -80,6 +80,7 @@ typedef struct s_frame
 {
 	t_var				*shell_env;
 	t_var				*shell_env_start;
+	char				**original_env;
 	int					exp_st;
 	t_chunk				*cc;
 	t_chunk				*chunk_start;
@@ -115,6 +116,5 @@ int		check_for_redir(t_frame *frame);
 void	get_path(t_frame *frame);
 void	executer(t_frame *frame, char *cmd);
 char	**list_to_arr(t_node *node_start);
-
 int		execute_function(t_frame *frame);
 #endif

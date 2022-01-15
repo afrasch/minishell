@@ -30,18 +30,37 @@ void	split_env(char *str, t_frame *frame)
 	add_var_node(frame, name, tmp);
 }
 
+void	copy_env_original(char **str, t_frame *frame)
+{
+	int i;
+	int	ar_len;
+
+	i = 0;
+	ar_len = 0;
+	while (str[ar_len] != NULL)
+		ar_len++;
+	frame->original_env = calloc(ar_len, sizeof(char *));
+	while (str[i] != NULL)
+	{
+		frame->original_env[i] = ft_strdup(str[i]);
+		i++;
+	}
+}
+
 void get_env(t_frame *frame)
 {
 	int	i;
 	extern char** environ;
 
 	i = 0;
+	
+	copy_env_original(environ, frame);
 	while (environ[i] != NULL)
 	{
 		split_env(environ[i], frame);
 		i++;
 	}
-	//add_var_node(frame,"a", "\"'cho'\"");
+	add_var_node(frame,"PATH", "bin/bash:bin");
 }
 
 
@@ -52,7 +71,6 @@ int	main(void)
 
 	init_frame(&frame);
 	get_env(&frame);
-	get_path(&frame);
 	// save_builtins(&frame);
 	while (1)
 	{
@@ -60,7 +78,7 @@ int	main(void)
 		//str = "$OS_ACTIVITY_DT_MODE";
 		//str = "echo hallo | << end >file1 cat  <file2";
 		//str = "e\"$a\"";
-		//str = "e$a";
+		//str = "ls -l";
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);

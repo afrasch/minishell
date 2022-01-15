@@ -1,17 +1,9 @@
 #include "../includes/minishell.h"
 
-int	ft_check_argv(t_frame *frame)
-{
-	if (access(frame->cc->cmd_arr[0], X_OK) == 0)
-		printf("ACCESS\n");
-	return (0);
-}
-
 void	ft_childprocess(t_frame *frame)
 {
-	int	check;
-
-	check = ft_check_argv(frame);
+	frame->cc->cn = frame->cc->node_start;
+	executer(frame, frame->cc->cn->content);
 }
 
 
@@ -21,7 +13,6 @@ int execute_function(t_frame *frame)
 
 	if (frame->cc->cc_errno != 0)
 		printf("ERROR"); //HIER MUSS ERROR FUNCTION HIN MIT DEM ERRNO
-	//list_to_array(frame);
 	pid = fork();
 	if (pid < 0)
 		return (ERROR);
@@ -31,10 +22,12 @@ int execute_function(t_frame *frame)
 		dup2(frame->cc->out_fd, STDOUT_FILENO);
 		ft_childprocess(frame);
 	}
-	else
+	// else
 		//ft_mainprocess(frame);
 	wait(NULL);
-	close(frame->cc->out_fd);
-	close(frame->cc->in_fd);
+	/* if (frame->cc->out_fd != STDOUT_FILENO)
+		close(frame->cc->out_fd);
+	if (frame->cc->in_fd != STDIN_FILENO)
+		close(frame->cc->in_fd); */
 	return (0);
 }

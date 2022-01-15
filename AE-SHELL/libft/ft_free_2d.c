@@ -4,7 +4,7 @@ void	ft_free_2d(void ***to_free)
 {
 	int	i;
 
-	if (*to_free == NULL || to_free == NULL)
+	if (*to_free == NULL || to_free == NULL || **to_free == NULL)
 		return ;
 	i = 0;
 	while ((*to_free)[i])

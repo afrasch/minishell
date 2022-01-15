@@ -45,13 +45,32 @@ void	delete_node(t_frame	*frame, t_node *node)
 	free_node(node);
 }
 
+
+int	lstsize(t_node *lst)
+{
+	int	i;
+
+	i = 1;
+	if (lst == NULL)
+		return (0);
+	while (lst->next != NULL)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
+}
+
 char	**list_to_arr(t_node *node_start)
 {
 	t_node	*tmp;
-	char	**arr = NULL;
+	char	**arr;
 	int		i;
+	int		lst_size;
 
 	i = 0;
+	lst_size = lstsize(node_start);
+	arr = calloc(lst_size + 1, sizeof(char *));
 	tmp = node_start;
 	while (tmp != NULL)
 	{
@@ -59,5 +78,6 @@ char	**list_to_arr(t_node *node_start)
 		tmp = tmp->next;
 		i++;
 	}
+	arr[i] = NULL;
 	return (arr);
 }
