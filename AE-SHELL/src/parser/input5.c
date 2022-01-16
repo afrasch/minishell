@@ -69,6 +69,8 @@ int	set_right_red(t_frame *frame)
 		if (set_out_fd(frame, 'd') < 0)
 			return (ERROR);
 	}
+	debug_print(frame);
+
 	delete_node(frame, frame->cc->cn);
 	delete_node(frame, cn->next);
 	return (0);

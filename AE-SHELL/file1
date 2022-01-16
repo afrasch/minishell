@@ -1,11 +1,15 @@
-total 104
--rw-r--r--    1 afrasch  2021_heilbronn   1370 Jan 15 17:17 Makefile
--rwxr-xr-x    1 afrasch  2021_heilbronn    655 Jan 15 21:38 file1
--rwxr-xr-x    1 afrasch  2021_heilbronn    655 Jan 15 21:38 file2
--rwxr-xr-x    1 afrasch  2021_heilbronn    682 Jan 15 21:41 file4
-drwxr-xr-x    3 afrasch  2021_heilbronn    102 Jan 15 21:38 includes
-drwxr-xr-x  111 afrasch  2021_heilbronn   3774 Jan 15 21:39 libft
--rwxr-xr-x    1 afrasch  2021_heilbronn  36320 Jan 15 21:39 minishell
-drwxr-xr-x   15 afrasch  2021_heilbronn    510 Jan 15 21:39 obj
-drwxr-xr-x    9 afrasch  2021_heilbronn    306 Jan 15 17:16 src
--rwxr-xr-x    1 afrasch  2021_heilbronn      0 Jan 15 16:04 tmp_here_doc
+Makefile
+file
+file1
+file8
+includes
+libft
+minishell
+obj
+src
+tmp_here_doc
+pe is "word"
+Input fd: 4
+Output fd: 5
+___________________
+       8

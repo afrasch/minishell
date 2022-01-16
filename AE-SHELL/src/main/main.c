@@ -53,7 +53,7 @@ void get_env(t_frame *frame)
 	extern char** environ;
 
 	i = 0;
-	
+
 	copy_env_original(environ, frame);
 	while (environ[i] != NULL)
 	{
@@ -93,7 +93,9 @@ int	main(void)
 			add_history(str);
 			//ft_print_stack(&frame);
 		}
-		ft_print_stack_plain(&frame);
+		// ft_print_stack_plain(&frame);
+
+
 		//ft_print_stack(&frame);//prints with quotes
 		//reset_frame(&frame);
 		/* if (str != NULL)

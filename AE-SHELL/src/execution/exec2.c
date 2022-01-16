@@ -92,7 +92,6 @@ int	get_access(t_frame *frame, char	*cmd)
 
 void	execute_cmd(t_frame *frame, int i, char* cmd)
 {
-
 	execve(ft_strjoin(frame->paths[i], cmd), list_to_arr(frame->cc->node_start), frame->original_env);
 	//ERROR, wenn hier hin kommt!
 }

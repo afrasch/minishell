@@ -1,7 +1,15 @@
-ha hu he
-New Chunk
-echo
-ha
-hu
-he
-SHELL~SHOCK % ^C
+Makefile
+file
+file1
+file8
+includes
+libft
+minishell
+obj
+src
+tmp_here_doc
+t fd: 0
+Output fd: 3
+___________________
+hi
+[1;34mSHELL~SHOCK [0;33m% [m

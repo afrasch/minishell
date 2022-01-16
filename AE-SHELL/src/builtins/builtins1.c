@@ -13,6 +13,7 @@ void	echo(t_frame *frame)
 		node = node->next;
 	}
 	write (frame->cc->out_fd, node->content, ft_strlen(node->content));
+	write (frame->cc->out_fd, "\n", 1);
 }
 
 void	execute_builtin(t_frame *frame, char *cmd)
