@@ -10,7 +10,7 @@
 # include <fcntl.h>
 # include "../libft/libft.h"
 
-# define PROMPT		"\033[1;34mSHELL~SHOCK \033[0;33m% \033[m"
+# define PROMPT		"SHELL~SHOCK "
 // # define PROMPT		"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
 # define ON 1
 # define OFF 0
@@ -89,6 +89,8 @@ typedef struct s_frame
 	t_chunk				*cc;
 	t_chunk				*chunk_start;
 	char				**paths;
+	int					saved_in_fd;
+	int					saved_out_fd;
 }	t_frame;
 
 int			ft_lexer(char *str, t_frame *frame);
@@ -119,6 +121,7 @@ void		delete_node(t_frame	*frame, t_node *node);
 char		**list_to_arr(t_node *node_start);
 void		re_arrange_list(t_frame *frame);
 t_builtin	check_for_builtin(char *input_cmd);
+void		reset_fd(t_frame *frame);
 void		print_env(t_var *var);
 
 
@@ -127,4 +130,5 @@ void		print_var(t_frame *frame);
 void		ft_print_stack(t_frame *frame);
 void		ft_print_stack_plain(t_frame *frame);
 void		debug_print(t_frame *frame);
+void		debug_print_full(t_frame *frame);
 #endif

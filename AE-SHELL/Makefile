@@ -25,6 +25,7 @@ SRC_LIST =	main/main.c \
 			execution/exec1.c \
 			execution/exec2.c \
 			builtins/builtins1.c \
+			reset_frame/reset_fd.c
 
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))

@@ -25,9 +25,9 @@ int execute_function(t_frame *frame)
 	// else
 		//ft_mainprocess(frame);
 	wait(NULL);
-	/* if (frame->cc->out_fd != STDOUT_FILENO)
+	if (frame->cc->out_fd != STDOUT_FILENO)
 		close(frame->cc->out_fd);
 	if (frame->cc->in_fd != STDIN_FILENO)
-		close(frame->cc->in_fd); */
+		close(frame->cc->in_fd);
 	return (0);
 }

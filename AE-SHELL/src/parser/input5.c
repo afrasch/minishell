@@ -27,7 +27,7 @@ int	set_in_fd(t_frame *frame)
 int	set_out_fd(t_frame *frame, char mode)
 {
 	if (mode == 's')
-		frame->cc->out_fd = open(frame->cc->cn->next->content, O_CREAT | O_WRONLY, 0777);
+		frame->cc->out_fd = open(frame->cc->cn->next->content, O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	else if (mode == 'd')
 		frame->cc->out_fd = open(frame->cc->cn->next->content, O_CREAT | O_APPEND, 0777);
 	if (frame->cc->in_fd < 0)
@@ -69,8 +69,6 @@ int	set_right_red(t_frame *frame)
 		if (set_out_fd(frame, 'd') < 0)
 			return (ERROR);
 	}
-	debug_print(frame);
-
 	delete_node(frame, frame->cc->cn);
 	delete_node(frame, cn->next);
 	return (0);
@@ -137,6 +135,9 @@ int prepare_pipe(t_frame *frame)
 int		handle_meta_arrows(t_frame *frame)
 {
 	set_list_2start(frame);
+	frame->saved_in_fd = dup(STDIN_FILENO);
+	frame->saved_out_fd = dup(STDOUT_FILENO);
+	//debug_print_full(frame);
 	while (frame->cc != NULL)
 	{
 		frame->cc->cn = frame->cc->node_start;
@@ -144,7 +145,9 @@ int		handle_meta_arrows(t_frame *frame)
 			return (ERROR);
 		check_for_redir(frame);
 		execute_function(frame);
+		reset_fd(frame);
 		frame->cc = frame->cc->next;
 	}
+	//debug_print_full(frame);
 	return (0);
 }

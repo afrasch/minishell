@@ -60,7 +60,7 @@ void get_env(t_frame *frame)
 		split_env(environ[i], frame);
 		i++;
 	}
-	add_var_node(frame,"PATH", "bin/bash:bin");
+	add_var_node(frame,"a", "\0");
 }
 
 
@@ -77,7 +77,7 @@ int	main(void)
 		str = readline(PROMPT);//ctrl+D -> EOF
 		//str = "$OS_ACTIVITY_DT_MODE";
 		//str = "echo hallo | << end >file1 cat  <file2";
-		//str = "e\"$a\"";
+		//str = "e $a";
 		//str = "ls -l";
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
@@ -93,6 +93,7 @@ int	main(void)
 			add_history(str);
 			//ft_print_stack(&frame);
 		}
+		reset_fd(&frame);
 		// ft_print_stack_plain(&frame);
 
 

@@ -73,6 +73,8 @@ void	re_arrange_list(t_frame *frame)
 	{
 		frame->cc->cn = frame->cc->node_start;
 		fuse_arrows(frame);
+		frame->cc->in_fd = STDIN_FILENO;
+		frame->cc->out_fd = STDOUT_FILENO;
 		frame->cc = frame->cc->next;
 	}
 }
