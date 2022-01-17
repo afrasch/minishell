@@ -8,8 +8,8 @@ minishell
 obj
 src
 tmp_here_doc
-pe is "word"
-Input fd: 4
-Output fd: 5
+t fd: 0
+Output fd: 3
 ___________________
-       8
+hi
+[1;34mSHELL~SHOCK [0;33m% [m
