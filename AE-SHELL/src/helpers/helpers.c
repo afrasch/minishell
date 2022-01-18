@@ -101,6 +101,9 @@ void	debug_print(t_frame *frame)
 	printf("\n___________________\n\n");
 	t_node *node;
 
+
+	if (errno != 0)
+		printf("ERROR: %s\n", strerror(errno));
 	if (frame->cc == NULL)
 	{
 		printf ("You can't use debug_print while cc is NULL\n");
