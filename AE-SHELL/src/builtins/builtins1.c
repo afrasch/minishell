@@ -12,13 +12,14 @@ void	echo(t_frame *frame)
 		write (frame->cc->out_fd, " ", 1);
 		node = node->next;
 	}
-	write (frame->cc->out_fd, node->content, ft_strlen(node->content));
-	write (frame->cc->out_fd, "\n", 1);
+	write (1, node->content, ft_strlen(node->content));
+	write (1, "\n", 1);
+	frame->cc->build_in = B_ECHO;
 }
 
 void	execute_builtin(t_frame *frame, char *cmd)
 {
-	if (check_for_builtin(cmd) == ECHO)
+	if (check_for_builtin(cmd, frame) == B_ECHO)
 		echo(frame);
 	// else if (check_for_builtin(cmd) == CD)
 	// 	cd(frame);

@@ -75,8 +75,7 @@ void	re_arrange_list(t_frame *frame)
 		fuse_arrows(frame);
 		frame->cc->in_fd = STDIN_FILENO;
 		frame->cc->out_fd = STDOUT_FILENO;
+		frame->cc->build_in = NONE;
 		frame->cc = frame->cc->next;
 	}
 }
-
-

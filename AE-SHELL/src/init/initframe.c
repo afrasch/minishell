@@ -31,4 +31,5 @@ void	next_chunk(t_frame *frame)
 	frame->cc->next = next_chunk;
 	frame->cc = next_chunk;
 	frame->cc->quote_st = NO_Q;
+	frame->cc->build_in = NONE;
 }

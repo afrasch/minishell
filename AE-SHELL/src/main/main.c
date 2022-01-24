@@ -60,7 +60,7 @@ void get_env(t_frame *frame)
 		split_env(environ[i], frame);
 		i++;
 	}
-	add_var_node(frame,"a", "\0");
+	//add_var_node(frame,"a", "\"   halllo  \"");
 }
 
 
@@ -71,14 +71,17 @@ int	main(void)
 
 	init_frame(&frame);
 	get_env(&frame);
-	// save_builtins(&frame);
+	//save_builtins(&frame);
 	while (1)
 	{
-		str = readline(PROMPT);//ctrl+D -> EOF
-		//str = "$OS_ACTIVITY_DT_MODE";
-		//str = "echo hallo | << end >file1 cat  <file2";
+		init_signals(&frame);
+		//str = readline(PROMPT);//ctrl+D -> EOF
+		str = "echo hallo";
+		//str = "cat <file1";
 		//str = "e $a";
-		//str = "ls -l";
+		//str = "ls -l | cat";
+		if (str == NULL)
+			exit(EXIT_SUCCESS);
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);
@@ -93,8 +96,7 @@ int	main(void)
 			add_history(str);
 			//ft_print_stack(&frame);
 		}
-		reset_fd(&frame);
-		// ft_print_stack_plain(&frame);
+		//ft_print_stack_plain(&frame);
 
 
 		//ft_print_stack(&frame);//prints with quotes
@@ -104,7 +106,7 @@ int	main(void)
 			//free(str);
 			//str = NULL;
 		} */
-		//break ;
+		break ;
 		// print_env(frame.shell_env_start);
 	}
 }

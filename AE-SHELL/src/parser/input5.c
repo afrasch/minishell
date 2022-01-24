@@ -57,7 +57,7 @@ int	set_right_red(t_frame *frame)
 	t_node	*cn;
 
 	cn = frame->cc->cn;
-	if (frame->cc->out_fd > 3)
+	if (frame->cc->out_fd >= 3)
 		close(frame->cc->out_fd);
 	if (cn->type == S_REDIR_R)
 	{
@@ -79,12 +79,20 @@ int set_left_red(t_frame *frame)
 	t_node	*cn;
 
 	cn = frame->cc->cn;
-	if (frame->cc->in_fd > 3)
-			close(frame->cc->in_fd);
+	if (frame->cc->in_fd >= 3)
+		close(frame->cc->in_fd);
 	set_in_fd(frame);
 	delete_node(frame, frame->cc->cn);
 	delete_node(frame, cn->next);
 	return (0);
+}
+
+void	check_for_pipe(t_frame *frame)
+{
+	if (frame->cc->prev != NULL)
+		frame->cc->in_fd = PIPEIN;
+	if (frame->cc->next != NULL)
+		frame->cc->out_fd = PIPEOUT;
 }
 
 int	check_for_redir(t_frame *frame)
@@ -115,39 +123,37 @@ int	check_for_redir(t_frame *frame)
 	return (0);
 }
 
-int prepare_pipe(t_frame *frame)
+int prepare_pipe(t_exec *exec)
 {
-	int fd[2];
-
-	if (frame->cc->next != NULL)
-	{
-		if (pipe(fd) < 0)
+	if (pipe(exec->fd) < 0)
 		{
-			frame->cc->cc_errno = errno;
-			return (ERROR);
+			printf("ERROR\n");
+			//ERRORFUNCTION
 		}
-		frame->cc->out_fd = fd[1];
-		frame->cc->next->in_fd = fd[0];
-	}
 	return (0);
 }
 
 int		handle_meta_arrows(t_frame *frame)
 {
+	t_exec	exec;
+	int		ret_wp;
+
+	ret_wp = 0;
+
+	init_exec(&exec);
 	set_list_2start(frame);
-	frame->saved_in_fd = dup(STDIN_FILENO);
-	frame->saved_out_fd = dup(STDOUT_FILENO);
-	//debug_print_full(frame);
 	while (frame->cc != NULL)
 	{
 		frame->cc->cn = frame->cc->node_start;
-		if (prepare_pipe(frame) == ERROR)
-			return (ERROR);
-		check_for_redir(frame);
-		execute_function(frame);
-		reset_fd(frame);
+		if (frame->cc->next != NULL)
+			prepare_pipe(&exec);
+		execute_function(frame, &exec);
 		frame->cc = frame->cc->next;
 	}
+	close(exec.tmp_fd);
+	while(ret_wp != -1)
+		ret_wp = waitpid(-1, NULL, 0); // EXITSTATUS IST 2. braucht in
+	//printf("I am out\n");
 	//debug_print_full(frame);
 	return (0);
 }

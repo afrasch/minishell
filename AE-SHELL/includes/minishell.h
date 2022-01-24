@@ -2,6 +2,8 @@
 # define MINISHELL_H
 
 # include <errno.h>
+# include <termios.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -15,10 +17,13 @@
 # define ON 1
 # define OFF 0
 # define ERROR -1
+# define PIPEIN -4
+# define PIPEOUT -5
+# define NO_PIPE -6
 
 typedef enum e_builtin
 {
-	ECHO,
+	B_ECHO,
 	CD,
 	PWD,
 	EXPORT,
@@ -38,6 +43,7 @@ enum e_quote_status
 enum e_operators
 {
 	PIPE,
+	PIPED,
 	S_REDIR_L,
 	S_REDIR_R,
 	D_REDIR_L,//here_doc
@@ -69,6 +75,7 @@ typedef struct s_chunk
 {
 	int					type;
 	int					quote_st;
+	t_builtin			build_in;
 	struct s_chunk		*next;
 	struct s_chunk		*prev;
 	int					in_fd;
@@ -91,7 +98,14 @@ typedef struct s_frame
 	char				**paths;
 	int					saved_in_fd;
 	int					saved_out_fd;
+	int					buffer_fd;
 }	t_frame;
+
+typedef struct s_exec
+{
+	int fd[2];
+	int	tmp_fd;
+}	t_exec;
 
 int			ft_lexer(char *str, t_frame *frame);
 void		add_letter(char c, t_frame *frame);
@@ -104,7 +118,7 @@ int			handle_meta_arrows(t_frame *frame);
 int			check_for_redir(t_frame *frame);
 void		get_path(t_frame *frame);
 void		executer(t_frame *frame, char *cmd);
-int			execute_function(t_frame *frame);
+int 		execute_function(t_frame *frame, t_exec *exec);
 void		execute_builtin(t_frame *frame, char *cmd);
 
 void		init_frame(t_frame *frame);
@@ -112,7 +126,6 @@ void		next_node(t_frame *frame);
 void		next_chunk(t_frame *frame);
 void		free_node(t_node *node);
 void		init_node(t_frame *frame);
-void		reset_frame(t_frame *frame);
 void		ft_clear_nodes(t_node **current_node);
 void		set_list_2start(t_frame *frame);
 int			is_alnum_uscore(char c);
@@ -120,15 +133,28 @@ int			control_nodes_raw(t_frame *frame);
 void		delete_node(t_frame	*frame, t_node *node);
 char		**list_to_arr(t_node *node_start);
 void		re_arrange_list(t_frame *frame);
-t_builtin	check_for_builtin(char *input_cmd);
-void		reset_fd(t_frame *frame);
+t_builtin	check_for_builtin(char *input_cmd, t_frame *frame);
+void		reset_fd(t_frame *frame, int pipe_state);
 void		print_env(t_var *var);
-
-
 
 void		print_var(t_frame *frame);
 void		ft_print_stack(t_frame *frame);
 void		ft_print_stack_plain(t_frame *frame);
 void		debug_print(t_frame *frame);
 void		debug_print_full(t_frame *frame);
+char		*change_caps(char *input_cmd);
+
+void		init_signals(t_frame *frame);
+void		signals_for_child(t_frame *frame, int pid);
+void		switch_signal_print(int i, t_frame *frame);
+
+int			ft_fork();
+void		init_exec(t_exec *exec);
+void		check_for_pipe(t_frame *frame);
+int			get_access(t_frame *frame, char	*cmd);
+void		execute_cmd(t_frame *frame, int i, char* cmd);
+
+void		prepare_builtin_alone(t_frame *frame);
+void		set_back_builtin_alone(t_frame *frame);
+
 #endif

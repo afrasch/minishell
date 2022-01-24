@@ -90,9 +90,7 @@ void	check_for_var(char *var_name, t_frame *frame)
 			if (frame->cc->cn->quote_st == DOUBLE_Q)
 				q_var_expansion(frame->shell_env->con, frame);
 			else if (frame->cc->cn->quote_st == NO_Q)
-			{
 				uq_var_expansion(frame->shell_env->con, frame);
-			}
 		}
 		frame->shell_env = frame->shell_env->next;
 	}

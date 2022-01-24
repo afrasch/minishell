@@ -24,10 +24,11 @@ SRC_LIST =	main/main.c \
 			vars/expansion.c \
 			execution/exec1.c \
 			execution/exec2.c \
+			execution/exec_utils.c \
 			builtins/builtins1.c \
-			reset_frame/reset_fd.c
-
-
+			builtin_helper.c \
+			signals/signals1.c \
+ 
 SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))
 
 OBJ_DIR = ./obj/
