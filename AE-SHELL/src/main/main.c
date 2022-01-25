@@ -95,7 +95,7 @@ int	main(void)
 			if (ft_lexer(str, &frame) < 0)
 				printf("\n***ERROR: SHELL SCHOCK***\n");
 			add_history(str);
-			//ft_print_stack(&frame);
+			// ft_print_stack(&frame);
 		}
 		//ft_print_stack_plain(&frame);
 
