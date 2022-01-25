@@ -1,11 +1,26 @@
 #include "../includes/minishell.h"
 
+void	execute_one_cmd(t_frame *frame, t_exec *exec)
+{
+	int	i;
+
+	check_for_redir(frame);
+	get_path(frame);
+	i = get_access(frame, change_caps(frame->cc->node_start->content));
+	dup2(frame->cc->in_fd, STDIN_FILENO);
+	dup2(frame->cc->out_fd, STDOUT_FILENO);
+	close(exec->tmp_fd);
+	execute_cmd(frame, i, change_caps(frame->cc->node_start->content));
+}
+
 void	ft_childprocess(t_frame *frame, t_exec *exec)
 {
 	int		i;
 
 	/* signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL); */
+	if (frame->single_com == ON)
+		execute_one_cmd(frame, exec);
 	check_for_pipe(frame);
 	check_for_redir(frame);
 	get_path(frame);
@@ -47,8 +62,9 @@ int execute_function(t_frame *frame, t_exec *exec)
 	lowletter_cmd = NULL;
 	if (frame->cc->node_start != NULL)
 		lowletter_cmd = change_caps(frame->cc->node_start->content);
-	if ((check_for_builtin(lowletter_cmd, frame) != NONE) && frame->cc->next == NULL && frame->cc->prev == NULL)
+	if ((check_for_builtin(lowletter_cmd, frame) != NONE) && (frame->single_com == ON))
 	{
+		frame->single_com = ON;
 		prepare_builtin_alone(frame);
 		execute_builtin(frame, lowletter_cmd);
 		set_back_builtin_alone(frame);
@@ -58,7 +74,7 @@ int execute_function(t_frame *frame, t_exec *exec)
 		pid = ft_fork();
 		if (pid == 0)
 			ft_childprocess(frame, exec);
-		else 
+		else if (frame->single_com == OFF)
 			ft_parent(exec, frame->cc);
 	}
 	return (0);

@@ -19,6 +19,7 @@ void	next_node(t_frame *frame)
 	frame->cc->cn = new_node;
 	frame->cc->cn->quote_st = NO_Q;
 	frame->cc->cn->word = NO_Q;
+	frame->single_com = OFF;
 }
 
 void	next_chunk(t_frame *frame)

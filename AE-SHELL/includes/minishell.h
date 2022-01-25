@@ -98,7 +98,7 @@ typedef struct s_frame
 	char				**paths;
 	int					saved_in_fd;
 	int					saved_out_fd;
-	int					buffer_fd;
+	int					single_com;
 }	t_frame;
 
 typedef struct s_exec

@@ -74,9 +74,10 @@ int	main(void)
 	//save_builtins(&frame);
 	while (1)
 	{
+		//ft_print_stack_plain(&frame);
 		init_signals(&frame);
-		//str = readline(PROMPT);//ctrl+D -> EOF
-		str = "echo hallo";
+		str = readline(PROMPT);//ctrl+D -> EOF
+		//str = "echo hallo";
 		//str = "cat <file1";
 		//str = "e $a";
 		//str = "ls -l | cat";
@@ -106,7 +107,7 @@ int	main(void)
 			//free(str);
 			//str = NULL;
 		} */
-		break ;
+		// break ;
 		// print_env(frame.shell_env_start);
 	}
 }

@@ -142,6 +142,8 @@ int		handle_meta_arrows(t_frame *frame)
 
 	init_exec(&exec);
 	set_list_2start(frame);
+	if (frame->cc->next == NULL && frame->cc->prev == NULL)
+		frame->single_com = ON;
 	while (frame->cc != NULL)
 	{
 		frame->cc->cn = frame->cc->node_start;
