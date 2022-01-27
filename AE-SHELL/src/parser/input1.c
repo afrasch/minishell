@@ -218,13 +218,10 @@ void	split_in_chunks(char *str, t_frame *frame)
 	}
 }
 
-
-
 int	ft_lexer(char *str, t_frame *frame)
 {
 	split_in_chunks(str, frame);
 	handle_quotes(frame);
-	debug_print(frame);
 	re_arrange_list(frame); //and tag
 	if (control_nodes_raw(frame) < 0)
 		return (ERROR);

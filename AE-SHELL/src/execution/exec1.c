@@ -17,8 +17,8 @@ void	ft_childprocess(t_frame *frame, t_exec *exec)
 {
 	int		i;
 
-	/* signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL); */
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (frame->single_com == ON)
 		execute_one_cmd(frame, exec);
 	check_for_pipe(frame);

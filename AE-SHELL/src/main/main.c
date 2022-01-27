@@ -74,9 +74,8 @@ int	main(void)
 	//save_builtins(&frame);
 	while (1)
 	{
-		//ft_print_stack_plain(&frame);
-		init_signals(&frame);
-		str = readline(PROMPT);//ctrl+D -> EOF
+		str = init_signals_and_prompt(&frame);
+		//str = readline(PROMPT);//ctrl+D -> EOF
 		//str = "echo hallo";
 		//str = "cat <file1";
 		//str = "e $a";

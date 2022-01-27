@@ -144,9 +144,9 @@ void		debug_print(t_frame *frame);
 void		debug_print_full(t_frame *frame);
 char		*change_caps(char *input_cmd);
 
-void		init_signals(t_frame *frame);
-void		signals_for_child(t_frame *frame, int pid);
-void		switch_signal_print(int i, t_frame *frame);
+char 		*init_signals_and_prompt(t_frame *frame);
+//void		signals_for_child(t_frame *frame, int pid);
+//void		switch_signal_print(int i, t_frame *frame);
 
 int			ft_fork();
 void		init_exec(t_exec *exec);

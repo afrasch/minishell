@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void	switch_signal_print(int i, t_frame *frame)
+/* void	switch_signal_print(int i, t_frame *frame)
 {
 	struct termios	term;
 
@@ -23,24 +23,48 @@ void	switch_signal_print(int i, t_frame *frame)
 		tcsetattr(1, TCSANOW, &term);
 	}
 	tcsetattr(0, 0, &term);
-}
+} */
 
 void	new_prompt(int sig)
 {
 	if (sig == SIGINT)
 	{
 		ft_putstr_fd("\n", STDIN_FILENO);
-		rl_on_new_line();
 		rl_replace_line("", 0);
-		rl_redisplay();
 	}
+	rl_on_new_line();
+	rl_redisplay();
 }
 
-void	init_signals(t_frame *frame)
+void	clear_signals(void)
 {
-	switch_signal_print(OFF, frame);
+	struct termios	term;
+
+	tcgetattr(1, &term);
+	term.c_lflag |= ECHOCTL;
+	tcsetattr(1, 0, &term);
+}
+
+char *init_signals_and_prompt(t_frame *frame)
+{
+	struct termios	term;
+	char			*str;
+
 	signal(SIGINT, new_prompt);
 	signal(SIGQUIT, SIG_IGN);
+	if (tcgetattr(1, &term) == -1)
+	{
+		write(STDERR_FILENO, "Error while getting Attributes of Terminal\n", 43);
+		exit(EXIT_FAILURE);
+	}
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(1, 0, &term);
+	str = readline(PROMPT);
+	clear_signals();
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	(void)frame;
+	return (str);
 }
 
 /* void	child_quit(int pid)
@@ -53,7 +77,7 @@ void	child_killer(int signal)
 	kill(0, signal);
 }
 
-void	signals_for_child(t_frame *frame, int pid)
+/* void	signals_for_child(t_frame *frame, int pid)
 {
 	struct sigaction sa;
 
@@ -61,4 +85,4 @@ void	signals_for_child(t_frame *frame, int pid)
 	switch_signal_print(ON, frame);
 	sa.sa_handler = child_killer;
 	sigaction(SIGINT, &sa, NULL);
-}
+} */

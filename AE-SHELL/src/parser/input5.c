@@ -7,6 +7,7 @@ int	set_fd_here_doc(t_frame *frame)
 	if (frame->cc->in_fd < 0)
 	{
 		frame->cc->cc_errno = errno;
+		perror(strerror(frame->cc->cc_errno));
 		return (ERROR);
 	}
 	return (0);
@@ -19,7 +20,8 @@ int	set_in_fd(t_frame *frame)
 	if (frame->cc->in_fd < 0)
 	{
 		frame->cc->cc_errno = errno;
-		return (ERROR);
+		perror(strerror(frame->cc->cc_errno));
+		exit(EXIT_FAILURE);
 	}
 	return(0);
 }
@@ -33,6 +35,7 @@ int	set_out_fd(t_frame *frame, char mode)
 	if (frame->cc->in_fd < 0)
 	{
 		frame->cc->cc_errno = errno;
+		perror(strerror(frame->cc->cc_errno));
 		return (ERROR);
 	}
 	return (0);
@@ -139,7 +142,6 @@ int		handle_meta_arrows(t_frame *frame)
 	int		ret_wp;
 
 	ret_wp = 0;
-
 	init_exec(&exec);
 	set_list_2start(frame);
 	if (frame->cc->next == NULL && frame->cc->prev == NULL)
@@ -153,7 +155,7 @@ int		handle_meta_arrows(t_frame *frame)
 		frame->cc = frame->cc->next;
 	}
 	close(exec.tmp_fd);
-	while(ret_wp != -1)
+	while (ret_wp != -1)
 		ret_wp = waitpid(-1, NULL, 0); // EXITSTATUS IST 2. braucht in
 	//printf("I am out\n");
 	//debug_print_full(frame);
