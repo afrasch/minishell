@@ -49,13 +49,13 @@ void	fuse_arrows(t_frame *frame)
 {
 	while (frame->cc->cn != NULL)
 	{
-		if ((frame->cc->cn->content[0] == '>' && frame->cc->cn->word == NO_Q && frame->cc->cn->next != NULL) 
+		if ((frame->cc->cn->content[0] == '>' && frame->cc->cn->word == NO_Q && frame->cc->cn->next != NULL)
 			&& (frame->cc->cn->next->content[0] == '>' && frame->cc->cn->next->word == NO_Q))
 			{
 				add_letter('>', frame);
 				delete_next_node(frame->cc->cn);
 			}
-		if ((frame->cc->cn->content[0] == '<' && frame->cc->cn->quote_st == NO_Q && frame->cc->cn->next != NULL && frame->cc->cn->word != 2) 
+		if ((frame->cc->cn->content[0] == '<' && frame->cc->cn->quote_st == NO_Q && frame->cc->cn->next != NULL && frame->cc->cn->word != 2)
 			&& (frame->cc->cn->next->content[0] == '<' && frame->cc->cn->next->word == NO_Q))
 			{
 				add_letter('<', frame);
@@ -75,7 +75,7 @@ void	re_arrange_list(t_frame *frame)
 		fuse_arrows(frame);
 		frame->cc->in_fd = STDIN_FILENO;
 		frame->cc->out_fd = STDOUT_FILENO;
-		frame->cc->build_in = NONE;
+		frame->cc->built_in = NONE;
 		frame->cc = frame->cc->next;
 	}
 }

@@ -38,7 +38,7 @@ t_builtin	check_for_builtin(char *input_cmd, t_frame *frame)
 		else if (ft_strcmp(input_cmd, "exit") == 0)
 			builtin = EXIT;
 	}
-	frame->cc->build_in = builtin;
+	frame->cc->built_in = builtin;
 	return (builtin);
 }
 

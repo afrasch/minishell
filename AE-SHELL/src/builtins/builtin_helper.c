@@ -20,3 +20,60 @@ void	set_back_builtin_alone(t_frame *frame)
 	close(frame->saved_in_fd);
 	close(frame->saved_out_fd);
 }
+
+
+char	*ft_unquote(char *str)
+{
+	char	*ret;
+	int		i;
+
+	i = 0;
+	ret = ft_calloc(ft_strlen(str) - 1, sizeof(char *));
+	if (ret == NULL)
+		return (NULL);
+	while (i < (int)ft_strlen(ret))
+	{
+		if (*str != '\"')
+			ret[i] = *str;
+		i++;
+	}
+	if (str != NULL)
+		free(str);
+	return (ret);
+}
+
+char	*get_env_var(t_frame *frame, char *name)
+{
+	t_var	*var;
+	char	*content;
+
+	var = frame->shell_env_start;//mit original_env
+	while (var != NULL)
+	{
+		if (ft_strncmp(name, var->name, ft_strlen(name)) == 0)
+		{
+			content = ft_unquote(var->con);
+			return (content);
+			// return (var->con);
+		}
+		var = var->next;
+	}
+	return (NULL);
+}
+
+void	update_env(t_frame *frame, char *name, char *content)
+{
+	t_var	*var;
+
+	var = frame->shell_env_start;
+	while (var != NULL)
+	{
+		if (ft_strncmp(name, var->name, ft_strlen(name)) == 0)
+		{
+			if (var->con != NULL)
+				free(var->con);
+			var->con = ft_strdup(content);
+		}
+		var = var->next;
+	}
+}

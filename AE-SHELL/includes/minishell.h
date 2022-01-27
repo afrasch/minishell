@@ -75,7 +75,7 @@ typedef struct s_chunk
 {
 	int					type;
 	int					quote_st;
-	t_builtin			build_in;
+	t_builtin			built_in;
 	struct s_chunk		*next;
 	struct s_chunk		*prev;
 	int					in_fd;
@@ -99,11 +99,12 @@ typedef struct s_frame
 	int					saved_in_fd;
 	int					saved_out_fd;
 	int					single_com;
+	int					nl;
 }	t_frame;
 
 typedef struct s_exec
 {
-	int fd[2];
+	int	fd[2];
 	int	tmp_fd;
 }	t_exec;
 
@@ -136,6 +137,9 @@ void		re_arrange_list(t_frame *frame);
 t_builtin	check_for_builtin(char *input_cmd, t_frame *frame);
 void		reset_fd(t_frame *frame, int pipe_state);
 void		print_env(t_var *var);
+char		*ft_unquote(char *str);
+char		*get_env_var(t_frame *frame, char *name);
+void		update_env(t_frame *frame, char *name, char *content);
 
 void		print_var(t_frame *frame);
 void		ft_print_stack(t_frame *frame);
