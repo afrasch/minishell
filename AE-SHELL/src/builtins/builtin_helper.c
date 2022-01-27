@@ -26,16 +26,21 @@ char	*ft_unquote(char *str)
 {
 	char	*ret;
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	ret = ft_calloc(ft_strlen(str) - 1, sizeof(char *));
 	if (ret == NULL)
 		return (NULL);
-	while (i < (int)ft_strlen(ret))
+	while (str[j])
 	{
-		if (*str != '\"')
-			ret[i] = *str;
-		i++;
+		if (str[j] != '\"')
+		{
+			ret[i] = str[j];
+			i++;
+		}
+		j++;
 	}
 	if (str != NULL)
 		free(str);
