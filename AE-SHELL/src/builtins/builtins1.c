@@ -41,7 +41,7 @@ void	cd(t_frame *frame)
 	if (chdir(node->content) == ERROR)
 			return ;
 		// print_error();
-	update_env(frame, "CWD", node->content);
+	update_env(frame, "PWD", node->content);
 }
 
 void	pwd(t_frame *frame)
@@ -49,8 +49,8 @@ void	pwd(t_frame *frame)
 	char	*current_path;
 
 	current_path = NULL;
-	current_path = get_env_var(frame, "PWD");//OR getcwd
-	// current_path = getcwd()
+	// current_path = get_env_var(frame, "PWD");//OR getcwd
+	current_path = ft_strdup(getcwd(NULL, 0));
 	write(frame->cc->out_fd, current_path, ft_strlen(current_path));
 	write (frame->cc->out_fd, "\n", 1);
 }

@@ -70,6 +70,7 @@ void	update_env(t_frame *frame, char *name, char *content)
 {
 	t_var	*var;
 
+	content = NULL;
 	var = frame->shell_env_start;
 	while (var != NULL)
 	{
@@ -77,7 +78,8 @@ void	update_env(t_frame *frame, char *name, char *content)
 		{
 			if (var->con != NULL)
 				free(var->con);
-			var->con = ft_strdup(content);
+
+			var->con = ft_strdup(getcwd(NULL, 0));
 		}
 		var = var->next;
 	}
