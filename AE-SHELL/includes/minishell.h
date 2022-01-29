@@ -84,6 +84,8 @@ typedef struct s_chunk
 	t_node				*node_start;
 	int					cc_errno;
 	char				**cmd_arr;
+	int					hd_bool;
+	char				*hd_path;
 }	t_chunk;
 
 /*cc = current chunk*/
@@ -100,6 +102,7 @@ typedef struct s_frame
 	int					saved_out_fd;
 	int					single_com;
 	int					nl;
+	t_list				*hd_list;
 }	t_frame;
 
 typedef struct s_exec
@@ -149,6 +152,7 @@ void		debug_print_full(t_frame *frame);
 char		*change_caps(char *input_cmd);
 
 char 		*init_signals_and_prompt(t_frame *frame);
+void		child_killer(int signal);
 //void		signals_for_child(t_frame *frame, int pid);
 //void		switch_signal_print(int i, t_frame *frame);
 
@@ -161,4 +165,11 @@ void		execute_cmd(t_frame *frame, int i, char* cmd);
 void		prepare_builtin_alone(t_frame *frame);
 void		set_back_builtin_alone(t_frame *frame);
 
+char 		*create_rand_name();
+void		do_here_doc(t_frame *frame);
+char		*get_heredoc_prompt();
+void		add_to_hd_list(t_frame *frame, char *path);
+int			solve_heredocs(t_frame *frame);
+void		clean_tmp(t_frame *frame);
+void		remove_hd(t_frame *frame);
 #endif

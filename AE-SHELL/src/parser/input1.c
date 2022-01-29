@@ -111,6 +111,7 @@ void	init_chunk(t_frame *frame)
 	frame->cc->in_fd = STDIN_FILENO;
 	frame->cc->out_fd = STDOUT_FILENO;
 	frame->chunk_start = frame->cc;
+	frame->cc->hd_bool = OFF;
 }
 
 void add_letter(char c, t_frame *frame)

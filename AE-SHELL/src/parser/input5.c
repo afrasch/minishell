@@ -1,18 +1,5 @@
 #include "../includes/minishell.h"
 
-int	set_fd_here_doc(t_frame *frame)
-{
-
-	frame->cc->in_fd  = open("tmp_here_doc", O_RDWR | O_CREAT | O_TRUNC, 0777);
-	if (frame->cc->in_fd < 0)
-	{
-		frame->cc->cc_errno = errno;
-		perror(strerror(frame->cc->cc_errno));
-		return (ERROR);
-	}
-	return (0);
-}
-
 int	set_in_fd(t_frame *frame)
 {
 
@@ -21,7 +8,7 @@ int	set_in_fd(t_frame *frame)
 	{
 		frame->cc->cc_errno = errno;
 		perror(strerror(frame->cc->cc_errno));
-		exit(EXIT_FAILURE);
+		return (ERROR);
 	}
 	return(0);
 }
@@ -31,27 +18,13 @@ int	set_out_fd(t_frame *frame, char mode)
 	if (mode == 's')
 		frame->cc->out_fd = open(frame->cc->cn->next->content, O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	else if (mode == 'd')
-		frame->cc->out_fd = open(frame->cc->cn->next->content, O_CREAT | O_APPEND, 0777);
+		frame->cc->out_fd = open(frame->cc->cn->next->content, O_WRONLY|  O_APPEND | O_CREAT, 0777);
 	if (frame->cc->in_fd < 0)
 	{
 		frame->cc->cc_errno = errno;
 		perror(strerror(frame->cc->cc_errno));
 		return (ERROR);
 	}
-	return (0);
-}
-
-int	set_here_docs(t_frame *frame)
-{
-	t_node	*cn;
-
-	cn = frame->cc->cn;
-	if (frame->cc->in_fd > 3)
-		close(frame->cc->in_fd);
-	if (set_fd_here_doc(frame) < 0)
-		return (ERROR);
-	delete_node(frame, frame->cc->cn);
-	delete_node(frame, cn->next);
 	return (0);
 }
 
@@ -92,9 +65,9 @@ int set_left_red(t_frame *frame)
 
 void	check_for_pipe(t_frame *frame)
 {
-	if (frame->cc->prev != NULL)
+	if (frame->cc->prev != NULL && frame->cc->in_fd < 3)
 		frame->cc->in_fd = PIPEIN;
-	if (frame->cc->next != NULL)
+	if (frame->cc->next != NULL && frame->cc->out_fd < 3)
 		frame->cc->out_fd = PIPEOUT;
 }
 
@@ -113,11 +86,6 @@ int	check_for_redir(t_frame *frame)
 		else if (cn->type == S_REDIR_L)
 		{
 			if (set_left_red(frame) < 0)
-				return (ERROR);
-		}
-		else if (frame->cc->cn->type == D_REDIR_L)
-		{
-			if (set_here_docs(frame) < 0)
 				return (ERROR);
 		}
 		else
@@ -146,18 +114,25 @@ int		handle_meta_arrows(t_frame *frame)
 	set_list_2start(frame);
 	if (frame->cc->next == NULL && frame->cc->prev == NULL)
 		frame->single_com = ON;
+	solve_heredocs(frame);
 	while (frame->cc != NULL)
 	{
 		frame->cc->cn = frame->cc->node_start;
 		if (frame->cc->next != NULL)
 			prepare_pipe(&exec);
+		check_for_redir(frame);
+		//debug_print(frame);
 		execute_function(frame, &exec);
+		if (frame->cc->out_fd != STDOUT_FILENO)
+			close(frame->cc->out_fd);
+		if (frame->cc->in_fd != STDIN_FILENO)
+			close(frame->cc->in_fd);
+		if (frame->cc->hd_bool == ON)
+			remove_hd(frame);
 		frame->cc = frame->cc->next;
 	}
 	close(exec.tmp_fd);
 	while (ret_wp != -1)
 		ret_wp = waitpid(-1, NULL, 0); // EXITSTATUS IST 2. braucht in
-	//printf("I am out\n");
-	//debug_print_full(frame);
 	return (0);
 }

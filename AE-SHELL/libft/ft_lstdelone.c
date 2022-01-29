@@ -6,7 +6,7 @@
 /*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 22:08:10 by elenz             #+#    #+#             */
-/*   Updated: 2021/07/16 12:12:16 by elenz            ###   ########.fr       */
+/*   Updated: 2022/01/28 02:14:53 by elenz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*))
 	{
 		del(lst->content);
 		free(lst);
+		lst = NULL;
 	}
 }

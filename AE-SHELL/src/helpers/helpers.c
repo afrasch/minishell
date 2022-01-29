@@ -100,8 +100,10 @@ void	debug_print(t_frame *frame)
 {
 	printf("\n___________________\n\n");
 	t_node *node;
+	t_node *node_tmp;
 
 
+	node_tmp = frame->cc->cn;
 	if (errno != 0)
 		printf("ERROR: %s\n", strerror(errno));
 	if (frame->cc == NULL)
@@ -139,6 +141,7 @@ void	debug_print(t_frame *frame)
 	else
 		printf("Current output fd: %d\n", frame->cc->out_fd);
 	printf("___________________\n");
+	frame->cc->cn = node_tmp;
 }
 
 void	debug_print_full(t_frame *frame)

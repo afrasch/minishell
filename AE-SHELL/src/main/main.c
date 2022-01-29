@@ -75,13 +75,13 @@ int	main(void)
 	while (1)
 	{
 		str = init_signals_and_prompt(&frame);
-		//str = readline(PROMPT);//ctrl+D -> EOF
-		//str = "echo hallo";
-		//str = "cat <file1";
-		//str = "e $a";
-		//str = "ls -l | cat";
+		//str = "echo ";
 		if (str == NULL)
-			exit(EXIT_SUCCESS);
+		{
+			write(1,"\n",1);
+			break ;
+		}
+			//exit(EXIT_SUCCESS);
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);
@@ -94,19 +94,8 @@ int	main(void)
 			if (ft_lexer(str, &frame) < 0)
 				printf("\n***ERROR: SHELL SCHOCK***\n");
 			add_history(str);
-			// ft_print_stack(&frame);
+			//reset_frame(frame);
 		}
-		//ft_print_stack_plain(&frame);
 
-
-		//ft_print_stack(&frame);//prints with quotes
-		//reset_frame(&frame);
-		/* if (str != NULL)
-		{
-			//free(str);
-			//str = NULL;
-		} */
-		// break ;
-		// print_env(frame.shell_env_start);
 	}
 }

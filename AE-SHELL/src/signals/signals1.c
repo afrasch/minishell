@@ -36,6 +36,14 @@ void	new_prompt(int sig)
 	rl_redisplay();
 }
 
+void	new_prompt2(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+	}
+}
+
 void	clear_signals(void)
 {
 	struct termios	term;
@@ -50,6 +58,29 @@ char *init_signals_and_prompt(t_frame *frame)
 	struct termios	term;
 	char			*str;
 
+	signal(SIGINT, new_prompt2);
+	signal(SIGQUIT, SIG_IGN);
+	if (tcgetattr(1, &term) == -1)
+	{
+		write(STDERR_FILENO, "Error while getting Attributes of Terminal\n", 43);
+		exit(EXIT_FAILURE);
+	}
+	if (term.c_lflag & ECHOCTL)
+		term.c_lflag &= ~ECHOCTL;
+	tcsetattr(1, 0, &term);
+	str = readline(PROMPT);
+	clear_signals();
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
+	(void)frame;
+	return (str);
+}
+
+char	*get_heredoc_prompt()
+{
+	struct termios	term;
+	char	*str;
+
 	signal(SIGINT, new_prompt);
 	signal(SIGQUIT, SIG_IGN);
 	if (tcgetattr(1, &term) == -1)
@@ -57,32 +88,19 @@ char *init_signals_and_prompt(t_frame *frame)
 		write(STDERR_FILENO, "Error while getting Attributes of Terminal\n", 43);
 		exit(EXIT_FAILURE);
 	}
-	term.c_lflag &= ~ECHOCTL;
+	if (term.c_lflag & ECHOCTL)
+		term.c_lflag &= ~ECHOCTL;
 	tcsetattr(1, 0, &term);
-	str = readline(PROMPT);
-	clear_signals();
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	(void)frame;
+	str = readline("> ");
+	signal(SIGINT, SIG_DFL);
 	return (str);
 }
 
-/* void	child_quit(int pid)
+void	child_killer(int sig)
 {
-
-} */
-
-void	child_killer(int signal)
-{
-	kill(0, signal);
+	if (sig == SIGINT)
+	{
+		ft_putstr_fd("\n", STDIN_FILENO);
+		rl_replace_line("", 0);
+	}
 }
-
-/* void	signals_for_child(t_frame *frame, int pid)
-{
-	struct sigaction sa;
-
-	pid = 0;
-	switch_signal_print(ON, frame);
-	sa.sa_handler = child_killer;
-	sigaction(SIGINT, &sa, NULL);
-} */

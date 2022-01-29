@@ -28,6 +28,9 @@ SRC_LIST =	main/main.c \
 			builtins/builtins1.c \
 			builtin_helper.c \
 			signals/signals1.c \
+			heredoc/hd_1.c \
+			heredoc/hd_helpers.c \
+			freeing/free_frame.c \
  
 SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))
 
