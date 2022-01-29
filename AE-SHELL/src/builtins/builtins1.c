@@ -4,10 +4,8 @@ void	echo(t_frame *frame)
 {
 	t_node	*node;
 
-	printf("%s\n", __func__);
 	node = frame->cc->node_start;
 	frame->cc->built_in = B_ECHO;
-	frame->nl = OFF;
 	if (!node->next || !node->next->content)
 	{
 		write (1, "\n", 1);
@@ -27,7 +25,7 @@ void	echo(t_frame *frame)
 		if (node->next)
 			write (frame->cc->out_fd, " ", 1);
 	}
-	if (frame->nl != ON)
+	if (frame->nl == OFF)
 		write (1, "\n", 1);
 }
 
@@ -75,15 +73,34 @@ void	pwd(t_frame *frame)
 // 	add_var_node(frame, name, tmp);
 // }
 
-// void	export(t_frame *frame)
-// {
-// 	t_node *node;
-// 	char *name;
-// 	char *content;
 
-// 	node = frame->cc->node_start;
-// 	split_env(node->next->content, frame);
-// }
+
+void	export(t_frame *frame)// TODO keine numerischen names, print export
+{
+	t_node	*node;
+	char	*name;
+	char	*content;
+	char	*tmp;
+	int		find_nbr;
+
+	node = frame->cc->node_start;
+	node = node->next;
+	while (node)
+	{
+		find_nbr = ft_int_strchr(node->content, '=');
+		if (find_nbr < 0)
+			add_var_node(frame, content, NULL, ON);// NULL als just_export verwenden?
+		else
+		{
+			node->content[find_nbr] = '"';
+			name = ft_substr(node->content, 0, find_nbr);
+			content = ft_substr(node->content, find_nbr, ft_strlen(node->content) - find_nbr);
+			tmp = ft_add_chr_to_str(content, '"');
+			add_var_node(frame, name, tmp, OFF);
+		}
+		node = node->next;
+	}
+}
 
 void	env(t_frame *frame)
 {
@@ -114,12 +131,12 @@ void	execute_builtin(t_frame *frame, char *cmd)
 		cd(frame);
 	else if (check_for_builtin(cmd, frame) == PWD)
 		pwd(frame);
-	// else if (check_for_builtin(cmd) == EXPORT)
-	// 	export(frame);
+	else if (check_for_builtin(cmd, frame) == EXPORT)
+		export(frame);
 	// else if (check_for_builtin(cmd) == UNSET)
 	// 	unset(frame);
-	// else if (check_for_builtin(cmd, frame) == ENV)
-	// 	env(frame);
+	else if (check_for_builtin(cmd, frame) == ENV)
+		env(frame);
 	// else if (check_for_builtin(cmd) == EXIT)
 	// 	exit(frame);
 }
