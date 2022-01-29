@@ -83,7 +83,7 @@ void	print_var(t_frame *frame)
 // }
 
 // "export" auch handeln? -> zählt zusätzlich zu env auch variables ohne '=' auf
-void	print_env(t_var *var)// aufgerufen if (ft_strncmp(str, "var", 3) == 0)
+void	print_env(t_var *var)
 {
 	while (var != NULL && var->con != NULL)
 	{

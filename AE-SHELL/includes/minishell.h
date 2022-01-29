@@ -145,6 +145,7 @@ char		*ft_unquote(char *str);
 char		*get_env_var(t_frame *frame, char *name);
 int			look_for_var(t_frame *frame, char *name);
 void		update_env(t_frame *frame, char *name, char *content, char *oldpwd);
+void		split_env(char *str, t_frame *frame);
 
 void		print_var(t_frame *frame);
 void		ft_print_stack(t_frame *frame);

@@ -10,7 +10,7 @@ static void	update_oldpwd(t_frame *frame, char *oldpwd)
 	{
 		while (tmp)
 		{
-			if ((ft_strncmp(tmp->name, "OLDPWD", 6) == 0))
+			if ((ft_strcmp(tmp->name, "OLDPWD") == 0))
 			{
 				if (tmp->con)
 					free(tmp->con);
@@ -32,7 +32,7 @@ static void	update_pwd(t_frame *frame)
 	{
 		while (var)
 		{
-			if (ft_strncmp(var->name, "PWD", 3) == 0)
+			if (ft_strcmp(var->name, "PWD") == 0)
 			{
 				free(var->con);
 				var->con = ft_strdup(ft_quote(getcwd(NULL, 0)));
@@ -49,7 +49,7 @@ void	update_env(t_frame *frame, char *name, char *content, char *oldpwd)
 	var = frame->shell_env_start;
 	while (var != NULL)
 	{
-		if (ft_strncmp(name, var->name, ft_strlen(name)) == 0)
+		if (ft_strcmp(name, var->name) == 0)
 		{
 			if (ft_strcmp(name, "PWD") == 0)
 			{

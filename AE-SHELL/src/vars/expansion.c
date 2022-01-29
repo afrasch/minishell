@@ -77,13 +77,10 @@ void	add_exp_node(char c, t_frame *frame)
 
 void	check_exp_var(char *var_name, t_frame *frame)
 {
-	int	var_len;
-
 	frame->shell_env = frame->shell_env_start;
-	var_len = ft_strlen(var_name);
 	while (frame->shell_env != NULL)
 	{
-		if (ft_strncmp(var_name, frame->shell_env->name, var_len) == 0)
+		if (ft_strcmp(var_name, frame->shell_env->name) == 0)
 		{
 			if (!frame->cc->cn)
 				init_node(frame);
