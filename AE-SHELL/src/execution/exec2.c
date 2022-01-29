@@ -57,21 +57,26 @@ char	**add_slash(char **paths)
 	return (paths);
 }
 
+
 void	get_path(t_frame *frame)
 {
-	int	i;
+	t_var *var;
+	char *tmp_path;
 
-	i = 0;
-	while (frame->original_env[i])
+	var = frame->shell_env_start;
+	while (var)
 	{
-		if (ft_strncmp(frame->original_env[i], "PATH=", 5) == 0)
+		if ((look_for_var(frame, "PATH") == TRUE) && (ft_strcmp(var->name, "PATH") == 0))
 		{
-			frame->paths = ft_split(frame->original_env[i] + 5, ':');
+			tmp_path = ft_unquote(var->con);
+			frame->paths = ft_split(tmp_path, ':');
 			frame->paths = add_slash(frame->paths);
 			//ft_free_2d((void***)frame->paths);
 		}
-		i++;
+		var = var->next;
 	}
+	if (!tmp_path)
+		free(tmp_path);
 }
 
 int	get_access(t_frame *frame, char	*cmd)
@@ -95,7 +100,7 @@ int	get_access(t_frame *frame, char	*cmd)
 
 void	execute_cmd(t_frame *frame, int i, char* cmd)
 {
-	execve(ft_strjoin(frame->paths[i], cmd), list_to_arr(frame->cc->node_start), frame->original_env);
+	execve(ft_strjoin(frame->paths[i], cmd), list_to_arr(frame->cc->node_start), env_list_to_arr(frame));
 	dprintf(2, " DURCHGEKOMMEN");
 	//ERROR, wenn hier hin kommt!
 }

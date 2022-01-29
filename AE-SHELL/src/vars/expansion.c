@@ -75,7 +75,7 @@ void	add_exp_node(char c, t_frame *frame)
 	set_quote_state(c, frame);
 }
 
-void	check_for_var(char *var_name, t_frame *frame)
+void	check_exp_var(char *var_name, t_frame *frame)
 {
 	int	var_len;
 
@@ -106,5 +106,5 @@ void	expand(char *str, int *i, t_frame *frame)
 		var_name = ft_add_chr_to_str(var_name, str[*i + 1]);
 		(*i)++;
 	}
-	check_for_var(var_name, frame);
+	check_exp_var(var_name, frame);
 }

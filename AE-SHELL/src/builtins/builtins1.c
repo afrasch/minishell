@@ -24,24 +24,23 @@ void	echo(t_frame *frame)
 	frame->cc->built_in = B_ECHO;
 }
 
-void	cd(t_frame *frame)
+void	cd(t_frame *frame)//pbfwna manchmal bei zweimal cd alleine
 {
 	t_node *node;
-	char	*current_path;
-
+	char	*home_path;
+	char	*oldpwd;
+	oldpwd = getcwd(NULL, 0);
 	node = frame->cc->node_start;
-	node = node->next;
-	current_path = get_env_var(frame, "HOME");
-	if (node->content == NULL)
+	home_path = get_env_var(frame, "HOME");//HOME has weird content
+	if (node->next == NULL)
 	{
-		if (chdir(current_path) == ERROR)
-			return ;
+		chdir(home_path);//if == ERROR)
 			// print_error();
 	}
-	if (chdir(node->content) == ERROR)
-			return ;
+	else
+		chdir(node->next->content);// if == ERROR
 		// print_error();
-	update_env(frame, "PWD", node->content);
+	update_env(frame, "PWD", node->content, oldpwd);
 }
 
 void	pwd(t_frame *frame)
@@ -55,6 +54,10 @@ void	pwd(t_frame *frame)
 	write (frame->cc->out_fd, "\n", 1);
 }
 
+// void	env(t_frame *frame)
+// {
+// 	t
+// }
 
 void	execute_builtin(t_frame *frame, char *cmd)
 {
