@@ -4,26 +4,31 @@ void	echo(t_frame *frame)
 {
 	t_node	*node;
 
+	printf("%s\n", __func__);
 	node = frame->cc->node_start;
-	if (node->next == NULL || node->next->content == NULL)//echo $a -> seg fault
-		return ;
-	node = node->next;
+	frame->cc->built_in = B_ECHO;
 	frame->nl = OFF;
-	while (ft_strcmp(node->content, "-n") == 0)
+	if (!node->next || !node->next->content)
+	{
+		write (1, "\n", 1);
+		return ;
+	}
+	while (ft_strcmp(node->next->content, "-n") == 0)
 	{
 		node = node->next;
+		if (node->next == NULL)
+			return ;
 		frame->nl = ON;
 	}
 	while (node->next != NULL)
 	{
-		write (frame->cc->out_fd, node->content, ft_strlen(node->content));
-		write (frame->cc->out_fd, " ", 1);
 		node = node->next;
+		write (frame->cc->out_fd, node->content, ft_strlen(node->content));
+		if (node->next)
+			write (frame->cc->out_fd, " ", 1);
 	}
-	write (1, node->content, ft_strlen(node->content));
 	if (frame->nl != ON)
 		write (1, "\n", 1);
-	frame->cc->built_in = B_ECHO;
 }
 
 void	cd(t_frame *frame)
