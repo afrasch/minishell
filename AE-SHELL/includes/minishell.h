@@ -16,6 +16,8 @@
 // # define PROMPT		"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
 # define ON 1
 # define OFF 0
+# define TRUE 1
+# define FALSE 0
 # define ERROR -1
 # define PIPEIN -4
 # define PIPEOUT -5
@@ -93,7 +95,6 @@ typedef struct s_frame
 {
 	t_var				*shell_env;
 	t_var				*shell_env_start;
-	char				**original_env;
 	int					exp_st;
 	t_chunk				*cc;
 	t_chunk				*chunk_start;
@@ -132,17 +133,22 @@ void		free_node(t_node *node);
 void		init_node(t_frame *frame);
 void		ft_clear_nodes(t_node **current_node);
 void		set_list_2start(t_frame *frame);
+void		add_var_node(t_frame *frame, char *name, char *content);
 int			is_alnum_uscore(char c);
 int			control_nodes_raw(t_frame *frame);
 void		delete_node(t_frame	*frame, t_node *node);
 char		**list_to_arr(t_node *node_start);
+char		**env_list_to_arr(t_frame *frame);
 void		re_arrange_list(t_frame *frame);
 t_builtin	check_for_builtin(char *input_cmd, t_frame *frame);
 void		reset_fd(t_frame *frame, int pipe_state);
 void		print_env(t_var *var);
+char		*ft_quote(char *str);
 char		*ft_unquote(char *str);
 char		*get_env_var(t_frame *frame, char *name);
-void		update_env(t_frame *frame, char *name, char *content);
+int			look_for_var(t_frame *frame, char *name);
+void		update_env(t_frame *frame, char *name, char *content, char *oldpwd);
+void		split_env(char *str, t_frame *frame);
 
 void		print_var(t_frame *frame);
 void		ft_print_stack(t_frame *frame);

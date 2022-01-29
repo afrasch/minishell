@@ -1,61 +1,6 @@
 #include "../includes/minishell.h"
 
 
-/* void	part1(char *str)
-{
-	int	i;
-
-	i = 0;
-	while(str[i] != '\0')
-	{
-		if (ft_strrchr("<>| ", str[i]) != NULL)
-		{
-			i++;
-			continue ;
-		}
-		printf("%c", str[i]);
-		i++;
-	}
-}
- */
-
-/* void	handle_meta(char c, t_frame *frame)
-{
-	if (frame->cn->content != NULL)
-		next_node(frame);
-	add_letter(c, frame);
-} */
-
-// void	set_quote_state(char c, t_frame)
-// {
-// 	if (c == '\"' && *quote_st == NO_Q)
-// 	{
-// 		*quote_st = DOUBLE_Q;
-// 		*general_st = DOUBLE_Q;
-// 		*cc_quote_st = DOUBLE_Q;
-// 		return ;
-// 	}
-// 	if (c == '\''&& *quote_st == NO_Q)
-// 	{
-// 		*quote_st = SINGLE_Q;
-// 		*general_st = SINGLE_Q;
-// 		*cc_quote_st = SINGLE_Q;
-// 		return ;
-// 	}
-// 	if (c == '\''&& *quote_st == SINGLE_Q)
-// 	{
-// 		*quote_st = NO_Q;
-// 		*cc_quote_st = NO_Q;
-// 		return ;
-// 	}
-// 	if (c == '\"' && *quote_st == DOUBLE_Q)
-// 	{
-// 		*quote_st = NO_Q;
-// 		*cc_quote_st = NO_Q;
-// 		return ;
-// 	}
-// }
-
 void	set_quote_state(char c, t_frame *frame)
 {
 	if (c == '\"' && frame->cc->cn->quote_st == NO_Q)

@@ -46,6 +46,21 @@ void	delete_node(t_frame	*frame, t_node *node)
 }
 
 
+int	var_lstsize(t_var *lst)
+{
+	int	i;
+
+	i = 1;
+	if (lst == NULL)
+		return (0);
+	while (lst->next != NULL)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
+}
+
 int	lstsize(t_node *lst)
 {
 	int	i;
@@ -77,6 +92,31 @@ char	**list_to_arr(t_node *node_start)
 		arr[i] = ft_strdup(tmp->content);
 		tmp = tmp->next;
 		i++;
+	}
+	arr[i] = NULL;
+	return (arr);
+}
+
+char	**env_list_to_arr(t_frame *frame)
+{
+	t_var	*var;
+	char	**arr;
+	char	*tmp_con;
+	int		i;
+	int		lst_size;
+
+	i = 0;
+	var = frame->shell_env_start;
+	lst_size = var_lstsize(var);
+	arr = calloc(lst_size + 1, sizeof(char *));
+	while (var != NULL)
+	{
+		tmp_con = ft_unquote(var->con);
+		arr[i] = ft_strdup(tmp_con);
+		var = var->next;
+		i++;
+		if (!tmp_con)
+			free(tmp_con);
 	}
 	arr[i] = NULL;
 	return (arr);

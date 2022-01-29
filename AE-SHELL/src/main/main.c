@@ -24,27 +24,10 @@ void	split_env(char *str, t_frame *frame)
 
 	find_nbr = ft_int_strchr(str, '=');
 	str[find_nbr] = '"';
-	name = ft_substr(str, 0, find_nbr);
+	name = ft_substr(str, 0, find_nbr);//??
 	content = ft_substr(str, find_nbr, ft_strlen(str) - find_nbr);
 	tmp = ft_add_chr_to_str(content, '"');
 	add_var_node(frame, name, tmp);
-}
-
-void	copy_env_original(char **str, t_frame *frame)
-{
-	int i;
-	int	ar_len;
-
-	i = 0;
-	ar_len = 0;
-	while (str[ar_len] != NULL)
-		ar_len++;
-	frame->original_env = calloc(ar_len, sizeof(char *));
-	while (str[i] != NULL)
-	{
-		frame->original_env[i] = ft_strdup(str[i]);
-		i++;
-	}
 }
 
 void get_env(t_frame *frame)
@@ -54,13 +37,11 @@ void get_env(t_frame *frame)
 
 	i = 0;
 
-	copy_env_original(environ, frame);
 	while (environ[i] != NULL)
 	{
 		split_env(environ[i], frame);
 		i++;
 	}
-	//add_var_node(frame,"a", "\"   halllo  \"");
 }
 
 
@@ -89,8 +70,6 @@ int	main(void)
 		}
 		if (str[0] != '\0')
 		{
-			if (ft_strncmp(str, "env", 3) == 0)
-				print_env(frame.shell_env_start);
 			if (ft_lexer(str, &frame) < 0)
 				printf("\n***ERROR: SHELL SCHOCK***\n");
 			add_history(str);

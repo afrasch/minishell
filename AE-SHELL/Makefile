@@ -21,17 +21,19 @@ SRC_LIST =	main/main.c \
 			init/initframe.c \
 			init/lst_fct.c \
 			helpers/helpers.c \
-			vars/expansion.c \
 			execution/exec1.c \
 			execution/exec2.c \
 			execution/exec_utils.c \
 			builtins/builtins1.c \
-			builtin_helper.c \
+			builtins/builtin_helper.c \
+			builtins/update_env.c \
 			signals/signals1.c \
 			heredoc/hd_1.c \
 			heredoc/hd_helpers.c \
 			freeing/free_frame.c \
- 
+			vars/expansion.c \
+			vars/variable_helper.c \
+
 SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))
 
 OBJ_DIR = ./obj/
