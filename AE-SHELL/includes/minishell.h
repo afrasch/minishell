@@ -172,7 +172,7 @@ void		prepare_builtin_alone(t_frame *frame);
 void		set_back_builtin_alone(t_frame *frame);
 
 char 		*create_rand_name();
-void		do_here_doc(t_frame *frame);
+int			do_here_doc(t_frame *frame);
 char		*get_heredoc_prompt();
 void		add_to_hd_list(t_frame *frame, char *path);
 int			solve_heredocs(t_frame *frame);

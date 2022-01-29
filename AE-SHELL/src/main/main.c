@@ -78,3 +78,7 @@ int	main(void)
 
 	}
 }
+
+
+// TODO ARROWS
+// TODO HERedocs -> alles durch 
