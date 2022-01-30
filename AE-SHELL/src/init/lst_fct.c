@@ -45,6 +45,31 @@ void	delete_node(t_frame	*frame, t_node *node)
 	free_node(node);
 }
 
+void	delete_var_node(t_frame	*frame, t_var *node)
+{
+	t_var *tmp;
+
+	if (!node || !frame->shell_env_start)
+		return ;
+	tmp = frame->shell_env_start;
+	if (tmp == node)
+	{
+		frame->shell_env_start = frame->shell_env_start->next;
+		free(tmp->name);
+		if (tmp->con)
+			free(tmp->con);
+		free(tmp);
+		return ;
+	}
+	while (tmp->next && tmp->next != node)
+		tmp = tmp->next;
+	tmp->next = node->next;
+	free(node->name);
+	if (node->con)
+		free(node->con);
+	free(node);
+}
+
 
 int	var_lstsize(t_var *lst)
 {

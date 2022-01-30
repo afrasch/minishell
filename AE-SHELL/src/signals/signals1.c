@@ -40,7 +40,9 @@ void	new_prompt2(int sig)
 {
 	if (sig == SIGINT)
 	{
-		write(1, "\n", 1);
+		write(1,"\n", 1);
+		rl_on_new_line();
+		close(STDIN_FILENO);
 	}
 }
 
@@ -58,7 +60,7 @@ char *init_signals_and_prompt(t_frame *frame)
 	struct termios	term;
 	char			*str;
 
-	signal(SIGINT, new_prompt2);
+	signal(SIGINT, new_prompt);
 	signal(SIGQUIT, SIG_IGN);
 	if (tcgetattr(1, &term) == -1)
 	{
@@ -81,7 +83,7 @@ char	*get_heredoc_prompt()
 	struct termios	term;
 	char	*str;
 
-	signal(SIGINT, new_prompt);
+	signal(SIGINT, new_prompt2);
 	signal(SIGQUIT, SIG_IGN);
 	if (tcgetattr(1, &term) == -1)
 	{

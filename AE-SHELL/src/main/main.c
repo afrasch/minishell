@@ -1,14 +1,39 @@
 #include "../includes/minishell.h"
 
+int	is_valid_varname(char *name)
+{
+	int	i;
+
+	i = 0;
+	if (ft_isdigit(name[0]) != 0)
+		return (FALSE);
+	while (name[i])
+	{
+		if (name[i] != '_' && ft_isalnum(name[i]) == 0)
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
 void	add_var_node(t_frame *frame, char *name, char *content, int just_export)
 {
 	t_var	*node;
 
+	if (is_valid_varname(name) == FALSE)
+	{
+		// print_error();"export: `name': not a valid identifier"
+		printf("SHELL SHOCK: export: `%s': not a valid identifier\n", name);
+		return ;
+	}
 	node = ft_calloc(1, sizeof(t_var));
 	node->con = content;
 	node->name = name;
 	node->just_export = just_export;
 	node->next = NULL;
+	frame->shell_env = frame->shell_env_start;
+	while (frame->shell_env && frame->shell_env->next)
+		frame->shell_env = frame->shell_env->next;
 	if (frame->shell_env != NULL)
 		frame->shell_env->next = node;
 	else
@@ -79,3 +104,7 @@ int	main(void)
 
 	}
 }
+
+
+// TODO ARROWS
+// TODO HERedocs -> alles durch

@@ -6,6 +6,7 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
@@ -138,6 +139,7 @@ void		add_var_node(t_frame *frame, char *name, char *content, int just_export);
 int			is_alnum_uscore(char c);
 int			control_nodes_raw(t_frame *frame);
 void		delete_node(t_frame	*frame, t_node *node);
+void		delete_var_node(t_frame	*frame, t_var *node);
 char		**list_to_arr(t_node *node_start);
 char		**env_list_to_arr(t_frame *frame);
 void		re_arrange_list(t_frame *frame);
@@ -172,8 +174,10 @@ void		execute_cmd(t_frame *frame, int i, char* cmd);
 void		prepare_builtin_alone(t_frame *frame);
 void		set_back_builtin_alone(t_frame *frame);
 
+void	env(t_frame *frame);
+
 char 		*create_rand_name();
-void		do_here_doc(t_frame *frame);
+int			do_here_doc(t_frame *frame);
 char		*get_heredoc_prompt();
 void		add_to_hd_list(t_frame *frame, char *path);
 int			solve_heredocs(t_frame *frame);

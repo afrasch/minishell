@@ -1,19 +1,24 @@
 #include "../includes/minishell.h"
 
-void	do_here_doc(t_frame *frame)
+int	do_here_doc(t_frame *frame)
 {
 	char	*str;
 	char	*del;
 	int		i;
+	int		re;
 
 	i = 0;
+	re = 0;
 	del = frame->cc->cn->next->content;
 	while (1)
 	{
 		str = get_heredoc_prompt();
 		//str = "end";
 		if (str == NULL)
+		{
+			re = -1;
 			break ;
+		}
 		if (ft_strncmp(str, del, ft_strlen(del)) == 0)
 			break ;
 		if (frame->cc->cn->next->word != SINGLE_Q)
@@ -30,6 +35,7 @@ void	do_here_doc(t_frame *frame)
 			ft_putstr_fd("\n", frame->cc->in_fd);
 		}
 	}
+	return (re);
 }
 
 int	set_fd_here_doc(t_frame *frame)
@@ -51,7 +57,8 @@ int	set_fd_here_doc(t_frame *frame)
 		perror(strerror(frame->cc->cc_errno));
 		return (ERROR);
 	}
-	do_here_doc(frame);
+	if (do_here_doc(frame) == ERROR)
+		return (ERROR);
 	close(frame->cc->in_fd);
 	frame->cc->in_fd = open(frame->cc->hd_path, O_RDONLY, 0777);
 	if (frame->cc->in_fd < 0)
@@ -79,7 +86,10 @@ int	set_here_docs(t_frame *frame)
 
 int	solve_heredocs(t_frame *frame)
 {
+	int		std_in;
+
 	frame->cc = frame->chunk_start;
+	std_in = dup(STDIN_FILENO);
 	while (frame->cc != NULL)
 	{
 		frame->cc->cn = frame->cc->node_start;
@@ -96,5 +106,7 @@ int	solve_heredocs(t_frame *frame)
 		frame->cc = frame->cc->next;
 	}
 	frame->cc = frame->chunk_start;
+	dup2(std_in, STDIN_FILENO);
+	close(std_in);
 	return (0);
 }
