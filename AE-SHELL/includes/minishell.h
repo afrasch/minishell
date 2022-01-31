@@ -105,6 +105,7 @@ typedef struct s_frame
 	int					saved_out_fd;
 	int					single_com;
 	int					nl;
+	int					e_status;
 	t_list				*hd_list;
 }	t_frame;
 

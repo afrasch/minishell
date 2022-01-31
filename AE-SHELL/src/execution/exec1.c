@@ -27,7 +27,6 @@ void	ft_childprocess(t_frame *frame, t_exec *exec)
 	check_for_pipe(frame);
 	get_path(frame);
 	i = get_access(frame, change_caps(frame->cc->node_start->content));
-	// TODO ABSOLUTER PATH z.B. /bin/ls
 	if (frame->cc->in_fd == PIPEIN)
 		dup2(exec->tmp_fd, STDIN_FILENO);
 	else

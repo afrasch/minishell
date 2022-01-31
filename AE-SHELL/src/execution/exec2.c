@@ -85,6 +85,8 @@ int	get_access(t_frame *frame, char	*cmd)
 	int		i;
 
 	i = 0;
+	if (access(cmd, X_OK) == 0)
+		return (-2);
 	while (frame->paths[i])
 	{
 		tmp_argv = ft_strjoin(frame->paths[i], cmd);
@@ -100,7 +102,10 @@ int	get_access(t_frame *frame, char	*cmd)
 
 void	execute_cmd(t_frame *frame, int i, char* cmd)
 {
-	execve(ft_strjoin(frame->paths[i], cmd), list_to_arr(frame->cc->node_start), env_list_to_arr(frame));
+	if (i == -2)
+		execve(cmd, list_to_arr(frame->cc->node_start), env_list_to_arr(frame));
+	else
+		execve(ft_strjoin(frame->paths[i], cmd), list_to_arr(frame->cc->node_start), env_list_to_arr(frame));
 	dprintf(2, " DURCHGEKOMMEN");
 	//ERROR, wenn hier hin kommt!
 }

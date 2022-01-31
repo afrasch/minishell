@@ -168,7 +168,7 @@ void	exit_minishell(t_frame *frame)
 	close(frame->saved_out_fd);
 	ft_putstr_fd("exit\n", 2);
 	//if ()
-	//print_error;
+	//print_error;?
 	//get exit_value
 	//exit(exit_value);
 	exit(EXIT_SUCCESS);

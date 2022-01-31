@@ -5,6 +5,7 @@ void	init_frame(t_frame *frame)
 	frame->cc = NULL;
 	frame->shell_env = NULL;
 	frame->shell_env_start = NULL;
+	frame->e_status = 44;
 }
 
 void	next_node(t_frame *frame)

@@ -16,7 +16,6 @@ void	ft_clear_nodes(t_node **current_node)
 
 void	delete_node(t_frame	*frame, t_node *node)
 {
-
 	if (node->prev == NULL)
 	{
 		if (node->next != NULL)
