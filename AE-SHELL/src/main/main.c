@@ -88,12 +88,6 @@ int	main(void)
 			write(1,"\n",1);
 			break ;
 		}
-			//exit(EXIT_SUCCESS);
-		if (ft_strncmp(str, "exit", 4) == 0)
-		{
-			free(str);
-			exit(EXIT_SUCCESS);
-		}
 		if (str[0] != '\0')
 		{
 			if (ft_lexer(str, &frame) < 0)

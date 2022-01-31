@@ -159,6 +159,21 @@ void	env(t_frame *frame)
 	}
 }
 
+void	exit_minishell(t_frame *frame)
+{
+	//free lists
+	//free everything else
+	//close all fds
+	close(frame->saved_in_fd);
+	close(frame->saved_out_fd);
+	ft_putstr_fd("exit\n", 2);
+	//if ()
+	//print_error;
+	//get exit_value
+	//exit(exit_value);
+	exit(EXIT_SUCCESS);
+}
+
 void	execute_builtin(t_frame *frame, char *cmd)
 {
 	if (check_for_builtin(cmd, frame) == B_ECHO)
@@ -173,6 +188,6 @@ void	execute_builtin(t_frame *frame, char *cmd)
 		unset(frame);
 	else if (check_for_builtin(cmd, frame) == ENV)
 		env(frame);
-	// else if (check_for_builtin(cmd) == EXIT)
-	// 	exit(frame);
+	else if (check_for_builtin(cmd, frame) == EXIT)
+		exit_minishell(frame);
 }
