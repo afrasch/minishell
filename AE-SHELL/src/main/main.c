@@ -56,29 +56,18 @@ int	main(void)
 	while (1)
 	{
 		str = init_signals_and_prompt(&frame);
-		//str = "echo ";
+		//str = "cat << 'end'";
 		if (str == NULL)
 		{
 			write(1,"\n",1);
 			break ;
-		}
-			//exit(EXIT_SUCCESS);
-		if (ft_strncmp(str, "exit", 4) == 0)
-		{
-			free(str);
-			exit(EXIT_SUCCESS);
 		}
 		if (str[0] != '\0')
 		{
 			if (ft_lexer(str, &frame) < 0)
 				printf("\n***ERROR: SHELL SCHOCK***\n");
 			add_history(str);
-			//reset_frame(frame);
+			reset_frame(str, frame);
 		}
-
 	}
 }
-
-
-// TODO ARROWS
-// TODO HERedocs -> alles durch 

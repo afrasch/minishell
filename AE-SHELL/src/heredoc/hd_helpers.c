@@ -1,13 +1,5 @@
 #include "../includes/minishell.h"
 
-void add_to_hd_list(t_frame *frame, char *path)
-{
-	if (frame->hd_list == NULL)
-		ft_lstnew((void *) path);
-	else
-		ft_lstadd_back(&frame->hd_list, ft_lstnew((void *) path));
-}
-
 char *create_rand_name()
 {
 	int fd = open("/dev/random", O_RDONLY);
@@ -37,5 +29,47 @@ void	remove_hd(t_frame *frame)
 	{
 		frame->cc->cc_errno = errno;
 		printf("Error");
+	}
+}
+
+void	interupt_rmv_hd(t_frame *frame)
+{
+	t_hd_list *node;
+	t_hd_list *tmp;
+
+	node = frame->hd_list;
+	while (node!= NULL)
+	{
+		tmp = node;
+		unlink(node->name_of_hd);
+		free(node->name_of_hd);
+		node->name_of_hd = NULL;
+		free(node);
+		node = NULL;
+		node = tmp->next;
+	}
+	close_all_fd(frame);
+}	
+
+void	add_hd_name_to_list(t_frame *frame)
+{
+	t_hd_list	*new_node;
+	t_hd_list 	*tmp;
+
+
+	tmp = frame->hd_list;
+	new_node = ft_calloc(1, sizeof(t_hd_list));
+	if (tmp == NULL)
+	{
+		frame->hd_list = new_node;
+		frame->hd_list->name_of_hd = frame->cc->hd_path;
+	}
+	else
+	{
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		new_node->next = NULL;
+		tmp->next  = new_node;
+		tmp->next->name_of_hd = frame->cc->hd_path;
 	}
 }

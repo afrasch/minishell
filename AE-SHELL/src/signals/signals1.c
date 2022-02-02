@@ -36,12 +36,24 @@ void	new_prompt(int sig)
 	rl_redisplay();
 }
 
+int	sig_flag_hd(int action)
+{
+	static	int	i;
+
+	if (action == ON)
+		i = 1;
+	else if (action == OFF)
+		i = 0;
+	return (i);
+	
+}
 void	new_prompt2(int sig)
 {
 	if (sig == SIGINT)
 	{
 		write(1,"\n", 1);
 		rl_on_new_line();
+		sig_flag_hd(ON);
 		close(STDIN_FILENO);
 	}
 }
@@ -60,6 +72,7 @@ char *init_signals_and_prompt(t_frame *frame)
 	struct termios	term;
 	char			*str;
 
+	sig_flag_hd(OFF);
 	signal(SIGINT, new_prompt);
 	signal(SIGQUIT, SIG_IGN);
 	if (tcgetattr(1, &term) == -1)
@@ -84,6 +97,8 @@ char	*get_heredoc_prompt()
 	char	*str;
 
 	signal(SIGINT, new_prompt2);
+	if (sig_flag_hd(SHOW) == ON)
+		return (NULL);
 	signal(SIGQUIT, SIG_IGN);
 	if (tcgetattr(1, &term) == -1)
 	{

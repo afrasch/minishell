@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void	clean_tmp(t_frame *frame)
+/* void	clean_tmp(t_frame *frame)
 {
 	t_list	*tmp;
 
@@ -13,9 +13,23 @@ void	clean_tmp(t_frame *frame)
 		free(tmp);
 		tmp = NULL;
 	}
-}
-
-/* void	reset_frame(frame)
-{
-
 } */
+
+/* 
+THINGS TO FREE:
+at the end:
+- Shell_env
+- 
+
+after loop:
+- str von readline
+- alle chunks
+
+ */
+
+void	reset_frame(char *str, t_frame *frame)
+{
+	free(str);
+	
+
+}

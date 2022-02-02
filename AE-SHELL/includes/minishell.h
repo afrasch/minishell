@@ -16,6 +16,7 @@
 // # define PROMPT		"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
 # define ON 1
 # define OFF 0
+# define SHOW 3
 # define TRUE 1
 # define FALSE 0
 # define ERROR -1
@@ -23,6 +24,7 @@
 # define PIPEOUT -5
 # define NO_PIPE -6
 
+int		global;
 typedef enum e_builtin
 {
 	B_ECHO,
@@ -60,6 +62,12 @@ typedef struct s_var
 	char			*con;
 	struct s_var	*next;
 }	t_var;
+
+typedef struct s_hd_list
+{
+	char				*name_of_hd;
+	struct s_hd_list	*next;
+}	t_hd_list;
 
 typedef struct s_node
 {
@@ -103,7 +111,7 @@ typedef struct s_frame
 	int					saved_out_fd;
 	int					single_com;
 	int					nl;
-	t_list				*hd_list;
+	t_hd_list			*hd_list;
 }	t_frame;
 
 typedef struct s_exec
@@ -155,10 +163,12 @@ void		ft_print_stack(t_frame *frame);
 void		ft_print_stack_plain(t_frame *frame);
 void		debug_print(t_frame *frame);
 void		debug_print_full(t_frame *frame);
+void 		print_hd_list(t_frame *frame);
 char		*change_caps(char *input_cmd);
 
 char 		*init_signals_and_prompt(t_frame *frame);
 void		child_killer(int signal);
+void		clear_signals();
 //void		signals_for_child(t_frame *frame, int pid);
 //void		switch_signal_print(int i, t_frame *frame);
 
@@ -167,7 +177,6 @@ void		init_exec(t_exec *exec);
 void		check_for_pipe(t_frame *frame);
 int			get_access(t_frame *frame, char	*cmd);
 void		execute_cmd(t_frame *frame, int i, char* cmd);
-
 void		prepare_builtin_alone(t_frame *frame);
 void		set_back_builtin_alone(t_frame *frame);
 
@@ -178,4 +187,8 @@ void		add_to_hd_list(t_frame *frame, char *path);
 int			solve_heredocs(t_frame *frame);
 void		clean_tmp(t_frame *frame);
 void		remove_hd(t_frame *frame);
+int			sig_flag_hd(int action);
+void		add_hd_name_to_list(t_frame *frame);
+void		interupt_rmv_hd(t_frame *frame);
+void		close_all_fd(t_frame *frame);
 #endif

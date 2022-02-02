@@ -5,6 +5,8 @@ void	init_frame(t_frame *frame)
 	frame->cc = NULL;
 	frame->shell_env = NULL;
 	frame->shell_env_start = NULL;
+	frame->hd_list = NULL;
+	frame->single_com = OFF;
 }
 
 void	next_node(t_frame *frame)

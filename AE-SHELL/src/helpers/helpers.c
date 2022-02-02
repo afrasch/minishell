@@ -14,6 +14,18 @@ int	is_alnum_uscore(char c)
 	return(0);
 }
 
+void	close_all_fd(t_frame *frame)
+{
+	frame->cc = frame->chunk_start;
+	while (frame->cc != NULL)
+	{
+		if (frame->cc->in_fd != STDIN_FILENO)
+			close(frame->cc->in_fd);
+		if (frame->cc->out_fd != STDOUT_FILENO)
+			close(frame->cc->out_fd);
+		frame->cc = frame->cc->next;
+	}
+}
 void ft_print_stack(t_frame *frame)
 {
 	set_list_2start(frame);
@@ -185,4 +197,16 @@ void	debug_print_full(t_frame *frame)
 	frame->cc = frame->cc->next;
 	}
 	frame->cc = frame->chunk_start;
+}
+
+void print_hd_list(t_frame *frame)
+{
+	t_hd_list **node;
+
+	node = &frame->hd_list;
+	while ((*node)->next != NULL)
+	{
+		printf("%s\n", (*node)->name_of_hd);
+		(*node) = (*node)->next;
+	}
 }

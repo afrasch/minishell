@@ -91,6 +91,7 @@ void	check_exp_var(char *var_name, t_frame *frame)
 		}
 		frame->shell_env = frame->shell_env->next;
 	}
+	free(var_name);
 }
 
 void	expand(char *str, int *i, t_frame *frame)

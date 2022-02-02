@@ -114,8 +114,11 @@ int		handle_meta_arrows(t_frame *frame)
 	set_list_2start(frame);
 	if (frame->cc->next == NULL && frame->cc->prev == NULL)
 		frame->single_com = ON;
-	if (solve_heredocs(frame) == -1)
-		return (0);
+	if (solve_heredocs(frame) < 0)
+	{
+		interupt_rmv_hd(frame);
+		return (ERROR);
+	}
 	while (frame->cc != NULL)
 	{
 		frame->cc->cn = frame->cc->node_start;
