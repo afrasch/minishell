@@ -64,6 +64,8 @@ void add_letter(char c, t_frame *frame)
 	int		con_len;
 	char	*new_string;
 
+	if (!frame->cc->cn || !frame->cc->cn->content)//??
+		return ;
 	con_len = ft_strlen(frame->cc->cn->content);
 	new_string = ft_calloc(sizeof(char), (2 + con_len));
 	if (frame->cc->cn->content != NULL)
@@ -72,8 +74,7 @@ void add_letter(char c, t_frame *frame)
 		free(frame->cc->cn->content);
 	}
 	new_string[con_len] = c;
-	frame->cc->cn->content = new_string;
-	printf("%s %s\n", __func__, frame->cc->cn->content);
+	frame->cc->cn->content = new_string;//TODO free new_string ?
 }
 
 void	add_node(char c, char c_plus, t_frame *frame)
@@ -131,7 +132,7 @@ void	add_node(char c, char c_plus, t_frame *frame)
 	}
 } */
 
-void	add_e_st_node(t_frame *frame)//quote states ?
+void	add_e_status(t_frame *frame)//quote states ?
 {
 	char *e_status;
 	int i;
@@ -146,9 +147,9 @@ void	add_e_st_node(t_frame *frame)//quote states ?
 		add_letter(e_status[i], frame);
 		i++;
 	}
-	frame->cc->cn->type = WORD;
-// printf("%s %s\n", __func__, frame->cc->cn->content);
-// debug_print(frame);
+	if (e_status)
+		free(e_status);
+	frame->cc->cn->type = WORD;//??
 }
 
 void	split_in_chunks(char *str, t_frame *frame)
@@ -169,11 +170,12 @@ void	split_in_chunks(char *str, t_frame *frame)
 			if (expand_prequ(frame, str[i], str[i + 1]) == 1)
 				expand(str, &i, frame);
 			else if (expand_prequ(frame, str[i], str[i + 1]) == 2)//TODO update e_status when cmds are executed
-				add_e_st_node(frame);//einmal ausgeführt
+			{
+				add_e_status(frame);//einmal ausgeführt
+				return ;
+			}
 			else
-// {printf("%s %s\n", __func__, "frame->cc->cn->content");
-				{debug_print(frame);
-				add_node(str[i], str[i + 1], frame);} // 6 mal ausgeführt
+				add_node(str[i], str[i + 1], frame);
 			i++;
 		}
 		/* if (frame->exp_st == ON && str[i] == '|')
