@@ -15,10 +15,10 @@ void	solve_quotes(t_frame *frame)
 	str = frame->cc->cn->content;
 	while (str[i] != '\0')
 	{
-		if ((str[i]=='\"' && frame->cc->cn->quote_st != SINGLE_Q) ||
-			(str[i]=='\'' && frame->cc->cn->quote_st != DOUBLE_Q))
+		if ((str[i]=='\"' && frame->cc->cn->handle_quote != SINGLE_Q) ||
+			(str[i]=='\'' && frame->cc->cn->handle_quote != DOUBLE_Q))
 		{
-			set_quote_state(str[i], frame);
+			set_quote_state_for_handle(str[i], frame);
 			del_letter(i, frame);
 		}
 		else
@@ -34,6 +34,7 @@ void handle_quotes(t_frame *frame)
 		frame->cc->cn = frame->cc->node_start;
 		while (frame->cc->cn != NULL && frame->cc->cn->content)
 		{
+			printf("quote state: %d\n", frame->cc->node_start->quote_st);
 			solve_quotes(frame);
 			frame->cc->cn = frame->cc->cn->next;
 		}

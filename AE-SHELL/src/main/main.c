@@ -83,6 +83,7 @@ int	main(void)
 	{
 		str = init_signals_and_prompt(&frame);
 		//str = "<< end | << end << end <file1 | wc";
+		//str = "\" echo \"  \" cat";
 		if (str == NULL)
 		{
 			write(1,"\n",1);

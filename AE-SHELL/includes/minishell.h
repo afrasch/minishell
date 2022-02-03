@@ -75,6 +75,7 @@ typedef struct s_node
 {
 	char				*content;
 	int					type;
+	int					handle_quote;
 	int					quote_st;
 	int					word;
 	struct s_node		*next;
@@ -98,6 +99,7 @@ typedef struct s_chunk
 	char				**cmd_arr;
 	int					hd_bool;
 	char				*hd_path;
+	int					expanded;
 }	t_chunk;
 
 /*cc = current chunk*/
@@ -157,6 +159,7 @@ void		reset_fd(t_frame *frame, int pipe_state);
 void		print_env(t_var *var);
 char		*ft_quote(char *str);
 char		*ft_unquote(char *str);
+void		set_quote_state_for_handle(char c, t_frame *frame);
 char		*get_env_var(t_frame *frame, char *name);
 int			look_for_var(t_frame *frame, char *name);
 void		update_env(t_frame *frame, char *name, char *content, char *oldpwd);

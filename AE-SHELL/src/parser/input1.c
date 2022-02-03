@@ -8,6 +8,7 @@ void	set_quote_state(char c, t_frame *frame)
 		frame->cc->cn->quote_st = DOUBLE_Q;
 		frame->cc->cn->word = DOUBLE_Q;
 		frame->cc->quote_st = DOUBLE_Q;
+		frame->cc->cn->handle_quote = DOUBLE_Q;
 		return ;
 	}
 	if (c == '\''&& frame->cc->cn->quote_st == NO_Q)
@@ -15,22 +16,48 @@ void	set_quote_state(char c, t_frame *frame)
 		frame->cc->cn->quote_st = SINGLE_Q;
 		frame->cc->cn->word = SINGLE_Q;
 		frame->cc->quote_st = SINGLE_Q;
+		frame->cc->cn->handle_quote = SINGLE_Q;
 		return ;
 	}
 	if (c == '\''&& frame->cc->cn->quote_st == SINGLE_Q)
 	{
 		frame->cc->cn->quote_st = NO_Q;
 		frame->cc->quote_st = NO_Q;
+		frame->cc->cn->handle_quote = NO_Q;
 		return ;
 	}
 	if (c == '\"' && frame->cc->cn->quote_st == DOUBLE_Q)
 	{
 		frame->cc->cn->quote_st = NO_Q;
 		frame->cc->quote_st = NO_Q;
+		frame->cc->cn->handle_quote = NO_Q;
 		return ;
 	}
 }
 
+void	set_quote_state_for_handle(char c, t_frame *frame)
+{
+	if (c == '\"' && frame->cc->cn->handle_quote == NO_Q)
+	{
+		frame->cc->cn->handle_quote = DOUBLE_Q;
+		return ;
+	}
+	if (c == '\''&& frame->cc->cn->quote_st == NO_Q)
+	{
+		frame->cc->cn->handle_quote = SINGLE_Q;
+		return ;
+	}
+	if (c == '\''&& frame->cc->cn->quote_st == SINGLE_Q)
+	{
+		frame->cc->cn->handle_quote = NO_Q;
+		return ;
+	}
+	if (c == '\"' && frame->cc->cn->quote_st == DOUBLE_Q)
+	{
+		frame->cc->cn->handle_quote = NO_Q;
+		return ;
+	}
+}
 void	init_node(t_frame *frame)
 {
 	t_node	*node;
@@ -150,7 +177,7 @@ void	add_e_st_node(t_frame *frame)//quote states ?
 // debug_print(frame);
 }
 
-void	split_in_chunks(char *str, t_frame *frame)
+void	  split_in_chunks(char *str, t_frame *frame)
 {
 	int	i;
 
