@@ -1,41 +1,55 @@
 #include "../includes/minishell.h"
 
+static char	*expand_hd(char *str, int *i)
+{
+	char	*var_name;
+
+	var_name = ft_calloc(1, sizeof(char));
+	while (str[*i + 1] && (is_alnum_uscore(str[*i + 1])) == 1)
+	{
+		var_name = ft_add_chr_to_str(var_name, str[*i + 1]);
+		(*i)++;
+	}
+	return (var_name);
+}
+
+static void	handle_hd_expansion(t_frame *frame, char *str)
+{
+	int i = 0;
+	char	*var_name = NULL;
+
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			var_name = expand_hd(str, &i);
+			var_name = get_env_var(frame, var_name);
+			ft_putstr_fd (var_name, frame->cc->in_fd);
+		}
+		else
+			ft_putchar_fd(str[i], frame->cc->in_fd);
+		i++;
+	}
+	ft_putchar_fd('\n', frame->cc->in_fd);
+}
+
 int	do_here_doc(t_frame *frame)
 {
 	char	*str;
 	char	*del;
-	int		i;
-	int		re;
 
-	i = 0;
-	re = 0;
 	del = frame->cc->cn->next->content;
 	while (1)
 	{
 		str = get_heredoc_prompt();
-		//str = "end";
-		if (str == NULL)
-		{
-			re = -1;
+		if (!str || ft_strncmp(str, del, ft_strlen(del)) == 0)
 			break ;
-		}
-		if (ft_strncmp(str, del, ft_strlen(del)) == 0)
-			break ;
-		if (frame->cc->cn->next->word != SINGLE_Q)
-		{
-			while (str[i])
-			{
-				// TODO expand_Dollars, wenn nicht SINGLE QUOTED
-				i++;
-			}
-		}
+		if (frame->cc->cn->next->word == NO_Q)
+			handle_hd_expansion(frame, str);
 		else
-		{
-			ft_putstr_fd (str, frame->cc->in_fd);
-			ft_putstr_fd("\n", frame->cc->in_fd);
-		}
+			ft_putendl_fd(str, frame->cc->in_fd);
 	}
-	return (re);
+	return (0);
 }
 
 int	set_fd_here_doc(t_frame *frame)

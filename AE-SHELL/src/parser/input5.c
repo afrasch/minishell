@@ -135,5 +135,6 @@ int		handle_meta_arrows(t_frame *frame)
 	close(exec.tmp_fd);
 	while (ret_wp != -1)
 		ret_wp = waitpid(-1, NULL, 0); // EXITSTATUS IST 2. braucht in
+	// frame->e_status
 	return (0);
 }

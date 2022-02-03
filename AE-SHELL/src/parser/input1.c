@@ -64,7 +64,7 @@ void add_letter(char c, t_frame *frame)
 	int		con_len;
 	char	*new_string;
 
-	if (!frame->cc->cn || !frame->cc->cn->content)//??
+	if (!frame->cc->cn)//??
 		return ;
 	con_len = ft_strlen(frame->cc->cn->content);
 	new_string = ft_calloc(sizeof(char), (2 + con_len));
@@ -149,7 +149,8 @@ void	add_e_status(t_frame *frame)//quote states ?
 	}
 	if (e_status)
 		free(e_status);
-	frame->cc->cn->type = WORD;//??
+	if (frame->cc->cn)
+		frame->cc->cn->type = WORD;//??
 }
 
 void	split_in_chunks(char *str, t_frame *frame)
