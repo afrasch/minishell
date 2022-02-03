@@ -71,7 +71,7 @@ void	get_path(t_frame *frame)
 			tmp_path = ft_unquote(var->con);
 			frame->paths = ft_split(tmp_path, ':');
 			frame->paths = add_slash(frame->paths);
-			//ft_free_2d((void***)frame->paths);
+			free(tmp_path);
 		}
 		var = var->next;
 	}
@@ -85,22 +85,32 @@ int	get_access(t_frame *frame, char	*cmd)
 	int		i;
 
 	i = 0;
+	if (access(cmd, X_OK) == 0)
+		return (-2);
 	while (frame->paths[i])
 	{
 		tmp_argv = ft_strjoin(frame->paths[i], cmd);
 		if (access(tmp_argv, X_OK) == 0)
+		{
+			free(tmp_argv);
+			tmp_argv = NULL;
 			return (i);
+		}
 		if (tmp_argv != NULL)
 			free(tmp_argv);
 		tmp_argv = NULL;
 		i++;
 	}
 	return (ERROR);
+	//TODO Frage: klappt nach unset das absolute command? Was passiert, wenn arg nicht get_access
 }
 
 void	execute_cmd(t_frame *frame, int i, char* cmd)
 {
-	execve(ft_strjoin(frame->paths[i], cmd), list_to_arr(frame->cc->node_start), env_list_to_arr(frame));
+	if (i == -2)
+		execve(cmd, list_to_arr(frame->cc->node_start), env_list_to_arr(frame));
+	else
+		execve(ft_strjoin(frame->paths[i], cmd), list_to_arr(frame->cc->node_start), env_list_to_arr(frame));
 	dprintf(2, " DURCHGEKOMMEN");
 	//ERROR, wenn hier hin kommt!
 }

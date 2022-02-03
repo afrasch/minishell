@@ -6,7 +6,7 @@
 /*   By: afrasch <afrasch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 15:24:56 by elenz             #+#    #+#             */
-/*   Updated: 2022/01/15 14:40:05 by afrasch          ###   ########.fr       */
+/*   Updated: 2022/01/30 10:43:02 by afrasch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int			ft_atoi(const char *nptr);
 void		ft_bzero(void *s, size_t n);
 int			ft_isalnum(int c);
 int			ft_isalpha(int c);
+int			ft_isalpha_str(char *str);
+int			ft_isnonum_str(char *str);
 int			ft_isascii(int c);
 int			ft_isdigit(int c);
 int			ft_isprint(int c);

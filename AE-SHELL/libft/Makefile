@@ -6,7 +6,7 @@
 #    By: afrasch <afrasch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 14:02:35 by elenz             #+#    #+#              #
-#    Updated: 2022/01/15 14:40:28 by afrasch          ###   ########.fr        #
+#    Updated: 2022/01/30 10:43:24 by afrasch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ ft_atoi.c\
 ft_calloc.c\
 ft_isalnum.c\
 ft_isalpha.c\
+ft_isalpha_str.c\
+ft_isnonum_str.c\
 ft_isascii.c\
 ft_isdigit.c\
 ft_isprint.c\

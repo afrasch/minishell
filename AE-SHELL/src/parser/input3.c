@@ -49,14 +49,15 @@ void	fuse_arrows(t_frame *frame)
 {
 	while (frame->cc->cn != NULL)
 	{
-		// TODO : if (!frame->cc->cn->content) -> seg fault bei echo $a if a doesnt exist
+		if (!frame->cc->cn->content)
+			return ;
 		if ((frame->cc->cn->content[0] == '>' && frame->cc->cn->word == NO_Q && frame->cc->cn->next != NULL)
 			&& (frame->cc->cn->next->content[0] == '>' && frame->cc->cn->next->word == NO_Q))
 			{
 				add_letter('>', frame);
 				delete_next_node(frame->cc->cn);
 			}
-		if ((frame->cc->cn->content[0] == '<' && frame->cc->cn->quote_st == NO_Q && frame->cc->cn->next != NULL && frame->cc->cn->word != 2)
+		if ((frame->cc->cn->content[0] == '<' && frame->cc->cn->quote_st == NO_Q && frame->cc->cn->next != NULL)
 			&& (frame->cc->cn->next->content[0] == '<' && frame->cc->cn->next->word == NO_Q))
 			{
 				add_letter('<', frame);

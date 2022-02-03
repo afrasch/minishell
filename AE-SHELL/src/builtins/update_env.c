@@ -20,7 +20,7 @@ static void	update_oldpwd(t_frame *frame, char *oldpwd)
 		}
 	}
 	else
-		add_var_node(frame, "OLDPWD", ft_quote(oldpwd));
+		add_var_node(frame, "OLDPWD", ft_quote(oldpwd), OFF);
 }
 
 static void	update_pwd(t_frame *frame)

@@ -120,4 +120,9 @@ void	child_killer(int sig)
 		ft_putstr_fd("\n", STDIN_FILENO);
 		rl_replace_line("", 0);
 	}
+	if (sig == SIGQUIT)
+	{
+		ft_putstr_fd("Quit: 3\n", STDIN_FILENO);
+		rl_replace_line("", 0);
+	}
 }

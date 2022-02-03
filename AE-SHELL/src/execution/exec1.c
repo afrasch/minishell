@@ -27,7 +27,6 @@ void	ft_childprocess(t_frame *frame, t_exec *exec)
 	check_for_pipe(frame);
 	get_path(frame);
 	i = get_access(frame, change_caps(frame->cc->node_start->content));
-	// TODO ABSOLUTER PATH z.B. /bin/ls
 	if (frame->cc->in_fd == PIPEIN)
 		dup2(exec->tmp_fd, STDIN_FILENO);
 	else
@@ -74,10 +73,12 @@ int execute_function(t_frame *frame, t_exec *exec)
 	{
 		pid = ft_fork();
 		signal(SIGINT, child_killer);
+		signal(SIGQUIT, child_killer);
 		if (pid == 0)
 			ft_childprocess(frame, exec);
 		else if (frame->single_com == OFF)
 			ft_parent(exec, frame->cc);
 	}
+	free(lowletter_cmd);
 	return (0);
 }

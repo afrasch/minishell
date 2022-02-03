@@ -15,7 +15,11 @@ int	do_here_doc(t_frame *frame)
 		if (str == NULL)
 			break ;
 		if (ft_strncmp(str, del, ft_strlen(del)) == 0)
+		{
+			free(str);
+			str = NULL;
 			break ;
+		}
 		if (frame->cc->cn->next->word != NO_Q)
 		{
 			while (str[i])
@@ -35,6 +39,7 @@ int	do_here_doc(t_frame *frame)
 		close(frame->cc->in_fd);
 		return (-1);
 	}
+	free(str);
 	return (0);
 }
 
@@ -49,6 +54,8 @@ int	set_fd_here_doc(t_frame *frame)
 		frame->cc->hd_path = ft_strjoin("tmp/",name);
 		frame->cc->hd_bool = ON;
 		add_hd_name_to_list(frame);
+		free(name);
+		name = NULL;
 	}
 	else
 		remove_hd(frame);

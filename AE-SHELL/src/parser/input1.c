@@ -75,7 +75,6 @@ void add_letter(char c, t_frame *frame)
 	frame->cc->cn->content = new_string;
 }
 
-//if "<><<>>|" -> META && entsprechende enum
 void	add_node(char c, char c_plus, t_frame *frame)
 {
 	int	i;
@@ -83,7 +82,7 @@ void	add_node(char c, char c_plus, t_frame *frame)
 	i = 0;
 
 	if (!frame->cc->cn)
-		init_node(frame);//hier werden alle quote states auf NO_Q gesetzt ( evtl quote states von prev abfragen und übernehmen)
+		init_node(frame);
 	if (ft_strchr("<> ", c) != NULL && frame->cc->cn->quote_st == NO_Q)
 	{
 		if ((frame->cc->cn->content != NULL
@@ -130,6 +129,27 @@ void	add_node(char c, char c_plus, t_frame *frame)
 		add_letter(c, frame);
 	}
 } */
+
+void	add_e_st_node(t_frame *frame)//quote states ?
+{
+	char *e_status;
+	int i;
+	i = 0;
+	// if (!frame->cc->cn)
+	// 	init_node(frame);
+	// else
+	// 	next_node(frame);
+	e_status = ft_itoa(frame->e_status);
+	while (e_status[i])
+	{
+		add_letter(e_status[i], frame);
+		i++;
+	}
+	frame->cc->cn->type = WORD;
+// printf("%s %s\n", __func__, frame->cc->cn->content);
+// debug_print(frame);
+}
+
 void	split_in_chunks(char *str, t_frame *frame)
 {
 	int	i;
@@ -145,10 +165,12 @@ void	split_in_chunks(char *str, t_frame *frame)
 		|| (frame->cc->quote_st == DOUBLE_Q && str[i] != '\0')
 		|| (frame->cc->quote_st == SINGLE_Q && str[i] != '\0'))
 		{
-			if (expand_prequ(frame, str[i], str[i + 1]))
+			if (expand_prequ(frame, str[i], str[i + 1]) == 1)
 				expand(str, &i, frame);
+			else if (expand_prequ(frame, str[i], str[i + 1]) == 2)//TODO update e_status when cmds are executed
+				add_e_st_node(frame);//einmal ausgeführt
 			else
-				add_node(str[i], str[i + 1], frame);
+				add_node(str[i], str[i + 1], frame); // 6 mal ausgeführt
 			i++;
 		}
 		/* if (frame->exp_st == ON && str[i] == '|')
@@ -166,9 +188,10 @@ void	split_in_chunks(char *str, t_frame *frame)
 
 int	ft_lexer(char *str, t_frame *frame)
 {
+	//TODO: Check for pipe at beginning, check for double pipes || 
 	split_in_chunks(str, frame);
 	handle_quotes(frame);
-	re_arrange_list(frame); //and tag
+	re_arrange_list(frame); //and tag 
 	if (control_nodes_raw(frame) < 0)
 		return (ERROR);
 	if (handle_meta_arrows(frame) < 0)

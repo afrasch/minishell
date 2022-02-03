@@ -1,13 +1,39 @@
 #include "../includes/minishell.h"
 
-void	add_var_node(t_frame *frame, char *name, char *content)
+int	is_valid_varname(char *name)
+{
+	int	i;
+
+	i = 0;
+	if (ft_isdigit(name[0]) != 0)
+		return (FALSE);
+	while (name[i])
+	{
+		if (name[i] != '_' && ft_isalnum(name[i]) == 0)
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
+void	add_var_node(t_frame *frame, char *name, char *content, int just_export)
 {
 	t_var	*node;
 
+	if (is_valid_varname(name) == FALSE)
+	{
+		// print_error();"export: `name': not a valid identifier"
+		printf("SHELL SHOCK: export: `%s': not a valid identifier\n", name);
+		return ;
+	}
 	node = ft_calloc(1, sizeof(t_var));
 	node->con = content;
 	node->name = name;
+	node->just_export = just_export;
 	node->next = NULL;
+	frame->shell_env = frame->shell_env_start;
+	while (frame->shell_env && frame->shell_env->next)
+		frame->shell_env = frame->shell_env->next;
 	if (frame->shell_env != NULL)
 		frame->shell_env->next = node;
 	else
@@ -24,10 +50,10 @@ void	split_env(char *str, t_frame *frame)
 
 	find_nbr = ft_int_strchr(str, '=');
 	str[find_nbr] = '"';
-	name = ft_substr(str, 0, find_nbr);//??
+	name = ft_substr(str, 0, find_nbr);
 	content = ft_substr(str, find_nbr, ft_strlen(str) - find_nbr);
 	tmp = ft_add_chr_to_str(content, '"');
-	add_var_node(frame, name, tmp);
+	add_var_node(frame, name, tmp, OFF);
 }
 
 void get_env(t_frame *frame)
@@ -56,7 +82,7 @@ int	main(void)
 	while (1)
 	{
 		str = init_signals_and_prompt(&frame);
-		//str = "cat << 'end'";
+		//str = "<< end | << end << end <file1 | wc";
 		if (str == NULL)
 		{
 			write(1,"\n",1);
@@ -67,7 +93,11 @@ int	main(void)
 			if (ft_lexer(str, &frame) < 0)
 				printf("\n***ERROR: SHELL SCHOCK***\n");
 			add_history(str);
-			reset_frame(str, frame);
+			free(str);
+			reset_frame(&frame);
 		}
 	}
 }
+
+//TODO : SIGNALS!!! Problem mit Delete und Problem mit Terminal man
+// Heredoc files

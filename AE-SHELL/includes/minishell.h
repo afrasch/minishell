@@ -6,13 +6,14 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
 
-# define PROMPT		"SHELL~SHOCK "
+# define PROMPT		"|SHELL~SHOCK| "
 // # define PROMPT		"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
 # define ON 1
 # define OFF 0
@@ -60,6 +61,7 @@ typedef struct s_var
 {
 	char			*name;
 	char			*con;
+	int				just_export;
 	struct s_var	*next;
 }	t_var;
 
@@ -112,6 +114,7 @@ typedef struct s_frame
 	int					single_com;
 	int					nl;
 	t_hd_list			*hd_list;
+	int					e_status;
 }	t_frame;
 
 typedef struct s_exec
@@ -141,10 +144,11 @@ void		free_node(t_node *node);
 void		init_node(t_frame *frame);
 void		ft_clear_nodes(t_node **current_node);
 void		set_list_2start(t_frame *frame);
-void		add_var_node(t_frame *frame, char *name, char *content);
+void		add_var_node(t_frame *frame, char *name, char *content, int just_export);
 int			is_alnum_uscore(char c);
 int			control_nodes_raw(t_frame *frame);
 void		delete_node(t_frame	*frame, t_node *node);
+void		delete_var_node(t_frame	*frame, t_var *node);
 char		**list_to_arr(t_node *node_start);
 char		**env_list_to_arr(t_frame *frame);
 void		re_arrange_list(t_frame *frame);
@@ -180,6 +184,8 @@ void		execute_cmd(t_frame *frame, int i, char* cmd);
 void		prepare_builtin_alone(t_frame *frame);
 void		set_back_builtin_alone(t_frame *frame);
 
+void		env(t_frame *frame);
+
 char 		*create_rand_name();
 int			do_here_doc(t_frame *frame);
 char		*get_heredoc_prompt();
@@ -191,4 +197,6 @@ int			sig_flag_hd(int action);
 void		add_hd_name_to_list(t_frame *frame);
 void		interupt_rmv_hd(t_frame *frame);
 void		close_all_fd(t_frame *frame);
+
+void		reset_frame(t_frame *frame);
 #endif

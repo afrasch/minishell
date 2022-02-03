@@ -48,6 +48,7 @@ void	interupt_rmv_hd(t_frame *frame)
 		node = NULL;
 		node = tmp->next;
 	}
+	frame->hd_list = NULL;
 	close_all_fd(frame);
 }	
 
@@ -62,7 +63,7 @@ void	add_hd_name_to_list(t_frame *frame)
 	if (tmp == NULL)
 	{
 		frame->hd_list = new_node;
-		frame->hd_list->name_of_hd = frame->cc->hd_path;
+		frame->hd_list->name_of_hd = ft_strdup(frame->cc->hd_path);
 	}
 	else
 	{
@@ -70,6 +71,6 @@ void	add_hd_name_to_list(t_frame *frame)
 			tmp = tmp->next;
 		new_node->next = NULL;
 		tmp->next  = new_node;
-		tmp->next->name_of_hd = frame->cc->hd_path;
+		tmp->next->name_of_hd = ft_strdup(frame->cc->hd_path);
 	}
 }
