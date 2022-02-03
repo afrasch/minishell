@@ -51,7 +51,7 @@ void	ft_parent(t_exec *exec, t_chunk *cc)
 	close(exec->tmp_fd);
 	exec->tmp_fd = dup(exec->fd[0]);
 	close(exec->fd[0]);
-	//free cc falls Fehler
+	//TODO free cc falls Fehler
 	(void)cc;
 }
 
@@ -73,10 +73,12 @@ int execute_function(t_frame *frame, t_exec *exec)
 	{
 		pid = ft_fork();
 		signal(SIGINT, child_killer);
+		signal(SIGQUIT, child_killer);
 		if (pid == 0)
 			ft_childprocess(frame, exec);
 		else if (frame->single_com == OFF)
 			ft_parent(exec, frame->cc);
 	}
+	free(lowletter_cmd);
 	return (0);
 }

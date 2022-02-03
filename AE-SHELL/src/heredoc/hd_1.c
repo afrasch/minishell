@@ -25,6 +25,9 @@ static void	handle_hd_expansion(t_frame *frame, char *str)
 			var_name = expand_hd(str, &i);
 			var_name = get_env_var(frame, var_name);
 			ft_putstr_fd (var_name, frame->cc->in_fd);
+			if (!var_name)
+				free(var_name);
+			var_name = NULL;//TODO eigene funktion ft_free
 		}
 		else
 			ft_putchar_fd(str[i], frame->cc->in_fd);
@@ -33,7 +36,7 @@ static void	handle_hd_expansion(t_frame *frame, char *str)
 	ft_putchar_fd('\n', frame->cc->in_fd);
 }
 
-int	do_here_doc(t_frame *frame)
+int	do_here_doc(t_frame *frame)//TODO kontrolliere sig flag
 {
 	char	*str;
 	char	*del;
@@ -42,38 +45,53 @@ int	do_here_doc(t_frame *frame)
 	while (1)
 	{
 		str = get_heredoc_prompt();
-		if (!str || ft_strncmp(str, del, ft_strlen(del)) == 0)
+		if (!str)
 			break ;
+		if (ft_strncmp(str, del, ft_strlen(del)) == 0)
+		{
+			free (str);
+			break ;
+		}
 		if (frame->cc->cn->next->word == NO_Q)
 			handle_hd_expansion(frame, str);
 		else
 			ft_putendl_fd(str, frame->cc->in_fd);
+		free(str);
+	}
+	if (sig_flag_hd(SHOW) == ON)
+	{
+		close(frame->cc->in_fd);
+		return (-1);
 	}
 	return (0);
 }
 
-int	set_fd_here_doc(t_frame *frame)
+int	set_fd_here_doc(t_frame *frame)//TODO path fuer TMP datei
 {
 	char	*name;
 
+	name = NULL;
 	if (frame->cc->hd_bool == OFF)
 	{
 		name = create_rand_name();
-		frame->cc->hd_path = ft_strjoin("tmp/",name);
+		frame->cc->hd_path = ft_strjoin("../minishell/tmp",name);
 		frame->cc->hd_bool = ON;
+		add_hd_name_to_list(frame);
+		free(name);
+		name = NULL;
 	}
 	else
 		remove_hd(frame);
-	frame->cc->in_fd  = open(frame->cc->hd_path, O_RDWR | O_CREAT | O_TRUNC, 0777);
+	frame->cc->in_fd  = open(frame->cc->hd_path, O_RDWR | O_CREAT | O_TRUNC, 0777);//TODO open_protected
 	if (frame->cc->in_fd < 0)
 	{
 		frame->cc->cc_errno = errno;
-		perror(strerror(frame->cc->cc_errno));
+		perror(strerror(frame->cc->cc_errno));//TODO error, exit
 		return (ERROR);
 	}
-	if (do_here_doc(frame) == ERROR)
-		return (ERROR);
-	close(frame->cc->in_fd);
+	if (do_here_doc(frame) < 0)
+		return (-1);
+	close(frame->cc->in_fd);//TODO protect every open() and close()
 	frame->cc->in_fd = open(frame->cc->hd_path, O_RDONLY, 0777);
 	if (frame->cc->in_fd < 0)
 	{
@@ -91,14 +109,14 @@ int	set_here_docs(t_frame *frame)
 	cn = frame->cc->cn;
 	if (frame->cc->in_fd > 3)
 		close(frame->cc->in_fd);
-	if (set_fd_here_doc(frame) < 0)
-		return (ERROR);
+	if (set_fd_here_doc(frame)< 0)
+		return (-1);
 	delete_node(frame, frame->cc->cn);
 	delete_node(frame, cn->next);
 	return (0);
 }
 
-int	solve_heredocs(t_frame *frame)
+int	solve_heredocs(t_frame *frame)//TODO error management gemeinsam
 {
 	int		std_in;
 
@@ -112,7 +130,11 @@ int	solve_heredocs(t_frame *frame)
 			if (frame->cc->cn->type == D_REDIR_L)
 			{
 				if (set_here_docs(frame) < 0)
+				{
+					dup2(std_in, STDIN_FILENO);
+					close(std_in);
 					return (ERROR);
+				}
 			}
 			else
 				frame->cc->cn = frame->cc->cn->next;

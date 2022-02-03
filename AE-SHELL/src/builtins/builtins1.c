@@ -79,7 +79,7 @@ void	print_export(t_frame *frame)
 	}
 }
 
-void	export(t_frame *frame)
+void	export(t_frame *frame)//TODO export a
 {
 	t_node	*node;
 	char	*name;
@@ -174,7 +174,7 @@ void	exit_minishell(t_frame *frame)
 	exit(EXIT_SUCCESS);
 }
 
-void	execute_builtin(t_frame *frame, char *cmd)
+void	execute_builtin(t_frame *frame, char *cmd)//TODO builtins protection?// exit status vorhanden?
 {
 	if (check_for_builtin(cmd, frame) == B_ECHO)
 		echo(frame);

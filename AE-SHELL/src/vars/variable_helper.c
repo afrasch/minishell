@@ -52,8 +52,7 @@ char	*get_env_var(t_frame *frame, char *name)
 	{
 		if (ft_strcmp(name, var->name) == 0)
 		{
-			// if (quoted_content == OFF)??
-				content = ft_unquote(var->con);
+			content = ft_unquote(var->con);
 			return (content);
 		}
 		var = var->next;

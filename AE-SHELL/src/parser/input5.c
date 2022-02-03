@@ -23,7 +23,7 @@ int	set_out_fd(t_frame *frame, char mode)
 	{
 		frame->cc->cc_errno = errno;
 		perror(strerror(frame->cc->cc_errno));
-		return (ERROR);
+		return (ERROR);//TODO call errno in child
 	}
 	return (0);
 }
@@ -99,30 +99,32 @@ int prepare_pipe(t_exec *exec)
 	if (pipe(exec->fd) < 0)
 		{
 			printf("ERROR\n");
-			//ERRORFUNCTION
+			//TODO ERRORFUNCTION
 		}
 	return (0);
 }
 
-int		handle_meta_arrows(t_frame *frame)
+int		handle_meta_arrows(t_frame *frame)//TODO rename
 {
 	t_exec	exec;
 	int		ret_wp;
 
 	ret_wp = 0;
-	init_exec(&exec);
+	init_exec(&exec); // TODO free exec (ist nicht frame!)
 	set_list_2start(frame);
 	if (frame->cc->next == NULL && frame->cc->prev == NULL)
 		frame->single_com = ON;
-	if (solve_heredocs(frame) == -1)
-		return (0);
+	if (solve_heredocs(frame) < 0)
+	{
+		interupt_rmv_hd(frame);
+		return (ERROR);
+	}
 	while (frame->cc != NULL)
 	{
 		frame->cc->cn = frame->cc->node_start;
 		if (frame->cc->next != NULL)
 			prepare_pipe(&exec);
 		check_for_redir(frame);
-		//debug_print(frame);
 		execute_function(frame, &exec);
 		if (frame->cc->out_fd != STDOUT_FILENO)
 			close(frame->cc->out_fd);
@@ -135,6 +137,6 @@ int		handle_meta_arrows(t_frame *frame)
 	close(exec.tmp_fd);
 	while (ret_wp != -1)
 		ret_wp = waitpid(-1, NULL, 0); // EXITSTATUS IST 2. braucht in
-	// frame->e_status
+	// TODO frame->e_status
 	return (0);
 }

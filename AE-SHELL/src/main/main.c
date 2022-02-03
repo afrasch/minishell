@@ -62,7 +62,6 @@ void get_env(t_frame *frame)
 	extern char** environ;
 
 	i = 0;
-
 	while (environ[i] != NULL)
 	{
 		split_env(environ[i], frame);
@@ -82,7 +81,8 @@ int	main(void)
 	while (1)
 	{
 		str = init_signals_and_prompt(&frame);
-		//str = "echo ";
+		//str = "<< end | << end << end <file1 | wc";
+		//str = "\" echo \"  \" cat";
 		if (str == NULL)
 		{
 			write(1,"\n",1);
@@ -91,14 +91,15 @@ int	main(void)
 		if (str[0] != '\0')
 		{
 			if (ft_lexer(str, &frame) < 0)
-				printf("\n***ERROR: SHELL SCHOCK***\n");
+				printf("\n***ERROR: SHELL SCHOCK***\n");//TODO error
 			add_history(str);
-			//reset_frame(frame);
+			free(str);
+			reset_frame(&frame);
 		}
-
 	}
 }
 
+//TODO : SIGNALS!!! Problem mit Delete und Problem mit Terminal man
+// Heredoc files
 
-// TODO ARROWS
-// TODO HERedocs -> alles durch
+//TODO funktionen: malloc + protection, print_error, free_all, exit+status

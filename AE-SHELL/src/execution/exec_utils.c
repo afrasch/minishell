@@ -7,7 +7,7 @@ int	ft_fork()
 	pid = fork();
 	if (pid < 0)
 	{
-		printf("Error \n");
+		printf("Error \n");//TODO error
 		//Error exit;
 	}
 	return (pid);
@@ -19,6 +19,6 @@ void	init_exec(t_exec *exec)
 	if (exec->tmp_fd < 0)
 	{
 		printf("ERROR\n");
-		//ERRORFUNCTION
+		//TODO ERRORFUNCTION
 	}
 }
