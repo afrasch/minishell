@@ -22,11 +22,9 @@ void	ft_childprocess(t_frame *frame, t_exec *exec)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	printf("fdout %d\n", frame->cc->out_fd);
 	if (frame->single_com == ON)
 		execute_one_cmd(frame, exec);
 	check_for_pipe(frame);
-	printf("fdout %d\n", frame->cc->out_fd);
 	get_path(frame);
 	i = get_access(frame, change_caps(frame->cc->node_start->content));
 	if (frame->cc->in_fd == PIPEIN)
@@ -34,10 +32,7 @@ void	ft_childprocess(t_frame *frame, t_exec *exec)
 	else
 		dup2(frame->cc->in_fd, STDIN_FILENO);
 	if (frame->cc->out_fd == PIPEOUT)
-	{
-		printf("geht rein\n");
 		dup2(exec->fd[1], STDOUT_FILENO);
-	}
 	else
 		dup2(frame->cc->out_fd, STDOUT_FILENO);
 	if (frame->cc->out_fd != STDOUT_FILENO)
