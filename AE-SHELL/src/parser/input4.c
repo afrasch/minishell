@@ -30,6 +30,7 @@ int	control_node(t_node *node)
 		return (ERROR);
 	if (check_end_quotes(node) == ERROR)
 		return (ERROR);
+	return (0);
 }
 
 int	check_pipes(t_frame	*frame)

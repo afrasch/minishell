@@ -45,6 +45,7 @@ int	do_here_doc(t_frame *frame)//TODO kontrolliere sig flag
 	while (1)
 	{
 		str = get_heredoc_prompt();
+		//str = "end";
 		if (!str)
 			break ;
 		if (ft_strncmp(str, del, ft_strlen(del)) == 0)
@@ -66,15 +67,41 @@ int	do_here_doc(t_frame *frame)//TODO kontrolliere sig flag
 	return (0);
 }
 
+int set_hd_as_infd(t_frame *frame)
+{
+	t_node	*cn;
+
+	cn = frame->cc->cn;
+	if (frame->cc->in_fd >= 3)
+		close(frame->cc->in_fd);
+	frame->cc->in_fd = open(frame->cc->hd_path, O_RDONLY, 0777);
+	if (frame->cc->in_fd < 0)
+	{
+		frame->cc->cc_errno = errno;
+		perror(strerror(frame->cc->cc_errno));
+		return (ERROR);
+	}
+	delete_node(frame, frame->cc->cn);
+	delete_node(frame, cn->next);
+	return (0);
+}
+
 int	set_fd_here_doc(t_frame *frame)//TODO path fuer TMP datei
 {
 	char	*name;
+	char	*tmpdir;
+	t_chunk	*cc;
 
 	name = NULL;
+	tmpdir = NULL;
+	cc = frame->cc;
 	if (frame->cc->hd_bool == OFF)
 	{
 		name = create_rand_name();
-		frame->cc->hd_path = ft_strjoin("../minishell/tmp",name);
+		/* if (look_for_var(frame, "TMPDIR") == TRUE)
+			tmpdir = get_env_var(frame, "TMPDIR");
+		frame->cc->hd_path = ft_strjoin(tmpdir,name); */
+		frame->cc->hd_path = ft_strjoin("tmp/",name);
 		frame->cc->hd_bool = ON;
 		add_hd_name_to_list(frame);
 		free(name);
@@ -91,14 +118,9 @@ int	set_fd_here_doc(t_frame *frame)//TODO path fuer TMP datei
 	}
 	if (do_here_doc(frame) < 0)
 		return (-1);
-	close(frame->cc->in_fd);//TODO protect every open() and close()
-	frame->cc->in_fd = open(frame->cc->hd_path, O_RDONLY, 0777);
-	if (frame->cc->in_fd < 0)
-	{
-		frame->cc->cc_errno = errno;
-		perror(strerror(frame->cc->cc_errno));
-		return (ERROR);
-	}
+	if (close(frame->cc->in_fd) < 0)
+		printf("ERROR HEREDOC\n");//TODO protect every open() and close()
+	frame->cc->in_fd = STDIN_FILENO;
 	return (0);
 }
 
@@ -111,8 +133,6 @@ int	set_here_docs(t_frame *frame)
 		close(frame->cc->in_fd);
 	if (set_fd_here_doc(frame)< 0)
 		return (-1);
-	delete_node(frame, frame->cc->cn);
-	delete_node(frame, cn->next);
 	return (0);
 }
 
@@ -136,8 +156,7 @@ int	solve_heredocs(t_frame *frame)//TODO error management gemeinsam
 					return (ERROR);
 				}
 			}
-			else
-				frame->cc->cn = frame->cc->cn->next;
+			frame->cc->cn = frame->cc->cn->next;
 		}
 		frame->cc = frame->cc->next;
 	}

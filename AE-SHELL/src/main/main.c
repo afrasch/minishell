@@ -81,7 +81,7 @@ int	main(void)
 	while (1)
 	{
 		str = init_signals_and_prompt(&frame);
-		//str = "<< end | << end << end <file1 | wc";
+		//str = "cat << end <file1";
 		//str = "\" echo \"  \" cat";
 		if (str == NULL)
 		{
@@ -91,7 +91,7 @@ int	main(void)
 		if (str[0] != '\0')
 		{
 			if (ft_lexer(str, &frame) < 0)
-				printf("\n***ERROR: SHELL SCHOCK***\n");//TODO error
+				//printf("\n***ERROR: SHELL SCHOCK***\n");//TODO error
 			add_history(str);
 			free(str);
 			reset_frame(&frame);
