@@ -86,7 +86,7 @@ int set_hd_as_infd(t_frame *frame)
 	return (0);
 }
 
-int	set_fd_here_doc(t_frame *frame)//TODO path fuer TMP datei
+int	set_fd_here_doc(t_frame *frame)
 {
 	char	*name;
 	char	*tmpdir;
@@ -100,6 +100,8 @@ int	set_fd_here_doc(t_frame *frame)//TODO path fuer TMP datei
 		name = create_rand_name();
 		if (look_for_var(frame, "TMPDIR") == TRUE)
 			tmpdir = get_env_var(frame, "TMPDIR");
+		else 
+			exit_minishell(frame); // TODO error
 		frame->cc->hd_path = ft_strjoin(tmpdir,name);
 		// frame->cc->hd_path = ft_strjoin("tmp/",name);
 		frame->cc->hd_bool = ON;

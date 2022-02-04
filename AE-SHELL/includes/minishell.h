@@ -187,6 +187,7 @@ void		execute_cmd(t_frame *frame, int i, char* cmd);
 void		prepare_builtin_alone(t_frame *frame);
 void		set_back_builtin_alone(t_frame *frame);
 
+void		exit_minishell(t_frame *frame);
 void		env(t_frame *frame);
 
 char 		*create_rand_name();
