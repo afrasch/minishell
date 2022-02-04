@@ -74,7 +74,8 @@ int	set_fd_here_doc(t_frame *frame)//TODO path fuer TMP datei
 	if (frame->cc->hd_bool == OFF)
 	{
 		name = create_rand_name();
-		frame->cc->hd_path = ft_strjoin("../minishell/tmp",name);
+		// frame->cc->hd_path = ft_strjoin("../minishell/tmp",name);
+		frame->cc->hd_path = ft_strjoin("/Users/afrasch/wokspace/minishell/esra/AE-SHELL/tmp",name);
 		frame->cc->hd_bool = ON;
 		add_hd_name_to_list(frame);
 		free(name);
