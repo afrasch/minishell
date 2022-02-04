@@ -69,8 +69,8 @@ void	clear_signals(void)
 
 char *init_signals_and_prompt(t_frame *frame)
 {
-	struct termios	term;
 	char			*str;
+	struct termios	term;
 
 	sig_flag_hd(OFF);
 	signal(SIGINT, new_prompt);
@@ -87,7 +87,7 @@ char *init_signals_and_prompt(t_frame *frame)
 	clear_signals();
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
-	(void)frame;//
+	(void)frame;
 	return (str);
 }
 

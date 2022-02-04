@@ -85,13 +85,12 @@ int	main(void)
 		//str = "\" echo \"  \" cat";
 		if (str == NULL)
 		{
-			write(1,"\n",1);
+			exit_minishell(&frame);
 			break ;
 		}
 		if (str[0] != '\0')
 		{
-			if (ft_lexer(str, &frame) < 0)
-				printf("\n***ERROR: SHELL SCHOCK***\n");//TODO error
+			ft_lexer(str, &frame);
 			add_history(str);
 			free(str);
 			reset_frame(&frame);
@@ -99,7 +98,6 @@ int	main(void)
 	}
 }
 
-//TODO : SIGNALS!!! Problem mit Delete und Problem mit Terminal man
-// Heredoc files
+//TODO : SIGNALS!!! Problem mit Delete und Problem mit Terminal man, Syntax falsche zeichen 
 
 //TODO funktionen: malloc + protection, print_error, free_all, exit+status

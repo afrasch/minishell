@@ -23,7 +23,7 @@ char *create_rand_name()
 	return (ft_strdup(buf));
 }
 
-void	remove_hd(t_frame *frame)//TODO remove after cd
+void	remove_hd(t_frame *frame)
 {
 	if (unlink(frame->cc->hd_path) != 0)
 	{
