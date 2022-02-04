@@ -88,6 +88,8 @@ int	check_for_redir(t_frame *frame)
 			if (set_left_red(frame) < 0)
 				return (ERROR);
 		}
+		else if (cn->type == D_REDIR_L)
+			set_hd_as_infd(frame);
 		else
 			frame->cc->cn = frame->cc->cn->next;
 	}
@@ -130,13 +132,14 @@ int		handle_meta_arrows(t_frame *frame)//TODO rename
 			close(frame->cc->out_fd);
 		if (frame->cc->in_fd != STDIN_FILENO)
 			close(frame->cc->in_fd);
-		if (frame->cc->hd_bool == ON)
-			remove_hd(frame);
 		frame->cc = frame->cc->next;
+		/* if (frame->cc->hd_bool == ON)
+			remove_hd(frame); */
 	}
 	close(exec.tmp_fd);
 	while (ret_wp != -1)
 		ret_wp = waitpid(-1, NULL, 0); // EXITSTATUS IST 2. braucht in
+	interupt_rmv_hd(frame);
 	// TODO frame->e_status
 	return (0);
 }

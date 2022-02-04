@@ -194,6 +194,7 @@ int			do_here_doc(t_frame *frame);
 char		*get_heredoc_prompt();
 void		add_to_hd_list(t_frame *frame, char *path);
 int			solve_heredocs(t_frame *frame);
+int 		set_hd_as_infd(t_frame *frame);
 void		clean_tmp(t_frame *frame);
 void		remove_hd(t_frame *frame);
 int			sig_flag_hd(int action);

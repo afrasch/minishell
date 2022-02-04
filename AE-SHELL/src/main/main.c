@@ -81,7 +81,7 @@ int	main(void)
 	while (1)
 	{
 		str = init_signals_and_prompt(&frame);
-		//str = "<< end | << end << end <file1 | wc";
+		//str = "cat << end <file1";
 		//str = "\" echo \"  \" cat";
 		if (str == NULL)
 		{
