@@ -200,7 +200,7 @@ void		clean_tmp(t_frame *frame);
 void		remove_hd(t_frame *frame);
 int			sig_flag_hd(int action);
 void		add_hd_name_to_list(t_frame *frame);
-void		interupt_rmv_hd(t_frame *frame);
+void		interrupt_rmv_hd(t_frame *frame);
 void		close_all_fd(t_frame *frame);
 
 void		reset_frame(t_frame *frame);

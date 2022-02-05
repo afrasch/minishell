@@ -32,7 +32,7 @@ void	remove_hd(t_frame *frame)
 	}
 }
 
-void	interupt_rmv_hd(t_frame *frame)
+void	interrupt_rmv_hd(t_frame *frame)
 {
 	t_hd_list *node;
 	t_hd_list *tmp;

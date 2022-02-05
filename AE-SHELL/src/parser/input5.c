@@ -118,7 +118,7 @@ int		handle_meta_arrows(t_frame *frame)//TODO rename
 		frame->single_com = ON;
 	if (solve_heredocs(frame) < 0)
 	{
-		interupt_rmv_hd(frame);
+		interrupt_rmv_hd(frame);
 		return (ERROR);
 	}
 	while (frame->cc != NULL)
@@ -139,7 +139,7 @@ int		handle_meta_arrows(t_frame *frame)//TODO rename
 	close(exec.tmp_fd);
 	while (ret_wp != -1)
 		ret_wp = waitpid(-1, NULL, 0); // EXITSTATUS IST 2. braucht in
-	interupt_rmv_hd(frame);
-	// TODO frame->e_status
+	interrupt_rmv_hd(frame);
+	// TODO frame->e_status =
 	return (0);
 }
