@@ -24,6 +24,8 @@
 # define PIPEIN -4
 # define PIPEOUT -5
 # define NO_PIPE -6
+# define E_STATUS 1
+# define STAT_LOC 0
 
 int		global;
 typedef enum e_builtin
@@ -117,6 +119,7 @@ typedef struct s_frame
 	int					nl;
 	t_hd_list			*hd_list;
 	int					e_status;
+	int					pid;
 }	t_frame;
 
 typedef struct s_exec
@@ -132,7 +135,7 @@ void		handle_quotes(t_frame *frame);
 void		set_quote_state(char c, t_frame *frame);
 void		expand(char *str, int *i, t_frame *frame);
 int			expand_prequ(t_frame *frame, char cur_c, char next_c);
-int			handle_meta_arrows(t_frame *frame);
+int			execute_chunks(t_frame *frame);
 int			check_for_redir(t_frame *frame);
 void		get_path(t_frame *frame);
 void		executer(t_frame *frame, char *cmd);
@@ -188,7 +191,7 @@ void		prepare_builtin_alone(t_frame *frame);
 void		set_back_builtin_alone(t_frame *frame);
 
 void		exit_minishell(t_frame *frame);
-void		env(t_frame *frame);
+int			env(t_frame *frame);
 
 char 		*create_rand_name();
 int			do_here_doc(t_frame *frame);

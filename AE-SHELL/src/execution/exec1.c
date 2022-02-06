@@ -6,6 +6,8 @@ void	execute_one_cmd(t_frame *frame, t_exec *exec)
 
 	get_path(frame);
 	i = get_access(frame, change_caps(frame->cc->node_start->content));
+	if (i == ERROR)
+		return ;
 	dup2(frame->cc->in_fd, STDIN_FILENO);
 	dup2(frame->cc->out_fd, STDOUT_FILENO);
 	if (frame->cc->out_fd != STDOUT_FILENO)
@@ -27,6 +29,8 @@ void	ft_childprocess(t_frame *frame, t_exec *exec)
 	check_for_pipe(frame);
 	get_path(frame);
 	i = get_access(frame, change_caps(frame->cc->node_start->content));
+	if (i == ERROR)
+		return ;
 	if (frame->cc->in_fd == PIPEIN)
 		dup2(exec->tmp_fd, STDIN_FILENO);
 	else
@@ -57,7 +61,6 @@ void	ft_parent(t_exec *exec, t_chunk *cc)
 
 int execute_function(t_frame *frame, t_exec *exec)
 {
-	int 	pid;
 	char	*lowletter_cmd;
 
 	lowletter_cmd = NULL;
@@ -71,10 +74,10 @@ int execute_function(t_frame *frame, t_exec *exec)
 	}
 	else
 	{
-		pid = ft_fork();
+		frame->pid = ft_fork();
 		signal(SIGINT, child_killer);
 		signal(SIGQUIT, child_killer);
-		if (pid == 0)
+		if (frame->pid == 0)
 			ft_childprocess(frame, exec);
 		else if (frame->single_com == OFF)
 			ft_parent(exec, frame->cc);

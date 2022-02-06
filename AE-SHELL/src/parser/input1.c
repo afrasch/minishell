@@ -193,7 +193,7 @@ int	ft_lexer(char *str, t_frame *frame)
 	re_arrange_list(frame); //TODO rename
 	if (control_nodes_raw(frame) < 0)
 		return (ERROR);
-	if (handle_meta_arrows(frame) < 0)
+	if (execute_chunks(frame) < 0)
 	{
 		if (sig_flag_hd(SHOW) == ON)
 			clear_signals();

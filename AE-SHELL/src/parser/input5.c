@@ -106,12 +106,35 @@ int prepare_pipe(t_exec *exec)
 	return (0);
 }
 
-int		handle_meta_arrows(t_frame *frame)//TODO rename
+void	wait_for_childs(t_frame *frame)
+{
+	int	status[2];
+
+	status[E_STATUS] = 0;
+	while (status[E_STATUS] != ERROR)
+	{
+		status[E_STATUS] = waitpid(-1, &status[STAT_LOC], 0);
+		if (frame->pid == status[E_STATUS])
+		{
+			if (WIFEXITED(status[STAT_LOC]))
+				frame->e_status = WEXITSTATUS(status[STAT_LOC]);
+			if (WIFSIGNALED(status[STAT_LOC]))
+			{
+				if (WTERMSIG(status[STAT_LOC]) == SIGQUIT)
+				{
+					write(2, "Quit: ", 6);
+					ft_putnbr_fd(SIGQUIT, 2);
+				}
+				frame->e_status = 127 + WTERMSIG(status[STAT_LOC]) + 1;
+			}
+		}
+	}
+}
+
+int		execute_chunks(t_frame *frame)
 {
 	t_exec	exec;
-	int		ret_wp;
 
-	ret_wp = 0;
 	init_exec(&exec); // TODO free exec (ist nicht frame!)
 	set_list_2start(frame);
 	if (frame->cc->next == NULL && frame->cc->prev == NULL)
@@ -137,9 +160,7 @@ int		handle_meta_arrows(t_frame *frame)//TODO rename
 			remove_hd(frame); */
 	}
 	close(exec.tmp_fd);
-	while (ret_wp != -1)
-		ret_wp = waitpid(-1, NULL, 0); // EXITSTATUS IST 2. braucht in
+	wait_for_childs(frame);
 	interrupt_rmv_hd(frame);
-	// TODO frame->e_status =
 	return (0);
 }

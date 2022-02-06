@@ -6,7 +6,7 @@ static void	echo_init(t_frame *frame)
 	frame->nl = OFF;
 }
 
-void	echo(t_frame *frame)
+int	echo(t_frame *frame)
 {
 	t_node	*node;
 
@@ -15,13 +15,13 @@ void	echo(t_frame *frame)
 	if (!node->next || !node->next->content)
 	{
 		write (1, "\n", 1);
-		return ;
+		return (0);
 	}
 	while (ft_strcmp(node->next->content, "-n") == 0)
 	{
 		node = node->next;
 		if (!node->next)
-			return ;
+			return (0);
 		frame->nl = ON;
 	}
 	while (node->next)
@@ -33,9 +33,10 @@ void	echo(t_frame *frame)
 	}
 	if (frame->nl == OFF)
 		write (1, "\n", 1);
+	return (0);
 }
 
-void	cd(t_frame *frame)
+int	cd(t_frame *frame)
 {
 	t_node *node;
 	char	*home_path;
@@ -52,9 +53,10 @@ void	cd(t_frame *frame)
 		chdir(node->next->content);// if == ERROR
 		// print_error();
 	update_env(frame, "PWD", node->content, oldpwd);
+	return (0);
 }
 
-void	pwd(t_frame *frame)
+int	pwd(t_frame *frame)
 {
 	char	*current_path;
 
@@ -62,9 +64,10 @@ void	pwd(t_frame *frame)
 	current_path = ft_strdup(getcwd(NULL, 0));
 	write(frame->cc->out_fd, current_path, ft_strlen(current_path));
 	write (frame->cc->out_fd, "\n", 1);
+	return (0);
 }
 
-void	print_export(t_frame *frame)
+static void	print_export(t_frame *frame)
 {
 	t_var *var;
 
@@ -79,7 +82,7 @@ void	print_export(t_frame *frame)
 	}
 }
 
-void	export(t_frame *frame)//TODO export a
+int	export(t_frame *frame)//TODO export a
 {
 	t_node	*node;
 	char	*name;
@@ -91,7 +94,7 @@ void	export(t_frame *frame)//TODO export a
 	if (!node->next)
 	{
 		print_export(frame);
-		return ;
+		return (0);
 	}
 	node = node->next;
 	while (node)
@@ -109,9 +112,10 @@ void	export(t_frame *frame)//TODO export a
 		}
 		node = node->next;
 	}
+	return (0);
 }
 
-void	unset(t_frame *frame)
+int	unset(t_frame *frame)
 {
 	t_var *var;
 	t_node *node;
@@ -131,9 +135,10 @@ void	unset(t_frame *frame)
 			var = var->next;
 		}
 	}
+	return (0);
 }
 
-void	env(t_frame *frame)
+int	env(t_frame *frame)
 {
 	t_var *var;
 	char *tmp_con;
@@ -157,6 +162,7 @@ void	env(t_frame *frame)
 			printf("%s=\n", var->name);
 		var = var->next;
 	}
+	return (0);
 }
 
 void	exit_minishell(t_frame *frame)
@@ -177,17 +183,17 @@ void	exit_minishell(t_frame *frame)
 void	execute_builtin(t_frame *frame, char *cmd)//TODO builtins protection?// exit status vorhanden?
 {
 	if (check_for_builtin(cmd, frame) == B_ECHO)
-		echo(frame);
+		frame->e_status = echo(frame);
 	else if (check_for_builtin(cmd, frame) == CD)
-		cd(frame);
+		frame->e_status = cd(frame);
 	else if (check_for_builtin(cmd, frame) == PWD)
-		pwd(frame);
+		frame->e_status = pwd(frame);
 	else if (check_for_builtin(cmd, frame) == EXPORT)
-		export(frame);
+		frame->e_status = export(frame);
 	else if (check_for_builtin(cmd, frame) == UNSET)
-		unset(frame);
+		frame->e_status = unset(frame);
 	else if (check_for_builtin(cmd, frame) == ENV)
-		env(frame);
+		frame->e_status = env(frame);
 	else if (check_for_builtin(cmd, frame) == EXIT)
 		exit_minishell(frame);
 }
