@@ -6,7 +6,7 @@ static void	echo_init(t_frame *frame)
 	frame->nl = OFF;
 }
 
-int	echo(t_frame *frame)
+int	echo(t_frame *frame)//TODO exit status bei error
 {
 	t_node	*node;
 
@@ -74,7 +74,7 @@ static void	print_export(t_frame *frame)
 	var = frame->shell_env_start;
 	while (var)
 	{
-		if (var->just_export == OFF)
+		if (var->just_export == OFF && var->con)
 			printf("declare -x %s=%s\n", var->name, var->con);
 		else
 			printf("declare -x %s\n", var->name);
@@ -82,7 +82,7 @@ static void	print_export(t_frame *frame)
 	}
 }
 
-int	export(t_frame *frame)//TODO export a
+int	export(t_frame *frame)
 {
 	t_node	*node;
 	char	*name;
@@ -167,20 +167,17 @@ int	env(t_frame *frame)
 
 void	exit_minishell(t_frame *frame)
 {
-	//free lists
-	//free everything else
+	reset_frame(frame);
+	// system("leaks minishell");
+	free_env(frame);//TODO why more leaks ?
+	// destroy_all(frame);//plus env
 	//close all fds
-	close(frame->saved_in_fd);
-	close(frame->saved_out_fd);
-	ft_putstr_fd("exit\n", 2);
-	//if ()
-	//print_error;?
-	//get exit_value
-	//exit(exit_value);
+	ft_putstr_fd("exit\n", 2);//if builtin
+//print_error ruft exit_minishell auf
 	exit(EXIT_SUCCESS);
 }
 
-void	execute_builtin(t_frame *frame, char *cmd)//TODO builtins protection?// exit status vorhanden?
+void	execute_builtin(t_frame *frame, char *cmd)//TODO builtins protection?
 {
 	if (check_for_builtin(cmd, frame) == B_ECHO)
 		frame->e_status = echo(frame);

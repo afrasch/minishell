@@ -1,34 +1,48 @@
 #include "../includes/minishell.h"
 
-int	check_redir(t_node *node)
+int	check_slashes(t_node *node)
+{
+	if (ft_strncmp(node->content, "/", 1) == 0)
+	{
+		//TODO check if directory exists -> no such file or directory
+		if (access(node->content, F_OK) < 0)
+			return (print_error(errno, node->content, NULL, "No such file or directory"));
+		else
+			return (print_error(-2, node->content, NULL, "is a directory"));
+	}
+	return (0);
+}
+//TODO syntax error near unexpected token `newline'
+int	check_redir(t_node *node)//TODO error if <<< or >>>
 {
 	if (node->type == S_REDIR_L || node->type == S_REDIR_R || node->type == D_REDIR_L
 		|| node->type == D_REDIR_R)
 	{
 		if (node->next != NULL)
-			if (node->next->type != WORD)
-				printf("ERROR\n");
-		if (node->next == NULL)
-			printf("ERROR\n");
+		{
+			if (node->next->type != WORD)//no such file or dir
+				return (print_error(errno, node->content, NULL, "No such file or directory"));
+		}
+		if (node->next == NULL)// syntax errror
+			return (print_error(errno, node->content, NULL, "syntax error near unexpected token"));
 	}
 	return (0);
 }
 
 int	check_end_quotes(t_node *node)
 {
-	if (node->quote_st != NO_Q)
-	{
-		printf("ERROR QUOTES\n");
-		return (ERROR);
-	}
+	if (node->quote_st == SINGLE_Q)
+		return (print_error(-2, "\'", NULL, "syntax error near single quotes"));
+	if (node->quote_st == DOUBLE_Q)
+		return (print_error(-2, "\"", NULL, "syntax error near double quotes"));
 	return (0);
 }
 
 int	control_node(t_node *node)
 {
-	if (check_redir(node) == ERROR)
-		return (ERROR);
-	if (check_end_quotes(node) == ERROR)
+	if (check_redir(node) == ERROR
+		|| check_end_quotes(node) == ERROR
+		|| check_slashes(node) == ERROR)
 		return (ERROR);
 	return (0);
 }
@@ -40,18 +54,10 @@ int	check_pipes(t_frame	*frame)
 	cc = frame->cc;
 	if (cc->prev != NULL && cc->prev->node_start == NULL
 		&& cc->prev->expanded == OFF)
-	{
-		printf("ERROR PIPE\n");
-		(void)frame;
-		return (ERROR);
-	}
+		return (print_error(-2, "|", NULL, "syntax error near unexpected token"));
 	if (cc->next != NULL && cc->next->node_start == NULL
 		&& cc->next->expanded == OFF)
-	{
-		printf("ERROR PIPE\n");
-		(void)frame;
-		return (ERROR);
-	}
+		return (print_error(-2, "|", NULL, "syntax error near unexpected token"));
 	return (0);
 }
 
@@ -67,7 +73,9 @@ int control_nodes_raw(t_frame *frame)
 	set_list_2start(frame);
 	while (frame->cc != NULL)
 	{
-		control_chunk(frame);// TODO syntax error // TODO return val
+		if (control_chunk(frame) < 0)
+			return (ERROR);
+		// TODO syntax error // TODO return val
 		frame->cc->cn = frame->cc->node_start;
 		while (frame->cc->cn != NULL)
 		{

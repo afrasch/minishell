@@ -16,6 +16,7 @@
 } */
 
 /*
+TODO
 THINGS TO FREE:
 
 at the end:
@@ -66,9 +67,11 @@ void	free_chunks_and_nodes(t_frame *frame)
 			free(frame->cc->hd_path);
 			frame->cc->hd_path = NULL;
 		}
-		free(frame->cc);
+		if (frame->cc)
+			free(frame->cc);
 		frame->cc = tmp->next;
 	}
+	frame->chunk_start = NULL;
 }
 
 void	free_frame(t_frame *frame)

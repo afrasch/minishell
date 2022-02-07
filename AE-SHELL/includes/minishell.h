@@ -14,6 +14,7 @@
 # include "../libft/libft.h"
 
 # define PROMPT		"|SHELL~SHOCK| "
+# define SHELLNAME	"SHELL SHOCK"
 // # define PROMPT		"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
 # define ON 1
 # define OFF 0
@@ -82,7 +83,7 @@ typedef struct s_node
 	int					word;
 	struct s_node		*next;
 	struct s_node		*prev;
-	char				typ[15];
+	char				typ[15];//TODO delete
 }	t_node;
 
 /*cn = current node*/
@@ -107,7 +108,7 @@ typedef struct s_chunk
 /*cc = current chunk*/
 typedef struct s_frame
 {
-	t_var				*shell_env;
+	t_var				*shell_env;//TODO nur bei exit freen
 	t_var				*shell_env_start;
 	int					exp_st;
 	t_chunk				*cc;
@@ -139,7 +140,7 @@ int			execute_chunks(t_frame *frame);
 int			check_for_redir(t_frame *frame);
 void		get_path(t_frame *frame);
 void		executer(t_frame *frame, char *cmd);
-int 		execute_function(t_frame *frame, t_exec *exec);
+void 		execute_function(t_frame *frame, t_exec *exec);
 void		execute_builtin(t_frame *frame, char *cmd);
 
 void		init_frame(t_frame *frame);
@@ -175,7 +176,7 @@ void		debug_print(t_frame *frame);
 void		debug_print_full(t_frame *frame);
 void 		print_hd_list(t_frame *frame);
 char		*change_caps(char *input_cmd);
-
+int 		print_error(int err_no, char *cmd, char * arg, char *message);
 char 		*init_signals_and_prompt(t_frame *frame);
 void		child_killer(int signal);
 void		clear_signals();
@@ -186,7 +187,7 @@ int			ft_fork();
 void		init_exec(t_exec *exec);
 void		check_for_pipe(t_frame *frame);
 int			get_access(t_frame *frame, char	*cmd);
-void		execute_cmd(t_frame *frame, int i, char* cmd);
+int			execute_cmd(t_frame *frame, int i, char* cmd);
 void		prepare_builtin_alone(t_frame *frame);
 void		set_back_builtin_alone(t_frame *frame);
 
@@ -207,4 +208,5 @@ void		interrupt_rmv_hd(t_frame *frame);
 void		close_all_fd(t_frame *frame);
 
 void		reset_frame(t_frame *frame);
+void		free_env(t_frame *frame);
 #endif

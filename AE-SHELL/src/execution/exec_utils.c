@@ -22,3 +22,4 @@ void	init_exec(t_exec *exec)
 		//TODO ERRORFUNCTION
 	}
 }
+

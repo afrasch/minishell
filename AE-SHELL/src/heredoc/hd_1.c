@@ -100,9 +100,9 @@ int	set_fd_here_doc(t_frame *frame)
 		name = create_rand_name();
 		if (look_for_var(frame, "TMPDIR") == TRUE)
 			tmpdir = get_env_var(frame, "TMPDIR");
-		else 
+		else
 			exit_minishell(frame); // TODO error
-		frame->cc->hd_path = ft_strjoin(tmpdir,name);
+		frame->cc->hd_path = ft_strjoin(tmpdir, name);
 		// frame->cc->hd_path = ft_strjoin("tmp/",name);
 		frame->cc->hd_bool = ON;
 		add_hd_name_to_list(frame);

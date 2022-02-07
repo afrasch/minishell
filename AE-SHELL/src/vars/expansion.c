@@ -1,21 +1,5 @@
 #include "../includes/minishell.h"
 
-/* t_var	*init_fake_list(void)
-{
-	t_var	*fake_node;
-	t_var	*fake_node2;
-
-	fake_node = malloc(1*sizeof(t_var));
-	fake_node->name = "a";
-	fake_node->con = "\"echo $b\"";
-	fake_node2 = malloc(1*sizeof(t_var));
-	fake_node2->name = "b";
-	fake_node2->con = "hallo ";
-	fake_node->next = fake_node2;
-	fake_node2->next = NULL;
-	return (fake_node);
-} */
-
 int	expand_prequ(t_frame *frame, char cur_c, char next_c)
 {
 	if (cur_c == '$' && next_c == '?' && frame->cc->quote_st != SINGLE_Q)

@@ -1,13 +1,13 @@
 #include "../includes/minishell.h"
 
-void	execute_one_cmd(t_frame *frame, t_exec *exec)
+int	execute_one_cmd(t_frame *frame, t_exec *exec)
 {
 	int	i;
 
 	get_path(frame);
 	i = get_access(frame, change_caps(frame->cc->node_start->content));
 	if (i == ERROR)
-		return ;
+		return (print_error(errno, frame->cc->node_start->content, NULL, "No such file or directory"));
 	dup2(frame->cc->in_fd, STDIN_FILENO);
 	dup2(frame->cc->out_fd, STDOUT_FILENO);
 	if (frame->cc->out_fd != STDOUT_FILENO)
@@ -16,21 +16,23 @@ void	execute_one_cmd(t_frame *frame, t_exec *exec)
 		close(frame->cc->in_fd);
 	(void) exec;
 	execute_cmd(frame, i, change_caps(frame->cc->node_start->content));
+	return (0);
 }
 
-void	ft_childprocess(t_frame *frame, t_exec *exec)
+
+int	ft_childprocess(t_frame *frame, t_exec *exec)
 {
 	int		i;
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	if (frame->single_com == ON)
-		execute_one_cmd(frame, exec);
 	check_for_pipe(frame);
 	get_path(frame);
 	i = get_access(frame, change_caps(frame->cc->node_start->content));
 	if (i == ERROR)
-		return ;
+		print_error(errno, frame->cc->node_start->content, NULL, "command not found");
+	else if (frame->single_com == ON)
+		execute_one_cmd(frame, exec);
 	if (frame->cc->in_fd == PIPEIN)
 		dup2(exec->tmp_fd, STDIN_FILENO);
 	else
@@ -46,20 +48,22 @@ void	ft_childprocess(t_frame *frame, t_exec *exec)
 	close(exec->fd[0]);
 	close(exec->fd[1]);
 	close(exec->tmp_fd);
-	execute_cmd(frame, i, change_caps(frame->cc->node_start->content));//executed
+	return (execute_cmd(frame, i, change_caps(frame->cc->node_start->content)));//executed
+	return (0);
 }
 
-void	ft_parent(t_exec *exec, t_chunk *cc)
+void	ft_parent(t_frame *frame, t_exec *exec, t_chunk *cc)
 {
-	close(exec->fd[1]);
-	close(exec->tmp_fd);
+	if (close(exec->fd[1]) == ERROR
+		|| close(exec->tmp_fd) == ERROR)
+		reset_frame(frame);
 	exec->tmp_fd = dup(exec->fd[0]);
-	close(exec->fd[0]);
-	//TODO free cc falls Fehler
+	if (close(exec->fd[0]) == ERROR)
+		reset_frame(frame);//TODO free cc falls Fehler
 	(void)cc;
 }
 
-int execute_function(t_frame *frame, t_exec *exec)
+void execute_function(t_frame *frame, t_exec *exec)
 {
 	char	*lowletter_cmd;
 
@@ -80,8 +84,7 @@ int execute_function(t_frame *frame, t_exec *exec)
 		if (frame->pid == 0)
 			ft_childprocess(frame, exec);
 		else if (frame->single_com == OFF)
-			ft_parent(exec, frame->cc);
+			ft_parent(frame, exec, frame->cc);
 	}
 	free(lowletter_cmd);
-	return (0);
 }

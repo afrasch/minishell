@@ -23,12 +23,18 @@ void	add_var_node(t_frame *frame, char *name, char *content, int just_export)
 	if (is_valid_varname(name) == FALSE)
 	{
 		// print_error();"export: `name': not a valid identifier"
-		printf("SHELL SHOCK: export: `%s': not a valid identifier\n", name);
+		printf("%s: export: `%s': not a valid identifier\n", SHELLNAME, name);
 		return ;
 	}
 	node = ft_calloc(1, sizeof(t_var));
-	node->con = content;
-	node->name = name;
+	if (!node)
+		return ;//TODO return val plus ft
+	node->con = ft_strdup(content);
+	node->name = ft_strdup(name);
+	free(content);
+	content = NULL;
+	free(name);
+	name = NULL;
 	node->just_export = just_export;
 	node->next = NULL;
 	frame->shell_env = frame->shell_env_start;
@@ -59,7 +65,7 @@ void	split_env(char *str, t_frame *frame)
 void get_env(t_frame *frame)
 {
 	int	i;
-	extern char** environ;
+	extern char** environ;//TODO duplicate environ so that the original isnt changed
 
 	i = 0;
 	while (environ[i] != NULL)
@@ -83,6 +89,7 @@ int	main(void)
 		str = init_signals_and_prompt(&frame);
 		//str = "cat << end <file1";
 		//str = "\" echo \"  \" cat";
+		//str = "export a b c d";
 		if (str == NULL)
 		{
 			exit_minishell(&frame);
@@ -98,6 +105,6 @@ int	main(void)
 	}
 }
 
-//TODO : SIGNALS!!! Problem mit Delete und Problem mit Terminal man, Syntax falsche zeichen 
+//TODO : SIGNALS!!! Problem mit Delete und Problem mit Terminal man, Syntax falsche zeichen
 
 //TODO funktionen: malloc + protection, print_error, free_all, exit+status

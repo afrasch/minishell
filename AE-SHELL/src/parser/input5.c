@@ -99,16 +99,26 @@ int	check_for_redir(t_frame *frame)
 int prepare_pipe(t_exec *exec)
 {
 	if (pipe(exec->fd) < 0)
-		{
-			printf("ERROR\n");
-			//TODO ERRORFUNCTION
-		}
+		print_error(errno, NULL, NULL, NULL);
 	return (0);
+}
+
+void	print_signal_error(int sig)
+{
+	if (sig == SIGQUIT)
+		ft_putstr_fd("Quit: ", STDERR_FILENO);
+	if (sig == SIGABRT)
+		ft_putstr_fd("Abort: ", STDERR_FILENO);
+	if (sig == SIGTERM)
+		ft_putstr_fd("Terminated: ", STDERR_FILENO);
+	if (sig == SIGSEGV)
+		ft_putstr_fd("Segmentation fault: ", STDERR_FILENO);
 }
 
 void	wait_for_childs(t_frame *frame)
 {
 	int	status[2];
+	int	sig;
 
 	status[E_STATUS] = 0;
 	while (status[E_STATUS] != ERROR)
@@ -116,16 +126,15 @@ void	wait_for_childs(t_frame *frame)
 		status[E_STATUS] = waitpid(-1, &status[STAT_LOC], 0);
 		if (frame->pid == status[E_STATUS])
 		{
-			if (WIFEXITED(status[STAT_LOC]))
+			if (WIFEXITED(status[STAT_LOC]))//child process ended normally
 				frame->e_status = WEXITSTATUS(status[STAT_LOC]);
-			if (WIFSIGNALED(status[STAT_LOC]))
+			if (WIFSIGNALED(status[STAT_LOC]))//child process ended abnormally
 			{
-				if (WTERMSIG(status[STAT_LOC]) == SIGQUIT)
-				{
-					write(2, "Quit: ", 6);
-					ft_putnbr_fd(SIGQUIT, 2);
-				}
-				frame->e_status = 127 + WTERMSIG(status[STAT_LOC]) + 1;
+				sig = WTERMSIG(status[STAT_LOC]);//which signal caused child process to exit?
+				print_signal_error(sig);
+				ft_putnbr_fd(sig, STDERR_FILENO);
+				write(STDERR_FILENO, "\n", 1);
+				frame->e_status = 128 + WTERMSIG(status[STAT_LOC]);
 			}
 		}
 	}
@@ -135,7 +144,7 @@ int		execute_chunks(t_frame *frame)
 {
 	t_exec	exec;
 
-	init_exec(&exec); // TODO free exec (ist nicht frame!)
+	init_exec(&exec); // TODO free exec (ist nicht in frame!) notwendig?
 	set_list_2start(frame);
 	if (frame->cc->next == NULL && frame->cc->prev == NULL)
 		frame->single_com = ON;

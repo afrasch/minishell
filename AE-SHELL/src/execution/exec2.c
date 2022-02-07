@@ -86,7 +86,7 @@ int	get_access(t_frame *frame, char	*cmd)
 
 	i = 0;
 	if (access(cmd, X_OK) == 0)
-		return (-2);
+		return (-2);//means: absolute path works-> no ERROR
 	while (frame->paths[i])
 	{
 		tmp_argv = ft_strjoin(frame->paths[i], cmd);
@@ -106,11 +106,12 @@ int	get_access(t_frame *frame, char	*cmd)
 	//TODO Frage: klappt nach unset das absolute command? Was passiert, wenn arg nicht get_access
 }
 
-void	execute_cmd(t_frame *frame, int i, char* cmd)
+int	execute_cmd(t_frame *frame, int i, char* cmd)
 {
 	if (i == -2)
-		execve(cmd, list_to_arr(frame->cc->node_start), env_list_to_arr(frame));
+		return (execve(cmd, list_to_arr(frame->cc->node_start), env_list_to_arr(frame)));
 	else
-		execve(ft_strjoin(frame->paths[i], cmd), list_to_arr(frame->cc->node_start), env_list_to_arr(frame));
+		return (execve(ft_strjoin(frame->paths[i], cmd), list_to_arr(frame->cc->node_start), env_list_to_arr(frame)));
 	//TODO ERROR, wenn hier hin kommt!
+	return (0);
 }

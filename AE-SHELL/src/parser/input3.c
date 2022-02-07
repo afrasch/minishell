@@ -2,7 +2,6 @@
 
 void	tag_node(t_node *node)
 {
-
 	if (ft_strncmp(node->content, "<<", 2) == 0 && node->word == NO_Q)
 	{
 		node->type = D_REDIR_L;
