@@ -1,11 +1,14 @@
 #include "../includes/minishell.h"
 
-int	check_slashes(t_node *node)
+int	check_slashes(t_node *node, t_frame* frame)
 {
 	if (ft_strncmp(node->content, "/", 1) == 0)
 	{
 		if (access(node->content, F_OK) < 0)
-			return (print_error(errno, node->content, NULL, "No such file or directory"));
+		{
+			frame->e_status = 127;
+			return (print_error(errno, node->content, NULL, NULL));//nsfod
+		}
 		else
 			return (print_error(-2, node->content, NULL, "is a directory"));
 	}
@@ -24,7 +27,7 @@ int	check_redir(t_node *node)
 				|| (node->type == D_REDIR_L && node->next->type == S_REDIR_R))
 				return (print_error(errno, node->next->content, NULL, "syntax error near unexpected token"));
 			if (node->type != D_REDIR_L && node->next->type == WORD
-				&& access(node->next->content, F_OK) == ERROR)
+				&& access(node->next->content, F_OK) == ERROR && node->type != S_REDIR_R)
 				return (print_error(errno, node->next->content, NULL, "No such file or directory"));
 		}
 		else
@@ -42,11 +45,11 @@ int	check_end_quotes(t_node *node)
 	return (0);
 }
 
-int	control_node(t_node *node)
+int	control_node(t_node *node, t_frame *frame)
 {
 	if (check_redir(node) == ERROR
 		|| check_end_quotes(node) == ERROR
-		|| check_slashes(node) == ERROR)
+		|| check_slashes(node, frame) == ERROR)
 		return (ERROR);
 	return (0);
 }
@@ -83,7 +86,7 @@ int control_nodes_raw(t_frame *frame)
 		frame->cc->cn = frame->cc->node_start;
 		while (frame->cc->cn != NULL)
 		{
-			if (control_node(frame->cc->cn) < 0)
+			if (control_node(frame->cc->cn, frame) < 0)
 				return (ERROR);//TODO error syntax error frame mit schicken zum freen, da wo Fehler auftritt Error aufrufen
 			frame->cc->cn = frame->cc->cn->next;
 		}

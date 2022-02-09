@@ -135,14 +135,13 @@ void	add_node(char c, char c_plus, t_frame *frame)
 	}
 }
 
-void	add_e_status(t_frame *frame)//TODO signal permission denied = 126, Nsfod != 139, = 127
+void	add_e_status(t_frame *frame)//TODO signal permission denied = 126, Nsfod = 127 ???
 {
 	char *e_status;
 	int i;
 
 	i = 0;
 	e_status = ft_itoa(frame->e_status);
-	printf("%s %s\n", e_status, __func__);
 	while (e_status[i])
 	{
 		add_letter(e_status[i], frame);

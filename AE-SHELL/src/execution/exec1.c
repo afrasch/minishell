@@ -24,6 +24,7 @@ int	ft_childprocess(t_frame *frame, t_exec *exec)
 {
 	int		i;
 
+	i = 0;
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	check_for_pipe(frame);
@@ -48,19 +49,28 @@ int	ft_childprocess(t_frame *frame, t_exec *exec)
 	close(exec->fd[0]);
 	close(exec->fd[1]);
 	close(exec->tmp_fd);
-	return (execute_cmd(frame, i, change_caps(frame->cc->node_start->content)));//executed
+	return (execute_cmd(frame, i, change_caps(frame->cc->node_start->content)));
 }
 
 void	ft_parent(t_frame *frame, t_exec *exec, t_chunk *cc)
 {
-	if (close(exec->fd[1]) == ERROR
-		|| close(exec->tmp_fd) == ERROR)
-		reset_frame(frame);
+	close(exec->fd[1]);
+	close(exec->tmp_fd);
 	exec->tmp_fd = dup(exec->fd[0]);
-	if (close(exec->fd[0]) == ERROR)
-		reset_frame(frame);//TODO free cc falls Fehler
+	close(exec->fd[0]);
 	(void)cc;
+	(void)frame;
 }
+// void	ft_parent(t_frame *frame, t_exec *exec, t_chunk *cc)//TODO wie protecten? segfault bei str = "<file1 | wc"
+// {
+// 	if (close(exec->fd[1]) == ERROR
+// 		|| close(exec->tmp_fd) == ERROR)
+// 		reset_frame(frame);
+// 	exec->tmp_fd = dup(exec->fd[0]);
+// 	if (close(exec->fd[0]) == ERROR)
+// 		reset_frame(frame);
+// 	(void)cc;
+// }
 
 void execute_function(t_frame *frame, t_exec *exec)
 {

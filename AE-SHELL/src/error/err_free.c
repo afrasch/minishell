@@ -1,15 +1,5 @@
 #include "../includes/minishell.h"
 
-// void	reset_frame(t_frame *frame)
-// {
-// 	if (frame != NULL)
-// 	{
-// 		if (frame->cn != NULL)
-// 			ft_clear_nodes(&frame->cn);
-// 		/* Hier muss dann viel gefreet werden, bei leaks hier gucken */
-// 	}
-// }
-//TODO free env
 void	free_node(t_node *node)
 {
 	free(node->content);
@@ -67,7 +57,7 @@ int 	print_error(int err_no, char *cmd, char *arg, char *message)//TODO schöner
 		else if (ft_strcmp(message, "command not found") == 0)
 		{
 			printf("%s: %s: %s\n", SHELLNAME, cmd, message);
-			exit (127);//TODO nur bei cmd not found
+			exit (127);
 		}
 	}
 	else if (arg && ft_strcmp(message, "not a valid identifier") == 0)

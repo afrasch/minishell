@@ -21,11 +21,10 @@ int	add_var_node(t_frame *frame, char *name, char *content, int just_export)//TO
 	t_var	*node;
 
 	if (is_valid_varname(name) == FALSE)
-		// return (print_error(errno, "export", name, NULL));
 		return (print_error(errno, "export", name, "not a valid identifier"));
 	node = ft_calloc(1, sizeof(t_var));
 	if (!node)
-		return (ERROR);//TODO return val plus ft
+		return (ERROR);
 	node->con = ft_strdup(content);
 	node->name = ft_strdup(name);
 	free(content);
@@ -88,7 +87,7 @@ int	main(void)
 		//str = "cat << end <file1";
 		//str = "\" echo \"  \" cat";
 		//str = "export a b c d";
-		// str = "<<>";
+		// str = "<file1 | wc";
 		if (str == NULL)
 		{
 			exit_minishell(&frame);
@@ -104,7 +103,7 @@ int	main(void)
 	}
 }
 
-//TODO <<file OR <file1 -> Segmentation fault with signal 11
+//TODO <<file OR <file1 -> Segmentation fault with signal 11 -> echo $? 139
 
 //TODO : SIGNALS!!! Problem mit Delete und Problem mit Terminal man, Syntax falsche zeichen
 

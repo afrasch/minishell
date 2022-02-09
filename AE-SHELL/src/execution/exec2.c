@@ -103,6 +103,8 @@ int	get_access(t_frame *frame, char	*cmd)
 		i++;
 	}
 	frame->e_status = 127;
+
+
 	return (ERROR);
 	//TODO Frage: klappt nach unset das absolute command? Was passiert, wenn arg nicht get_access
 }

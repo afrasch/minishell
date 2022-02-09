@@ -12,6 +12,8 @@ int	echo(t_frame *frame)
 
 	echo_init(frame);
 	node = frame->cc->node_start;
+	if (!node)
+		return (2);
 	if (!node->next || !node->next->content)
 	{
 		write (1, "\n", 1);
@@ -21,7 +23,7 @@ int	echo(t_frame *frame)
 	{
 		node = node->next;
 		if (!node->next)
-			return (0);
+			return (2);
 		frame->nl = ON;
 	}
 	while (node->next)
@@ -114,7 +116,7 @@ int	export(t_frame *frame)
 	{
 		del_i = ft_int_strchr(node->content, '=');
 		if (del_i < 0)
-			add_var_node(frame, node->content, NULL, ON);// NULL als just_export verwenden?
+			add_var_node(frame, node->content, NULL, ON);
 		else
 		{
 			node->content[del_i] = '"';
@@ -187,8 +189,6 @@ void	exit_minishell(t_frame *frame)
 	// system("leaks minishell");
 	free_env(frame);//TODO why more leaks ? valgrind
 	reset_frame(frame);
-	// destroy_all(frame);//plus env
-	//close all fds
 	ft_putstr_fd("exit\n", 2);//if builtin
 //print_error ruft exit_minishell auf
 	exit(EXIT_SUCCESS);

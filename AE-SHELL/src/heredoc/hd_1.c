@@ -45,12 +45,12 @@ int	do_here_doc(t_frame *frame)//TODO kontrolliere sig flag
 	while (1)
 	{
 		str = get_heredoc_prompt();
-		//str = "end";
+		// str = "end";
 		if (!str)
 			break ;
 		if (ft_strncmp(str, del, ft_strlen(del)) == 0)
 		{
-			free (str);
+			//free (str);
 			break ;
 		}
 		if (frame->cc->cn->next->word == NO_Q)
