@@ -2,13 +2,12 @@
 
 char	*change_caps(char *input_cmd)
 {
-	int	i;
+	int		i;
 	char	*lowletter_cmd;
 
 	i = 0;
 	lowletter_cmd = NULL;
-
-	while (input_cmd != NULL && input_cmd[i])
+	while (input_cmd && input_cmd[i])
 	{
 		lowletter_cmd = ft_add_chr_to_str(lowletter_cmd, ft_tolower(input_cmd[i]));
 		i++;
@@ -64,6 +63,8 @@ void	get_path(t_frame *frame)
 	char *tmp_path;
 
 	var = frame->shell_env_start;
+	if (!var)
+		return ;
 	while (var)
 	{
 		if ((look_for_var(frame, "PATH") == TRUE) && (ft_strcmp(var->name, "PATH") == 0))
@@ -85,7 +86,7 @@ int	get_access(t_frame *frame, char	*cmd)
 	int		i;
 
 	i = 0;
-	if (access(cmd, X_OK) == 0)
+	if (access(cmd, F_OK) == 0)
 		return (-2);//means: absolute path works-> no ERROR
 	while (frame->paths[i])
 	{
@@ -112,6 +113,5 @@ int	execute_cmd(t_frame *frame, int i, char* cmd)
 		return (execve(cmd, list_to_arr(frame->cc->node_start), env_list_to_arr(frame)));
 	else
 		return (execve(ft_strjoin(frame->paths[i], cmd), list_to_arr(frame->cc->node_start), env_list_to_arr(frame)));
-	//TODO ERROR, wenn hier hin kommt!
 	return (0);
 }

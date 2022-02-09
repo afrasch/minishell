@@ -4,7 +4,6 @@ int	check_slashes(t_node *node)
 {
 	if (ft_strncmp(node->content, "/", 1) == 0)
 	{
-		//TODO check if directory exists -> no such file or directory
 		if (access(node->content, F_OK) < 0)
 			return (print_error(errno, node->content, NULL, "No such file or directory"));
 		else
@@ -12,19 +11,24 @@ int	check_slashes(t_node *node)
 	}
 	return (0);
 }
-//TODO syntax error near unexpected token `newline'
-int	check_redir(t_node *node)//TODO error if <<< or >>>
+
+int	check_redir(t_node *node)
 {
 	if (node->type == S_REDIR_L || node->type == S_REDIR_R || node->type == D_REDIR_L
 		|| node->type == D_REDIR_R)
 	{
-		if (node->next != NULL)
+		if (node->next)
 		{
-			if (node->next->type != WORD)//no such file or dir
-				return (print_error(errno, node->content, NULL, "No such file or directory"));
+			if ((node->type == D_REDIR_R && node->next->type != WORD)
+				|| (node->type == D_REDIR_L && node->next->type == D_REDIR_L)
+				|| (node->type == D_REDIR_L && node->next->type == S_REDIR_R))
+				return (print_error(errno, node->next->content, NULL, "syntax error near unexpected token"));
+			if (node->type != D_REDIR_L && node->next->type == WORD
+				&& access(node->next->content, F_OK) == ERROR)
+				return (print_error(errno, node->next->content, NULL, "No such file or directory"));
 		}
-		if (node->next == NULL)// syntax errror
-			return (print_error(errno, node->content, NULL, "syntax error near unexpected token"));
+		else
+			return (print_error(errno, "newline", NULL, "syntax error near unexpected token"));
 	}
 	return (0);
 }
@@ -52,12 +56,12 @@ int	check_pipes(t_frame	*frame)
 	t_chunk	*cc;
 
 	cc = frame->cc;
-	if (cc->prev != NULL && cc->prev->node_start == NULL
-		&& cc->prev->expanded == OFF)
+	if ((cc->prev != NULL && cc->prev->node_start == NULL && cc->prev->expanded == OFF)
+		|| (cc->next != NULL && cc->next->node_start == NULL && cc->next->expanded == OFF))
+	{
+		frame->e_status = 258;
 		return (print_error(-2, "|", NULL, "syntax error near unexpected token"));
-	if (cc->next != NULL && cc->next->node_start == NULL
-		&& cc->next->expanded == OFF)
-		return (print_error(-2, "|", NULL, "syntax error near unexpected token"));
+	}
 	return (0);
 }
 

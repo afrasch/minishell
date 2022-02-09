@@ -135,7 +135,7 @@ void	add_node(char c, char c_plus, t_frame *frame)
 	}
 }
 
-void	add_e_status(t_frame *frame)
+void	add_e_status(t_frame *frame)//TODO signal permission denied = 126, Nsfod != 139, = 127
 {
 	char *e_status;
 	int i;

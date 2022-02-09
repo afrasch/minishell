@@ -49,7 +49,6 @@ int	ft_childprocess(t_frame *frame, t_exec *exec)
 	close(exec->fd[1]);
 	close(exec->tmp_fd);
 	return (execute_cmd(frame, i, change_caps(frame->cc->node_start->content)));//executed
-	return (0);
 }
 
 void	ft_parent(t_frame *frame, t_exec *exec, t_chunk *cc)
@@ -82,7 +81,7 @@ void execute_function(t_frame *frame, t_exec *exec)
 		signal(SIGINT, child_killer);
 		signal(SIGQUIT, child_killer);
 		if (frame->pid == 0)
-			ft_childprocess(frame, exec);
+			ft_childprocess(frame, exec);//TODO if == ERROR protec
 		else if (frame->single_com == OFF)
 			ft_parent(frame, exec, frame->cc);
 	}

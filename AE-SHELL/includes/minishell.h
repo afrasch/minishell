@@ -54,7 +54,7 @@ enum e_operators
 	PIPED,
 	S_REDIR_L,
 	S_REDIR_R,
-	D_REDIR_L,//here_doc
+	D_REDIR_L,
 	D_REDIR_R,
 	WORD,
 	// META,
@@ -150,7 +150,7 @@ void		free_node(t_node *node);
 void		init_node(t_frame *frame);
 void		ft_clear_nodes(t_node **current_node);
 void		set_list_2start(t_frame *frame);
-void		add_var_node(t_frame *frame, char *name, char *content, int just_export);
+int			add_var_node(t_frame *frame, char *name, char *content, int just_export);
 int			is_alnum_uscore(char c);
 int			control_nodes_raw(t_frame *frame);
 void		delete_node(t_frame	*frame, t_node *node);

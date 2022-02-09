@@ -6,7 +6,7 @@ static void	echo_init(t_frame *frame)
 	frame->nl = OFF;
 }
 
-int	echo(t_frame *frame)//TODO exit status bei error
+int	echo(t_frame *frame)
 {
 	t_node	*node;
 
@@ -41,17 +41,28 @@ int	cd(t_frame *frame)
 	t_node *node;
 	char	*home_path;
 	char	*oldpwd;
+
 	oldpwd = getcwd(NULL, 0);
 	node = frame->cc->node_start;
 	home_path = get_env_var(frame, "HOME");
+	if (!oldpwd || !node || !home_path)
+		return (2);
 	if (node->next == NULL)
 	{
-		chdir(home_path);//if == ERROR)
-			// print_error();
+		if (chdir(home_path)== ERROR)
+		{
+			print_error(errno, node->content, NULL, NULL);
+			return (2);
+		}
 	}
 	else
-		chdir(node->next->content);// if == ERROR
-		// print_error();
+	{
+		if (chdir(node->next->content) == ERROR)
+		{
+			print_error(errno, node->content, node->next->content, NULL);
+			return (2);
+		}
+	}
 	update_env(frame, "PWD", node->content, oldpwd);
 	return (0);
 }
@@ -60,18 +71,21 @@ int	pwd(t_frame *frame)
 {
 	char	*current_path;
 
-	current_path = NULL;
 	current_path = ft_strdup(getcwd(NULL, 0));
+	if (current_path == NULL)
+		return (2);
 	write(frame->cc->out_fd, current_path, ft_strlen(current_path));
 	write (frame->cc->out_fd, "\n", 1);
 	return (0);
 }
 
-static void	print_export(t_frame *frame)
+static int	print_export(t_frame *frame)
 {
 	t_var *var;
 
 	var = frame->shell_env_start;
+	if (!var)
+		return (2);
 	while (var)
 	{
 		if (var->just_export == OFF && var->con)
@@ -80,6 +94,7 @@ static void	print_export(t_frame *frame)
 			printf("declare -x %s\n", var->name);
 		var = var->next;
 	}
+	return (0);
 }
 
 int	export(t_frame *frame)
@@ -87,28 +102,26 @@ int	export(t_frame *frame)
 	t_node	*node;
 	char	*name;
 	char	*content;
-	char	*tmp;
-	int		find_nbr;
+	int		del_i;
 
 	node = frame->cc->node_start;
+	if (!node)
+		return (2);
 	if (!node->next)
-	{
-		print_export(frame);
-		return (0);
-	}
+		return (print_export(frame));
 	node = node->next;
 	while (node)
 	{
-		find_nbr = ft_int_strchr(node->content, '=');
-		if (find_nbr < 0)
+		del_i = ft_int_strchr(node->content, '=');
+		if (del_i < 0)
 			add_var_node(frame, node->content, NULL, ON);// NULL als just_export verwenden?
 		else
 		{
-			node->content[find_nbr] = '"';
-			name = ft_substr(node->content, 0, find_nbr);
-			content = ft_substr(node->content, find_nbr, ft_strlen(node->content) - find_nbr);
-			tmp = ft_add_chr_to_str(content, '"');
-			add_var_node(frame, name, tmp, OFF);
+			node->content[del_i] = '"';
+			name = ft_substr(node->content, 0, del_i);
+			content = ft_substr(node->content, del_i, ft_strlen(node->content) - del_i);
+			content = ft_add_chr_to_str(content, '"');
+			add_var_node(frame, name, content, OFF);
 		}
 		node = node->next;
 	}
@@ -120,6 +133,8 @@ int	unset(t_frame *frame)
 	t_var *var;
 	t_node *node;
 
+	if (!frame->cc->node_start || !frame->shell_env_start)
+		return (2);
 	node = frame->cc->node_start;
 	while (node->next)
 	{
@@ -144,6 +159,8 @@ int	env(t_frame *frame)
 	char *tmp_con;
 
 	var = frame->shell_env_start;
+	if (!var)
+		return (2);
 	while (var)
 	{
 		if (var->just_export == ON)
@@ -167,9 +184,9 @@ int	env(t_frame *frame)
 
 void	exit_minishell(t_frame *frame)
 {
-	reset_frame(frame);
 	// system("leaks minishell");
-	free_env(frame);//TODO why more leaks ?
+	free_env(frame);//TODO why more leaks ? valgrind
+	reset_frame(frame);
 	// destroy_all(frame);//plus env
 	//close all fds
 	ft_putstr_fd("exit\n", 2);//if builtin
@@ -177,7 +194,7 @@ void	exit_minishell(t_frame *frame)
 	exit(EXIT_SUCCESS);
 }
 
-void	execute_builtin(t_frame *frame, char *cmd)//TODO builtins protection?
+void	execute_builtin(t_frame *frame, char *cmd)//TODO builtins protection? && exitstatus 2 bei error
 {
 	if (check_for_builtin(cmd, frame) == B_ECHO)
 		frame->e_status = echo(frame);

@@ -16,19 +16,16 @@ int	is_valid_varname(char *name)
 	return (TRUE);
 }
 
-void	add_var_node(t_frame *frame, char *name, char *content, int just_export)
+int	add_var_node(t_frame *frame, char *name, char *content, int just_export)//TODO absichern mit return val
 {
 	t_var	*node;
 
 	if (is_valid_varname(name) == FALSE)
-	{
-		// print_error();"export: `name': not a valid identifier"
-		printf("%s: export: `%s': not a valid identifier\n", SHELLNAME, name);
-		return ;
-	}
+		// return (print_error(errno, "export", name, NULL));
+		return (print_error(errno, "export", name, "not a valid identifier"));
 	node = ft_calloc(1, sizeof(t_var));
 	if (!node)
-		return ;//TODO return val plus ft
+		return (ERROR);//TODO return val plus ft
 	node->con = ft_strdup(content);
 	node->name = ft_strdup(name);
 	free(content);
@@ -45,6 +42,7 @@ void	add_var_node(t_frame *frame, char *name, char *content, int just_export)
 	else
 		frame->shell_env_start = node;
 	frame->shell_env = node;
+	return (0);
 }
 
 void	split_env(char *str, t_frame *frame)
@@ -90,6 +88,7 @@ int	main(void)
 		//str = "cat << end <file1";
 		//str = "\" echo \"  \" cat";
 		//str = "export a b c d";
+		// str = "<<>";
 		if (str == NULL)
 		{
 			exit_minishell(&frame);
@@ -99,11 +98,13 @@ int	main(void)
 		{
 			ft_lexer(str, &frame);
 			add_history(str);
-			free(str);
+			free(str);//SIGABRT
 			reset_frame(&frame);
 		}
 	}
 }
+
+//TODO <<file OR <file1 -> Segmentation fault with signal 11
 
 //TODO : SIGNALS!!! Problem mit Delete und Problem mit Terminal man, Syntax falsche zeichen
 
