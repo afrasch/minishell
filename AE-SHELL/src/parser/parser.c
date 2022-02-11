@@ -25,7 +25,7 @@ static void	add_node(char c, char c_plus, t_frame *frame)
 	i = 0;
 	if (!frame->cc->cn)
 		init_node(frame);
-	if (ft_strchr("<> ", c) != NULL && frame->cc->cn->quote_st == NO_Q)
+	if (ft_strchr("<> 	\n", c) != NULL && frame->cc->cn->quote_st == NO_Q)
 	{
 		if ((frame->cc->cn->content != NULL
 			&& (c_plus != ' ' && c_plus != '|' && c_plus != '\0')) ||
@@ -36,7 +36,7 @@ static void	add_node(char c, char c_plus, t_frame *frame)
 		if ((ft_strchr("<>", c) != NULL && (c_plus != ' ' && c_plus != '|' && c_plus != '\0')))
 			next_node(frame);
 	}
-	if((ft_strchr("<>| ", c) == NULL && frame->cc->cn->quote_st == NO_Q)
+	if((ft_strchr("<>| 	\n", c) == NULL && frame->cc->cn->quote_st == NO_Q)
 	|| (frame->cc->cn->quote_st == DOUBLE_Q)
 	|| (frame->cc->cn->quote_st == SINGLE_Q))
 	{

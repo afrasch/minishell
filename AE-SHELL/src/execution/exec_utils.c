@@ -9,6 +9,8 @@ int	ft_fork()
 	{
 		perror("");
 		exit(EXIT_FAILURE);
+		// exit(frame->e_status);
+
 		//Error exit;
 	}
 	return (pid);

@@ -224,4 +224,6 @@ void		interrupt_rmv_hd(t_frame *frame);
 void		reset_frame(t_frame *frame);
 void		free_env(t_frame *frame);
 int			error_exit(t_frame *frame);
+
+char		*minishell_get_next_line(int fd);
 #endif

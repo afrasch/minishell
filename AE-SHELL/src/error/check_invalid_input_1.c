@@ -33,7 +33,7 @@ int input_check(t_frame *frame)
 		while (frame->cc->cn != NULL)
 		{
 			if (control_node(frame->cc->cn, frame) < 0)
-				return (ERROR);//TODO error syntax error frame mit schicken zum freen, da wo Fehler auftritt Error aufrufen
+				return (ERROR);//TODO syntax error frame mit schicken zum freen, da wo Fehler auftritt Error aufrufen
 			frame->cc->cn = frame->cc->cn->next;
 		}
 		frame->cc = frame->cc->next;

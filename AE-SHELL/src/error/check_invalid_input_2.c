@@ -9,7 +9,7 @@ static int	check_slashes(t_node *node, t_frame* frame)
 			frame->e_status = 127;
 			return (print_error(errno, node->content, NULL, NULL));//nsfod
 		}
-		else
+		else if (!node->next->content)
 			return (print_error(-2, node->content, NULL, "is a directory"));
 	}
 	return (0);

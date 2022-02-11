@@ -32,7 +32,7 @@ static void	free_frame_nodes(t_frame *frame)
 	while (tmp)
 	{
 		cn = tmp;
-		tmp = cn->next;//seg fault bei ctrl+D
+		tmp = cn->next;
 		free_node(cn);
 	}
 }
@@ -45,7 +45,6 @@ static void	free_chunks_and_nodes(t_frame *frame)
 	while (frame->cc != NULL)
 	{
 		tmp = frame->cc;
-	// dprintf(2, "%d %p\n", __LINE__, frame->cc);
 		free_frame_nodes(frame);
 		ft_free_2d((void***) &frame->cc->cmd_arr);
 		if (frame->cc->hd_path != NULL)

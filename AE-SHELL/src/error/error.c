@@ -6,16 +6,34 @@ int	error_exit(t_frame *frame)
 
 	msg = strerror(errno);//TODO
 	// perror("SHELL SHOCK");
-	// frame->e_status = ; TODO setzen
+	// frame->e_status = 0; TODO zurucksetzen
 	// write(STDERR_FILENO, msg, ft_strlen(msg));
 	// write(STDERR_FILENO, "\n", 1);
 	reset_frame(frame);
 	exit(frame->e_status);//aus child !
 }
 
-int 	print_error(int err_no, char *cmd, char *arg, char *message)//TODO schönere struktur, keine wiederholungen// gegen NULL strings absichern
+int	print_error_exit(char *cmd, char *arg, char *message)
 {
-	char *msg;//TODO ganz ohne hardcode und strcmp?
+	// char *msg;
+	(void)arg;
+	// msg = strerror(errno);
+	if (ft_strcmp(message, "command not found") == 0)
+	{
+		printf("%s: %s: %s\n", SHELLNAME, cmd, message);
+		exit (127);
+	}
+	else if (ft_strcmp(message, "Permission denied") == 0)
+	{
+		printf("%s: %s: %s\n", SHELLNAME, cmd, message);
+		exit (126);
+	}
+	return (ERROR);
+}
+
+int	print_error(int err_no, char *cmd, char *arg, char *message)//TODO gegen NULL strings absichern
+{
+	char *msg;
 
 	msg = strerror(err_no);
 	if (message == NULL && cmd != NULL && msg && !arg)
@@ -36,13 +54,42 @@ int 	print_error(int err_no, char *cmd, char *arg, char *message)//TODO schöner
 			printf("%s: %s: %s\n", SHELLNAME, message, cmd);
 		else if (ft_strcmp("is a directory", message) == 0)
 			printf("%s: %s: %s\n", SHELLNAME, cmd, message);
-		else if (ft_strcmp(message, "command not found") == 0)
-		{
-			printf("%s: %s: %s\n", SHELLNAME, cmd, message);
-			exit (127);//TODO eigene error_print_exit() plus free
-		}
 	}
 	else if (arg && ft_strcmp(message, "not a valid identifier") == 0)
 		printf("%s: %s: `%s': %s\n", SHELLNAME, cmd, arg, message);
 	return (ERROR);
 }
+
+int	print_error(char *s1, char *s2, char *s3, char *message)
+{
+	if (s1)
+		ft_putstr_fd(s1, 2);
+	if (s2)
+	{
+		if (s1)
+			ft_putstr_fd(": ", 2);
+		ft_putstr_fd(s2, 2);
+	}
+	if (s3)
+	{
+		if (s1 || s2)
+			ft_putstr_fd(": ", 2);
+		ft_putstr_fd(s3, 2);
+	}
+	if (message)
+	{
+		if (s1 || s2 || s3)
+			ft_putstr_fd(": ", 2);
+		ft_putstr_fd(message, 2);
+	}
+	ft_putchar_fd('\n', 2);
+	return (ERROR);
+}
+
+int	print_error_errno(char *s1, char *s2, char *s3)
+{
+	print_error(s1, s2, s3, strerror(errno));
+	errno = 0;
+	return (ERROR);
+}
+//TODO

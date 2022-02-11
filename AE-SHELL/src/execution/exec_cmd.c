@@ -10,16 +10,6 @@ void	ft_parent(t_frame *frame, t_exec *exec, t_chunk *cc)
 	(void)cc;
 	(void)frame;
 }
-// void	ft_parent(t_frame *frame, t_exec *exec, t_chunk *cc)//TODO wie protecten? segfault bei str = "<file1 | wc"
-// {
-// 	if (close(exec->fd[1]) == ERROR
-// 		|| close(exec->tmp_fd) == ERROR)
-// 		reset_frame(frame);
-// 	exec->tmp_fd = dup(exec->fd[0]);
-// 	if (close(exec->fd[0]) == ERROR)
-// 		reset_frame(frame);
-// 	(void)cc;
-// }
 
 int	execute_one_cmd(t_frame *frame, t_exec *exec)
 {
