@@ -12,27 +12,50 @@ HEADERS = $(addprefix $(HEADERS_DIR), $(HEADERS_LIST))
 
 SRC_DIR = ./src/
 SRC_LIST =	main/main.c \
-			parser/input1.c \
-			parser/input2.c \
-			parser/input3.c \
-			parser/input4.c \
-			parser/input5.c \
-			error/err_free.c \
+			removethisfolder/helpers.c \
+			parser/lexer.c \
+			parser/quotes.c \
+			parser/set_flags.c \
+			parser/input_check.c \
+			parser/rearrange.c \
+			parser/redirections.c \
+			error/error.c \
+			error/sig_error.c \
+			error/check_invalid_input_1.c \
+			error/check_invalid_input_2.c \
 			init/initframe.c \
-			init/lst_fct.c \
-			helpers/helpers.c \
-			execution/exec1.c \
-			execution/exec2.c \
+			lists/conversion.c \
+			lists/deletion.c \
+			lists/determination.c \
+			lists/iteration.c \
+			execution/exec_cmd.c \
+			execution/execute.c \
+			execution/childprocess.c \
+			execution/get_access.c \
 			execution/exec_utils.c \
-			builtins/builtins1.c \
-			builtins/builtin_helper.c \
-			builtins/update_env.c \
-			signals/signals1.c \
-			heredoc/hd_1.c \
-			heredoc/hd_helpers.c \
-			freeing/free_frame.c \
-			vars/expansion.c \
-			vars/variable_helper.c \
+			builtins/builtin_help_execute.c \
+			builtins/exit.c \
+			builtins/env.c \
+			builtins/env_update.c \
+			builtins/unset.c \
+			builtins/export.c \
+			builtins/pwd.c \
+			builtins/cd.c \
+			builtins/echo.c \
+			signals/signals.c \
+			signals/hd_signals.c \
+			signals/signals_kill.c \
+			heredoc/hd_name_generator.c \
+			heredoc/hd_set_fd.c \
+			heredoc/hd_expansion.c \
+			heredoc/hd_execution.c \
+			heredoc/hd_close.c \
+			free/free_frame.c \
+			free/free_nodes.c \
+			variables/expansion.c \
+			variables/expansion_helper.c \
+			variables/environment.c \
+			variables/environment_helper.c \
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))
 

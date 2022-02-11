@@ -131,82 +131,97 @@ typedef struct s_exec
 
 int			ft_lexer(char *str, t_frame *frame);
 void		add_letter(char c, t_frame *frame);
-void		split_in_chunks(char *str, t_frame *frame);
 void		handle_quotes(t_frame *frame);
 void		set_quote_state(char c, t_frame *frame);
+void		set_quote_state_2(char c, t_frame *frame);
+void		tag_node(t_node *node);
+int			set_right_red(t_frame *frame);
+int			set_left_red(t_frame *frame);
+void		check_exp_var(char *var_name, t_frame *frame);
+void		q_var_expansion(char *str, t_frame *frame);
+void		uq_var_expansion(char *str, t_frame *frame);
 void		expand(char *str, int *i, t_frame *frame);
-int			expand_prequ(t_frame *frame, char cur_c, char next_c);
+int			expand_requisites(t_frame *frame, char cur_c, char next_c);
 int			execute_chunks(t_frame *frame);
 int			check_for_redir(t_frame *frame);
 void		get_path(t_frame *frame);
-void		executer(t_frame *frame, char *cmd);
-void 		execute_function(t_frame *frame, t_exec *exec);
 void		execute_builtin(t_frame *frame, char *cmd);
 
 void		init_frame(t_frame *frame);
 void		next_node(t_frame *frame);
 void		next_chunk(t_frame *frame);
 void		free_node(t_node *node);
+void		init_chunk(t_frame *frame);
 void		init_node(t_frame *frame);
-void		ft_clear_nodes(t_node **current_node);
+int			lstsize(t_node *lst);
+int			var_lstsize(t_var *lst);
 void		set_list_2start(t_frame *frame);
 int			add_var_node(t_frame *frame, char *name, char *content, int just_export);
 int			is_alnum_uscore(char c);
-int			control_nodes_raw(t_frame *frame);
+
+int			input_check(t_frame *frame);
+int			control_node(t_node *node, t_frame *frame);
 void		delete_node(t_frame	*frame, t_node *node);
 void		delete_var_node(t_frame	*frame, t_var *node);
 char		**list_to_arr(t_node *node_start);
 char		**env_list_to_arr(t_frame *frame);
 void		re_arrange_list(t_frame *frame);
 t_builtin	check_for_builtin(char *input_cmd, t_frame *frame);
-void		reset_fd(t_frame *frame, int pipe_state);
-void		print_env(t_var *var);
 char		*ft_quote(char *str);
 char		*ft_unquote(char *str);
-void		set_quote_state_for_handle(char c, t_frame *frame);
+
+void		 get_env(t_frame *frame);
 char		*get_env_var(t_frame *frame, char *name);
 int			look_for_var(t_frame *frame, char *name);
 void		update_env(t_frame *frame, char *name, char *content, char *oldpwd);
-void		split_env(char *str, t_frame *frame);
 
-void		print_var(t_frame *frame);
+//helpers TODO delete
 void		ft_print_stack(t_frame *frame);
 void		ft_print_stack_plain(t_frame *frame);
 void		debug_print(t_frame *frame);
 void		debug_print_full(t_frame *frame);
 void 		print_hd_list(t_frame *frame);
+
 char		*change_caps(char *input_cmd);
 int 		print_error(int err_no, char *cmd, char * arg, char *message);
+void		print_signal_error(int sig);
 char 		*init_signals_and_prompt(t_frame *frame);
 void		child_killer(int signal);
-void		clear_signals();
-//void		signals_for_child(t_frame *frame, int pid);
-//void		switch_signal_print(int i, t_frame *frame);
+void		clear_signals();//TODO what is that???
 
 int			ft_fork();
 void		init_exec(t_exec *exec);
 void		check_for_pipe(t_frame *frame);
+void		wait_for_childs(t_frame *frame);
+int			ft_childprocess(t_frame *frame, t_exec *exec);
+void		ft_parent(t_frame *frame, t_exec *exec, t_chunk *cc);
 int			get_access(t_frame *frame, char	*cmd);
+int			execute_one_cmd(t_frame *frame, t_exec *exec);
 int			execute_cmd(t_frame *frame, int i, char* cmd);
 void		prepare_builtin_alone(t_frame *frame);
 void		set_back_builtin_alone(t_frame *frame);
 
 void		exit_minishell(t_frame *frame);
 int			env(t_frame *frame);
+int			unset(t_frame *frame);
+int			export(t_frame *frame);
+int			pwd(t_frame *frame);
+int			cd(t_frame *frame);
+int			echo(t_frame *frame);
 
 char 		*create_rand_name();
+int			set_here_docs(t_frame *frame);
 int			do_here_doc(t_frame *frame);
 char		*get_heredoc_prompt();
-void		add_to_hd_list(t_frame *frame, char *path);
+void		handle_hd_expansion(t_frame *frame, char *str);
 int			solve_heredocs(t_frame *frame);
 int 		set_hd_as_infd(t_frame *frame);
-void		clean_tmp(t_frame *frame);
 void		remove_hd(t_frame *frame);
 int			sig_flag_hd(int action);
 void		add_hd_name_to_list(t_frame *frame);
 void		interrupt_rmv_hd(t_frame *frame);
-void		close_all_fd(t_frame *frame);
 
 void		reset_frame(t_frame *frame);
 void		free_env(t_frame *frame);
+int			error_exit(t_frame *frame);
 #endif
