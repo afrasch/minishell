@@ -129,7 +129,7 @@ typedef struct s_exec
 	int	tmp_fd;
 }	t_exec;
 
-int			ft_lexer(char *str, t_frame *frame);
+int			ft_minishell(char *str, t_frame *frame);
 void		add_letter(char c, t_frame *frame);
 void		handle_quotes(t_frame *frame);
 void		set_quote_state(char c, t_frame *frame);

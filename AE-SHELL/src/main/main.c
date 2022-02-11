@@ -21,7 +21,7 @@ int	main(void)
 		}
 		if (str[0] != '\0')
 		{
-			ft_lexer(str, &frame);
+			ft_minishell(str, &frame);
 			add_history(str);
 			free(str);//SIGABRT
 			reset_frame(&frame);

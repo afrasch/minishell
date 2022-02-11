@@ -13,7 +13,7 @@ HEADERS = $(addprefix $(HEADERS_DIR), $(HEADERS_LIST))
 SRC_DIR = ./src/
 SRC_LIST =	main/main.c \
 			removethisfolder/helpers.c \
-			parser/lexer.c \
+			parser/parser.c \
 			parser/quotes.c \
 			parser/set_flags.c \
 			parser/input_check.c \

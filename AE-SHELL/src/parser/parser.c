@@ -99,7 +99,7 @@ static void	split_in_chunks(char *str, t_frame *frame)
 	}
 }
 
-int	ft_lexer(char *str, t_frame *frame)
+int	ft_minishell(char *str, t_frame *frame)
 {
 	split_in_chunks(str, frame);
 	handle_quotes(frame);
