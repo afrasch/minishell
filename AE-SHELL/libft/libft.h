@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afrasch <afrasch@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 15:24:56 by elenz             #+#    #+#             */
-/*   Updated: 2022/01/30 10:43:02 by afrasch          ###   ########.fr       */
+/*   Updated: 2022/02/15 22:42:35 by elenz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 void		ft_striteri(char *s, void (*f)(unsigned int, char*));
 char		*ft_strrev(char *s);
 char		*ft_utoa(unsigned int n);
-uint32_t	hex2int(char *hex);
+u_int32_t	hex2int(char *hex);
 size_t		ft_gstrlen(char	*s);
 int			ft_gstrchr(char	*s, int c);
 void		*ft_gfree_function(char *c, char **rest);
