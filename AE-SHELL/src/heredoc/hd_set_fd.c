@@ -23,11 +23,9 @@ int	set_fd_here_doc(t_frame *frame)
 {
 	char	*name;
 	char	*tmpdir;
-	t_chunk	*cc;
 
 	name = NULL;
 	tmpdir = NULL;
-	cc = frame->cc;
 	if (frame->cc->hd_bool == OFF)
 	{
 		name = create_rand_name();
@@ -61,9 +59,6 @@ int	set_fd_here_doc(t_frame *frame)
 
 int	set_here_docs(t_frame *frame)
 {
-	t_node	*cn;
-
-	cn = frame->cc->cn;
 	if (frame->cc->in_fd > 3)
 		close(frame->cc->in_fd);
 	if (set_fd_here_doc(frame) < 0)

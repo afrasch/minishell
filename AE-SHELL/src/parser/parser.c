@@ -21,9 +21,6 @@ void add_letter(char c, t_frame *frame)
 
 static void	add_node(char c, char c_plus, t_frame *frame)
 {
-	int	i;
-
-	i = 0;
 	if (!frame->cc->cn)
 		init_node(frame);
 	if (ft_strchr("<> 	\n", c) != NULL && frame->cc->cn->quote_st == NO_Q)

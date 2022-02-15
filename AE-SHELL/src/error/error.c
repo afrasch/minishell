@@ -2,9 +2,9 @@
 
 int	error_exit(t_frame *frame)
 {
-	char	*msg;
+	//char	*msg;
 
-	msg = strerror(errno);//TODO
+	//msg = strerror(errno);//TODO
 	// perror("SHELL SHOCK");
 	// frame->e_status = 0; TODO zurucksetzen
 	// write(STDERR_FILENO, msg, ft_strlen(msg));

@@ -6,16 +6,16 @@
 /*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 13:11:44 by elenz             #+#    #+#             */
-/*   Updated: 2021/11/01 13:11:56 by elenz            ###   ########.fr       */
+/*   Updated: 2022/02/15 22:40:08 by elenz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-uint32_t	hex2int(char *hex)
+u_int32_t	hex2int(char *hex)
 {
-	uint32_t	val;
-	uint8_t		byte;
+	u_int32_t	val;
+	u_int8_t	byte;
 
 	val = 0;
 	while (*hex)
