@@ -28,16 +28,22 @@ void	init_exec(t_exec *exec)
 
 char	*change_caps(char *input_cmd)
 {
-	int		i;
+	int	i;
 	char	*lowletter_cmd;
 
 	i = 0;
 	lowletter_cmd = NULL;
-	while (input_cmd && input_cmd[i])
+	lowletter_cmd = calloc(ft_strlen(input_cmd) + 2, sizeof(char));
+	while (input_cmd != NULL && input_cmd[i])
+	{
+		lowletter_cmd[i] = ft_tolower(input_cmd[i]);
+		i++;
+	}
+	/* while (input_cmd != NULL && input_cmd[i])
 	{
 		lowletter_cmd = ft_add_chr_to_str(lowletter_cmd, ft_tolower(input_cmd[i]));
 		i++;
-	}
+	} */
 	return (lowletter_cmd);
 }
 

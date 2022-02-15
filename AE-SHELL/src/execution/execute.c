@@ -3,26 +3,18 @@
 int prepare_pipe(t_exec *exec)
 {
 	if (pipe(exec->fd) < 0)
-		print_error(SHELLNAME, NULL, NULL, NULL);
-		// print_error(errno, NULL, NULL, NULL);
+		// print_error(SHELLNAME, NULL, NULL, NULL);
+		print_error(errno, NULL, NULL, NULL);
 	return (0);
 }
 
 static void executer(t_frame *frame, t_exec *exec)
 {
 	char	*lowletter_cmd;
-	unsigned long		i = 0;
 
 	lowletter_cmd = NULL;
-	lowletter_cmd = malloc(sizeof(char) * ft_strlen(frame->cc->node_start->content));
 	if (frame->cc->node_start != NULL)
-	{
-		while (i < ft_strlen(frame->cc->node_start->content))
-		{
-			lowletter_cmd[i] = ft_tolower(frame->cc->node_start->content[i]);
-			i++;
-		}
-	}
+		lowletter_cmd = change_caps(frame->cc->node_start->content);
 	if ((check_for_builtin(lowletter_cmd, frame) != NONE) && (frame->single_com == ON))
 	{
 		prepare_builtin_alone(frame);
