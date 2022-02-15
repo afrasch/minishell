@@ -16,7 +16,7 @@ static void	free_var_node(t_var *var)
 	free(var);
 }
 
-void	free_env(t_frame *frame)//TODO leaks mit system funktion
+void	free_env(t_frame *frame)//TODO doppelpointer
 {
 	t_var *var;
 	t_var *tmp;

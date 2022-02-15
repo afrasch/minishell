@@ -29,6 +29,12 @@ int	main(void)
 	}
 }
 
+//TODO echo $PWD oder $OLDPWD -> seg fault
+
+//TODO unset $HOME -> segfault
+
+//TODO unset $PATH -> prints??
+
 //TODO <<file OR <file1 -> Segmentation fault with signal 11 -> echo $? 139
 
 //TODO : SIGNALS!!! Problem mit Delete und Problem mit Terminal man, Syntax falsche zeichen

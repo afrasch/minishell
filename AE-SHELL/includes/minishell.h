@@ -183,7 +183,8 @@ void		debug_print_full(t_frame *frame);
 void 		print_hd_list(t_frame *frame);
 
 char		*change_caps(char *input_cmd);
-int 		print_error(int err_no, char *cmd, char * arg, char *message);
+int		print_error(char *s1, char *s2, char *s3, char *message);
+// int 		print_error(int err_no, char *cmd, char * arg, char *message);
 void		print_signal_error(int sig);
 char 		*init_signals_and_prompt(t_frame *frame);
 void		child_killer(int signal);
@@ -224,6 +225,9 @@ void		interrupt_rmv_hd(t_frame *frame);
 void		reset_frame(t_frame *frame);
 void		free_env(t_frame *frame);
 int			error_exit(t_frame *frame);
+void		exec_scmd_free_exit(int status, char **argv, t_list *l_free);
+int			print_error_errno(char *s1, char *s2, char *s3);
+int			print_error_exit(char *cmd, char *arg, char *message);
 
 char		*minishell_get_next_line(int fd);
 #endif

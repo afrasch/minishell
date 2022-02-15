@@ -21,7 +21,8 @@ int	add_var_node(t_frame *frame, char *name, char *content, int just_export)//TO
 	t_var	*node;
 
 	if (is_valid_varname(name) == FALSE)
-		return (print_error(errno, "export", name, "not a valid identifier"));
+		return (print_error(SHELLNAME, "export", name, "not a valid identifier"));
+		// return (print_error(errno, "export", name, "not a valid identifier"));
 	node = ft_calloc(1, sizeof(t_var));
 	if (!node)
 		return (ERROR);

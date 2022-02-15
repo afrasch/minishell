@@ -3,7 +3,8 @@
 int prepare_pipe(t_exec *exec)
 {
 	if (pipe(exec->fd) < 0)
-		print_error(errno, NULL, NULL, NULL);
+		print_error(SHELLNAME, NULL, NULL, NULL);
+		// print_error(errno, NULL, NULL, NULL);
 	return (0);
 }
 
