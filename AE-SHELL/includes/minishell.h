@@ -98,7 +98,6 @@ typedef struct s_chunk
 	int					out_fd;
 	t_node				*cn;
 	t_node				*node_start;
-	int					cc_errno;
 	char				**cmd_arr;
 	int					hd_bool;
 	char				*hd_path;
@@ -224,10 +223,11 @@ void		interrupt_rmv_hd(t_frame *frame);
 
 void		reset_frame(t_frame *frame);
 void		free_env(t_frame *frame);
+void		free_all(t_frame *frame);
 int			error_exit(t_frame *frame);
 void		exec_scmd_free_exit(int status, char **argv, t_list *l_free);
 int			print_error_errno(char *s1, char *s2, char *s3);
-int			print_error_exit(char *cmd, char *arg, char *message);
+int			print_error_exit(t_frame *frame, char *cmd, char *arg, char *message);
 
 char		*minishell_get_next_line(int fd);
 #endif

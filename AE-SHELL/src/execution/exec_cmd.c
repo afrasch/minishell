@@ -41,11 +41,11 @@ int	execute_cmd(t_frame *frame, int i, char* cmd)
 	// TODO
 
 	if (errno == ENOENT)
-		print_error_exit(cmd, NULL, "No such file or directory");
+		print_error_exit(frame, cmd, NULL, "No such file or directory");
 	else if (errno == EACCES)
 	{
 		frame->e_status = 126;
-		print_error_exit(cmd, NULL, "Permission denied");
+		print_error_exit(frame, cmd, NULL, "Permission denied");
 	}
 	else
 		// print_error_errno(SHELLNAME, cmd, NULL);

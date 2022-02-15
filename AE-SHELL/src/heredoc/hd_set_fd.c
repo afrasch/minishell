@@ -10,8 +10,8 @@ int set_hd_as_infd(t_frame *frame)
 	frame->cc->in_fd = open(frame->cc->hd_path, O_RDONLY, 0777);
 	if (frame->cc->in_fd < 0)
 	{
-		frame->cc->cc_errno = errno;
-		perror(strerror(frame->cc->cc_errno));
+		frame->e_status = 1;
+		print_error(errno, frame->cc->cn->next->content, NULL, NULL);
 		return (ERROR);
 	}
 	delete_node(frame, frame->cc->cn);
@@ -34,7 +34,7 @@ int	set_fd_here_doc(t_frame *frame)
 		if (look_for_var(frame, "TMPDIR") == TRUE)
 			tmpdir = get_env_var(frame, "TMPDIR");
 		else
-			exit_minishell(frame); // TODO error
+			print_error_exit(frame, "heredoc", NULL, "TMPDIR not set");
 		frame->cc->hd_path = ft_strjoin(tmpdir, name);
 		// frame->cc->hd_path = ft_strjoin("tmp/",name);
 		frame->cc->hd_bool = ON;
@@ -44,17 +44,16 @@ int	set_fd_here_doc(t_frame *frame)
 	}
 	else
 		remove_hd(frame);
-	frame->cc->in_fd  = open(frame->cc->hd_path, O_RDWR | O_CREAT | O_TRUNC, 0777);//TODO open_protected
+	frame->cc->in_fd  = open(frame->cc->hd_path, O_RDWR | O_CREAT | O_TRUNC, 0777);
 	if (frame->cc->in_fd < 0)
 	{
-		frame->cc->cc_errno = errno;
-		perror(strerror(frame->cc->cc_errno));//TODO error, exit
+		frame->e_status = 1;
+		print_error(errno, frame->cc->cn->next->content, NULL, NULL);
 		return (ERROR);
 	}
 	if (do_here_doc(frame) < 0)
 		return (-1);
-	if (close(frame->cc->in_fd) < 0)
-		printf("ERROR HEREDOC\n");//TODO protect every open() and close()
+	close(frame->cc->in_fd);
 	frame->cc->in_fd = STDIN_FILENO;
 	return (0);
 }
@@ -66,7 +65,7 @@ int	set_here_docs(t_frame *frame)
 	cn = frame->cc->cn;
 	if (frame->cc->in_fd > 3)
 		close(frame->cc->in_fd);
-	if (set_fd_here_doc(frame)< 0)
+	if (set_fd_here_doc(frame) < 0)
 		return (-1);
 	return (0);
 }
