@@ -7,12 +7,17 @@ int	check_redir(t_node *node)
 	{
 		if (node->next != NULL)
 			if (node->next->type != WORD)
-				printf("ERROR\n");
+				printf("ERROR REDIR\n");
 		if (node->next == NULL)
-			printf("ERROR\n");
+			printf("ERROR REDIR\n");
 	}
 	return (0);
 }
+
+/* int check_bad_character(t_node *node)
+{
+
+} */
 
 int	check_end_quotes(t_node *node)
 {
@@ -30,6 +35,8 @@ int	control_node(t_node *node)
 		return (ERROR);
 	if (check_end_quotes(node) == ERROR)
 		return (ERROR);
+/* 	if (check_bad_character(node) == ERROR)
+		return (ERROR); */
 	return (0);
 }
 

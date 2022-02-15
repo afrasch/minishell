@@ -53,6 +53,7 @@ void	split_env(char *str, t_frame *frame)
 	name = ft_substr(str, 0, find_nbr);
 	content = ft_substr(str, find_nbr, ft_strlen(str) - find_nbr);
 	tmp = ft_add_chr_to_str(content, '"');
+	(void)frame;
 	add_var_node(frame, name, tmp, OFF);
 }
 
@@ -64,7 +65,7 @@ void get_env(t_frame *frame)
 	i = 0;
 	while (environ[i] != NULL)
 	{
-		split_env(environ[i], frame);
+		split_env(ft_strdup(environ[i]), frame);
 		i++;
 	}
 }
@@ -76,7 +77,7 @@ int	main(void)
 	t_frame		frame;
 
 	init_frame(&frame);
-	get_env(&frame);
+	get_env(&frame); // wenn man get_env auskommentiert geht delte
 	//save_builtins(&frame);
 	while (1)
 	{
