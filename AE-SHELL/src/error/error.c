@@ -13,12 +13,15 @@ int	error_exit(t_frame *frame)
 	exit(frame->e_status);//aus child !
 }
 
-int	print_error_exit(char *cmd, char *arg, char *message)
+int	print_error_exit(t_frame *frame, char *cmd, char *arg, char *message)
 {
 	// char *msg;
 	(void)arg;
+	free_all(frame);
+
 	// msg = strerror(errno);
-	if (ft_strcmp(message, "command not found") == 0)
+	if (ft_strcmp(message, "command not found") == 0
+		|| ft_strcmp(message, "No such file or directory") == 0)
 	{
 		printf("%s: %s: %s\n", SHELLNAME, cmd, message);
 		exit (127);

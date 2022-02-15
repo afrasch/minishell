@@ -16,10 +16,7 @@ static void	close_all_fd(t_frame *frame)
 void	remove_hd(t_frame *frame)
 {
 	if (unlink(frame->cc->hd_path) != 0)
-	{
-		frame->cc->cc_errno = errno;
-		printf("Error");//TODO error
-	}
+		print_error(errno, NULL, NULL, NULL);
 }
 
 void	interrupt_rmv_hd(t_frame *frame)
@@ -31,7 +28,8 @@ void	interrupt_rmv_hd(t_frame *frame)
 	while (node!= NULL)
 	{
 		tmp = node;
-		unlink(node->name_of_hd);//TODO protection
+		if (unlink(node->name_of_hd) < 0)//TODO protection
+			print_error(errno, "heredoc", NULL, NULL);
 		free(node->name_of_hd);
 		node->name_of_hd = NULL;
 		free(node);

@@ -3,11 +3,11 @@
 int	set_in_fd(t_frame *frame)
 {
 	frame->cc->in_fd = open(frame->cc->cn->next->content, O_RDONLY, 0777);
+	printf("check\n");
 	if (frame->cc->in_fd < 0)
 	{
-		frame->cc->cc_errno = errno;
-		perror("SHELL SHOCK");
-		// perror(strerror(frame->cc->cc_errno));
+		frame->e_status = 1;
+		print_error(errno, frame->cc->cn->next->content, NULL, NULL);
 		return (ERROR);
 	}
 	return(0);
@@ -21,9 +21,9 @@ int	set_out_fd(t_frame *frame, char mode)
 		frame->cc->out_fd = open(frame->cc->cn->next->content, O_WRONLY|  O_APPEND | O_CREAT, 0777);
 	if (frame->cc->in_fd < 0)
 	{
-		frame->cc->cc_errno = errno;
-		perror("SHELL SHOCK");
-		return (ERROR);//TODO call errno in child
+		frame->e_status = 1;
+		print_error(errno, frame->cc->cn->next->content, NULL, NULL);
+		return (ERROR);
 	}
 	return (0);
 }

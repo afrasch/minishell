@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+void	free_all(t_frame *frame)
+{
+	free_env(frame);
+	reset_frame(frame);
+}
+
 void	exit_minishell(t_frame *frame)//take exit status for exit()
 {
 	free_env(frame);//TODO why more leaks ? valgrind
