@@ -194,7 +194,7 @@ int			ft_fork();
 void		init_exec(t_exec *exec);
 void		check_for_pipe(t_frame *frame);
 void		wait_for_childs(t_frame *frame);
-int			ft_childprocess(t_frame *frame, t_exec *exec);
+int			ft_childprocess(t_frame *frame, t_exec *exec, char *cmd);
 void		ft_parent(t_frame *frame, t_exec *exec, t_chunk *cc);
 int			get_access(t_frame *frame, char	*cmd);
 int			execute_one_cmd(t_frame *frame, t_exec *exec);

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	ft_childprocess(t_frame *frame, t_exec *exec)
+int	ft_childprocess(t_frame *frame, t_exec *exec, char *str)
 {
 	int		i;
 
@@ -37,6 +37,11 @@ int	ft_childprocess(t_frame *frame, t_exec *exec)
 	close(exec->fd[0]);
 	close(exec->fd[1]);
 	close(exec->tmp_fd);
+	if (check_for_builtin(str, frame) != NONE)
+	{
+		frame->cc->out_fd = STDOUT_FILENO;
+		exit(execute_builtin(frame, str));
+	}
 	execute_cmd(frame, i, change_caps(frame->cc->node_start->content));
 	error_exit(frame);//TODO
 	return (0);

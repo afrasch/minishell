@@ -30,7 +30,7 @@ static void executer(t_frame *frame, t_exec *exec)
 		if (frame->pid == 0)
 		{
 			free(lowletter_cmd);
-			ft_childprocess(frame, exec);//TODO if == ERROR protec
+			ft_childprocess(frame, exec, lowletter_cmd);//TODO if == ERROR protec
 		}
 		else if (frame->single_com == OFF)
 			ft_parent(frame, exec, frame->cc);

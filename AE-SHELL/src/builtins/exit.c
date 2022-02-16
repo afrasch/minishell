@@ -11,6 +11,6 @@ void	exit_minishell(t_frame *frame)
 	free_all(frame);
 	if (isatty(STDIN_FILENO))
 		ft_putstr_fd("exit\n", 2);//if builtin
-	system("leaks minishell");
+	//system("leaks minishell");
 	exit(frame->e_status);
 }

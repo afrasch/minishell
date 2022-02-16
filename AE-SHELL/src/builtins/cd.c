@@ -6,9 +6,10 @@ int	cd(t_frame *frame)
 	char	*home_path;
 	char	*oldpwd;
 
-	oldpwd = getcwd(NULL, 0);
+	//oldpwd = getcwd(NULL, 0); TODO loeschen
 	node = frame->cc->node_start;
 	home_path = get_env_var(frame, "HOME");
+	oldpwd = get_env_var(frame, "OLDPWD"); //freen
 	if (!oldpwd || !node || !home_path)
 	{
 		if (!oldpwd)
