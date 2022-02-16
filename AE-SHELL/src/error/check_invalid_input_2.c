@@ -2,7 +2,7 @@
 
 static int	check_slashes(t_node *node, t_frame* frame)
 {
-	if (ft_strncmp(node->content, "/", 1) == 0)
+	if (node->content && ft_strncmp(node->content, "/", 1) == 0)
 	{
 		if (ft_strlen(node->content) == 1
 			|| ft_strncmp(node->content, "//", 2) == 0)
