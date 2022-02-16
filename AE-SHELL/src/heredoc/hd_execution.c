@@ -6,6 +6,7 @@ int	do_here_doc(t_frame *frame)//TODO kontrolliere sig flag
 	char	*del;
 
 	del = frame->cc->cn->next->content;
+
 	while (1)
 	{
 		str = get_heredoc_prompt();

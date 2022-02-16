@@ -63,3 +63,4 @@ void	q_var_expansion(char *str, t_frame *frame)
 	}
 	check_exp_var(var_name, frame);
  }
+ 

@@ -40,12 +40,11 @@ static void	add_node(char c, char c_plus, t_frame *frame)
 	{
 		if (ft_strrchr("\"\'", c) != NULL)
 			set_quote_state(c, frame);
-
 		add_letter(c, frame);
 	}
 }
 
-static void	add_e_status_node(t_frame *frame)//TODO signal permission denied = 126, Nsfod = 127 ???
+static void	add_e_status_node(t_frame *frame)
 {
 	char	*e_status;
 	int		i;
