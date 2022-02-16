@@ -16,7 +16,7 @@ static void	free_var_node(t_var *var)
 	free(var);
 }
 
-void	free_env(t_frame *frame)//TODO doppelpointer
+void	free_env(t_frame *frame)
 {
 	t_var *var;
 	t_var *tmp;
@@ -29,20 +29,6 @@ void	free_env(t_frame *frame)//TODO doppelpointer
 		var = tmp;
 	}
 }
-/* void	free_env(t_frame **frame)//TODO doppelpointer
-{
-	t_var *var;
-	t_var *tmp;
-
-	var = frame->shell_env_start;
-	while (var && var->next)
-	{
-		tmp = var->next;
-		free_var_node(var);
-		var = tmp->next;
-	}
-} */
-
 
 void	ft_free_2d(void ***to_free)
 {

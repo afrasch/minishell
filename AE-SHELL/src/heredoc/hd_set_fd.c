@@ -32,7 +32,13 @@ int	set_fd_here_doc(t_frame *frame)
 		if (look_for_var(frame, "TMPDIR") == TRUE)
 			tmpdir = get_env_var(frame, "TMPDIR");
 		else
-			print_error_exit(frame, "heredoc", NULL, "TMPDIR not set");
+		{
+			ft_putendl_fd("SHELL SHOCK: heredoc: TMPDIR not set", STDERR_FILENO);
+			free(name);
+			frame->e_status = 1;
+			return (ERROR);
+		}
+			// print_error_exit(frame, "heredoc", NULL, "TMPDIR not set");
 		frame->cc->hd_path = ft_strjoin(tmpdir, name);
 		// frame->cc->hd_path = ft_strjoin("tmp/",name);
 		frame->cc->hd_bool = ON;
@@ -62,6 +68,6 @@ int	set_here_docs(t_frame *frame)
 	if (frame->cc->in_fd > 3)
 		close(frame->cc->in_fd);
 	if (set_fd_here_doc(frame) < 0)
-		return (-1);
+		return (ERROR);
 	return (0);
 }

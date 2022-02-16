@@ -70,7 +70,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJ)
 	@make -C $(LIB_PATH) all
-	@$(CC) $(CFLAGS) $(INCLUDES) $(LIBS) $(OBJ) -o $(NAME)
+	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBS) -o $(NAME)
 	@echo "\033[0;33mCreate $(NAME)\033[m"
 
 $(OBJ_DIR):

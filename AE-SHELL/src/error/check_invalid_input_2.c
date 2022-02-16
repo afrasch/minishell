@@ -4,7 +4,8 @@ static int	check_slashes(t_node *node, t_frame* frame)
 {
 	if (ft_strncmp(node->content, "/", 1) == 0)
 	{
-		if (ft_strlen(node->content) == 1)
+		if (ft_strlen(node->content) == 1
+			|| ft_strncmp(node->content, "//", 2) == 0)
 		{frame->e_status = 126;
 			return (print_error(-2, node->content, NULL, "is a directory"));}
 			// return (print_error(SHELLNAME, node->content, NULL, "is a directory"));
