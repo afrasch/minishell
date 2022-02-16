@@ -21,9 +21,9 @@ char	*ft_add_chr_to_str(char *str, char c)
 	length = ft_strlen(str);
 	new_string = ft_calloc((length + 2), sizeof(char));
 	ft_memcpy(new_string, str, length);
-	if (!str)
-		free(str);
-	str = NULL;
+	// if (str)
+	// 	free(str);
+	// str = NULL;
 	new_string[length] = c;
 	return (new_string);
 }

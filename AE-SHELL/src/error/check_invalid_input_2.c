@@ -6,14 +6,14 @@ static int	check_slashes(t_node *node, t_frame* frame)
 	{
 		if (ft_strlen(node->content) == 1
 			|| ft_strncmp(node->content, "//", 2) == 0)
-		{frame->e_status = 126;
-			return (print_error(-2, node->content, NULL, "is a directory"));}
-			// return (print_error(SHELLNAME, node->content, NULL, "is a directory"));
+		{
+			frame->e_status = 126;
+			return (print_error(-2, node->content, NULL, "is a directory"));
+		}
 		else if (access(node->content, F_OK) < 0)
 		{
 			frame->e_status = 127;
-			// return (print_error(SHELLNAME, node->content, NULL, NULL));//nsfod
-			return (print_error(errno, node->content, NULL, NULL));//nsfod
+			return (print_error(errno, node->content, NULL, NULL));
 		}
 	}
 	return (0);
@@ -29,15 +29,12 @@ static int	check_redir(t_node *node)
 			if ((node->type == D_REDIR_R && node->next->type != WORD)
 				|| (node->type == D_REDIR_L && node->next->type == D_REDIR_L)
 				|| (node->type == D_REDIR_L && node->next->type == S_REDIR_R))
-				// return (print_error(SHELLNAME, node->next->content, NULL, "syntax error near unexpected token"));
 				return (print_error(errno, node->next->content, NULL, "syntax error near unexpected token"));
 			if (node->type != D_REDIR_L && node->next->type == WORD
 				&& access(node->next->content, F_OK) == ERROR && node->type != S_REDIR_R)
-				// return (print_error(SHELLNAME, node->next->content, NULL, "No such file or directory"));
 				return (print_error(errno, node->next->content, NULL, "No such file or directory"));
 		}
 		else
-			// return (print_error(SHELLNAME, "newline", NULL, "syntax error near unexpected token"));
 			return (print_error(errno, "newline", NULL, "syntax error near unexpected token"));
 	}
 	return (0);
@@ -46,10 +43,8 @@ static int	check_redir(t_node *node)
 static int	check_end_quotes(t_node *node)
 {
 	if (node->quote_st == SINGLE_Q)
-		// return (print_error(SHELLNAME, "\'", NULL, "syntax error near single quotes"));
 		return (print_error(-2, "\'", NULL, "syntax error near single quotes"));
 	if (node->quote_st == DOUBLE_Q)
-		// return (print_error(SHELLNAME, "\"", NULL, "syntax error near double quotes"));
 		return (print_error(-2, "\"", NULL, "syntax error near double quotes"));
 	return (0);
 }

@@ -25,7 +25,7 @@ void	handle_hd_expansion(t_frame *frame, char *str)
 			var_name = expand_hd(str, &i);
 			var_name = get_env_var(frame, var_name);
 			ft_putstr_fd (var_name, frame->cc->in_fd);
-			if (!var_name)
+			if (var_name)
 				free(var_name);
 			var_name = NULL;//TODO eigene funktion ft_free
 		}

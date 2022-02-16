@@ -12,7 +12,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
-//# include <wait.h>
+# include <wait.h>
 
 # define PROMPT		"|SHELL~SHOCK| "
 # define SHELLNAME	"SHELL SHOCK"

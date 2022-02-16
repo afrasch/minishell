@@ -38,10 +38,9 @@ int	export(t_frame *frame)
 			add_var_node(frame, node->content, NULL, ON);
 		else
 		{
-			node->content[del_i] = '"';
 			name = ft_substr(node->content, 0, del_i);
-			content = ft_substr(node->content, del_i, ft_strlen(node->content) - del_i);
-			content = ft_add_chr_to_str(content, '"');
+			content = ft_substr(node->content, del_i + 1, ft_strlen(node->content) - del_i);
+			content = ft_quote(content);
 			add_var_node(frame, name, content, OFF);
 		}
 		node = node->next;
