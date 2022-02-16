@@ -228,7 +228,7 @@ void		free_all(t_frame *frame);
 int			error_exit(t_frame *frame);
 void		exec_scmd_free_exit(int status, char **argv, t_list *l_free);
 int			print_error_errno(char *s1, char *s2, char *s3);
-int			print_error_exit(t_frame *frame, char *cmd, char *message);
+void		print_error_exit(t_frame *frame, char *cmd, char *message);
 
 char		*minishell_get_next_line(int fd);
 #endif

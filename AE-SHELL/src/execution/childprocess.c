@@ -12,12 +12,6 @@ int	ft_childprocess(t_frame *frame, t_exec *exec)
 	if (!frame->cc->node_start)
 		error_exit(frame);
 	i = get_access(frame, change_caps(frame->cc->node_start->content));
-	// if (i == ERROR)
-	// {
-	// 	printf("check %s\n", frame->cc->node_start->content);
-	// 		print_error_exit(frame, frame->cc->node_start->content, NULL, "command not found");
-	// }
-	// else 
 	if (frame->single_com == ON && i != ERROR)
 		execute_one_cmd(frame, exec);
 	if (frame->cc->in_fd == PIPEIN)

@@ -18,7 +18,7 @@ int	env(t_frame *frame)
 		if (var->con)
 		{
 			tmp_con = ft_unquote(var->con);
-			printf("%s=%s\n", var->name, tmp_con);
+			printf("%s=%s\n", var->name, tmp_con);// TODO mit frame->cc->out_fd ??
 			if (tmp_con)
 				free(tmp_con);
 		}

@@ -37,17 +37,17 @@ int	execute_cmd(t_frame *frame, int i, char* cmd)
 		execve(cmd, list_to_arr(frame->cc->node_start), env_list_to_arr(frame));
 	else
 		execve(ft_strjoin(frame->paths[i], cmd), list_to_arr(frame->cc->node_start), env_list_to_arr(frame));
-	// TODO
-
 	if (errno == ENOENT)
+	{
+		frame->e_status = 127;
 		print_error_exit(frame, cmd, "No such file or directory");
+	}
 	else if (errno == EACCES)
 	{
 		frame->e_status = 126;
 		print_error_exit(frame, cmd, "Permission denied");
 	}
 	else
-		// print_error_errno(SHELLNAME, cmd, NULL);
 		print_error(cmd, NULL, NULL);
 
 	return (ERROR);
