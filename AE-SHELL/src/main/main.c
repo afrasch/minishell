@@ -11,7 +11,7 @@ int	main(void)
 	while (1)
 	{
 		str = init_signals_and_prompt(&frame);
-		//str = "exit";
+		// str = "echo $a";
 		//str = "\" echo \"  \" cat";
 		//str = "export a b c d";
 		// str = "<file1 | wc";
