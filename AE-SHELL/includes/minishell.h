@@ -15,7 +15,7 @@
 //# include <wait.h>
 
 # define PROMPT		"|SHELL~SHOCK| "
-# define SHELLNAME	"SHELL SHOCK"
+# define SHELLNAME	"SHELL SHOCK: "
 // # define PROMPT		"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
 # define ON 1
 # define OFF 0
@@ -145,7 +145,7 @@ int			expand_requisites(t_frame *frame, char cur_c, char next_c);
 int			execute_chunks(t_frame *frame);
 int			check_for_redir(t_frame *frame);
 void		get_path(t_frame *frame);
-void		execute_builtin(t_frame *frame, char *cmd);
+int		execute_builtin(t_frame *frame, char *cmd);
 
 void		init_frame(t_frame *frame);
 void		next_node(t_frame *frame);
@@ -184,7 +184,7 @@ void 		print_hd_list(t_frame *frame);
 
 char		*change_caps(char *input_cmd);
 // int		print_error(char *s1, char *s2, char *s3, char *message);
-int 		print_error(int err_no, char *cmd, char * arg, char *message);
+int 		print_error(char *cmd, char * arg, char *message);
 void		print_signal_error(int sig);
 char 		*init_signals_and_prompt(t_frame *frame);
 void		child_killer(int signal);
@@ -228,7 +228,7 @@ void		free_all(t_frame *frame);
 int			error_exit(t_frame *frame);
 void		exec_scmd_free_exit(int status, char **argv, t_list *l_free);
 int			print_error_errno(char *s1, char *s2, char *s3);
-int			print_error_exit(t_frame *frame, char *cmd, char *arg, char *message);
+int			print_error_exit(t_frame *frame, char *cmd, char *message);
 
 char		*minishell_get_next_line(int fd);
 #endif

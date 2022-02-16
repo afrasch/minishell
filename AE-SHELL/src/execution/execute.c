@@ -4,7 +4,7 @@ int prepare_pipe(t_exec *exec)
 {
 	if (pipe(exec->fd) < 0)
 		// print_error(SHELLNAME, NULL, NULL, NULL);
-		print_error(errno, NULL, NULL, NULL);
+		print_error(NULL, NULL, NULL);
 	return (0);
 }
 
@@ -18,7 +18,8 @@ static void executer(t_frame *frame, t_exec *exec)
 	if ((check_for_builtin(lowletter_cmd, frame) != NONE) && (frame->single_com == ON))
 	{
 		prepare_builtin_alone(frame);
-		execute_builtin(frame, lowletter_cmd);
+		if (execute_builtin(frame, lowletter_cmd) != 0)
+			print_error(frame->cc->node_start->content, NULL, "Builtin cannot be executed");
 		set_back_builtin_alone(frame);
 	}
 	else

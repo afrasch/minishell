@@ -9,7 +9,7 @@ static int	check_pipes(t_frame	*frame)
 		|| (cc->next != NULL && cc->next->node_start == NULL && cc->next->expanded == OFF))
 	{
 		frame->e_status = 258;
-		return (print_error(-2, "|", NULL, "syntax error near unexpected token"));
+		return (print_error("|", NULL, "syntax error near unexpected token"));
 	}
 	return (0);
 }

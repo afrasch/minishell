@@ -19,7 +19,7 @@ int	execute_one_cmd(t_frame *frame, t_exec *exec)
 	i = get_access(frame, change_caps(frame->cc->node_start->content));
 	if (i == ERROR)
 		// return (print_error(SHELLNAME, frame->cc->node_start->content, NULL, "No such file or directory"));
-		return (print_error(errno, frame->cc->node_start->content, NULL, "No such file or directory"));
+		return (print_error(frame->cc->node_start->content, NULL, "No such file or directory"));
 	dup2(frame->cc->in_fd, STDIN_FILENO);
 	dup2(frame->cc->out_fd, STDOUT_FILENO);
 	if (frame->cc->out_fd != STDOUT_FILENO)
@@ -40,15 +40,15 @@ int	execute_cmd(t_frame *frame, int i, char* cmd)
 	// TODO
 
 	if (errno == ENOENT)
-		print_error_exit(frame, cmd, NULL, "No such file or directory");
+		print_error_exit(frame, cmd, "No such file or directory");
 	else if (errno == EACCES)
 	{
 		frame->e_status = 126;
-		print_error_exit(frame, cmd, NULL, "Permission denied");
+		print_error_exit(frame, cmd, "Permission denied");
 	}
 	else
 		// print_error_errno(SHELLNAME, cmd, NULL);
-		print_error(errno, cmd, NULL, NULL);
+		print_error(cmd, NULL, NULL);
 
 	return (ERROR);
 }

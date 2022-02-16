@@ -64,7 +64,7 @@ int	get_access(t_frame *frame, char	*cmd)
 		}
 	}
 	else
-		print_error_exit(frame, cmd, NULL, "No such file or directory");
-	print_error_exit(frame, cmd, NULL, "command not found");
+		print_error_exit(frame, cmd, "No such file or directory");
+	print_error_exit(frame, cmd, "command not found");
 	return (ERROR);
 }
