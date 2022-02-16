@@ -46,21 +46,25 @@ int	get_access(t_frame *frame, char	*cmd)
 	i = 0;
 	if (access(cmd, F_OK) == 0)
 		return (-2);//means: absolute path works-> no ERROR
-	while (frame->paths[i])
+	if (frame->paths)
 	{
-		tmp_argv = ft_strjoin(frame->paths[i], cmd);
-		if (access(tmp_argv, X_OK) == 0)
+		while (frame->paths[i])
 		{
-			free(tmp_argv);
+			tmp_argv = ft_strjoin(frame->paths[i], cmd);
+			if (access(tmp_argv, X_OK) == 0)
+			{
+				free(tmp_argv);
+				tmp_argv = NULL;
+				return (i);
+			}
+			if (tmp_argv != NULL)
+				free(tmp_argv);
 			tmp_argv = NULL;
-			return (i);
+			i++;
 		}
-		if (tmp_argv != NULL)
-			free(tmp_argv);
-		tmp_argv = NULL;
-		i++;
 	}
-	frame->e_status = 127;
+	else
+		print_error_exit(frame, cmd, NULL, "No such file or directory");
+	print_error_exit(frame, cmd, NULL, "command not found");
 	return (ERROR);
-	//TODO Frage: klappt nach unset das absolute command? Was passiert, wenn arg nicht get_access
 }
