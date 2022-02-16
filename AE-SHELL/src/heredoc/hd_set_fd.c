@@ -11,7 +11,7 @@ int set_hd_as_infd(t_frame *frame)
 	if (frame->cc->in_fd < 0)
 	{
 		frame->e_status = 1;
-		print_error(errno, frame->cc->cn->next->content, NULL, NULL);
+		print_error(frame->cc->cn->next->content, NULL, NULL);
 		return (ERROR);
 	}
 	delete_node(frame, frame->cc->cn);
@@ -53,7 +53,7 @@ int	set_fd_here_doc(t_frame *frame)
 	if (frame->cc->in_fd < 0)
 	{
 		frame->e_status = 1;
-		print_error(errno, frame->cc->cn->next->content, NULL, NULL);
+		print_error(frame->cc->cn->next->content, NULL, NULL);
 		return (ERROR);
 	}
 	if (do_here_doc(frame) < 0)

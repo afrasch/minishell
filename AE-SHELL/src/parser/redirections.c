@@ -7,7 +7,7 @@ int	set_in_fd(t_frame *frame)
 	if (frame->cc->in_fd < 0)
 	{
 		frame->e_status = 1;
-		print_error(errno, frame->cc->cn->next->content, NULL, NULL);
+		print_error(frame->cc->cn->next->content, NULL, NULL);
 		return (ERROR);
 	}
 	return(0);
@@ -22,7 +22,7 @@ int	set_out_fd(t_frame *frame, char mode)
 	if (frame->cc->in_fd < 0)
 	{
 		frame->e_status = 1;
-		print_error(errno, frame->cc->cn->next->content, NULL, NULL);
+		print_error(frame->cc->cn->next->content, NULL, NULL);
 		return (ERROR);
 	}
 	return (0);

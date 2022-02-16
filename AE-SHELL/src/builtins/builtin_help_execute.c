@@ -21,7 +21,7 @@ void	set_back_builtin_alone(t_frame *frame)
 	close(frame->saved_out_fd);
 }
 
-void	execute_builtin(t_frame *frame, char *cmd)//TODO builtins protection? && exitstatus 2 bei error
+int	execute_builtin(t_frame *frame, char *cmd)//TODO builtins protection? && exitstatus 2 bei error
 {
 	if (check_for_builtin(cmd, frame) == B_ECHO)
 		frame->e_status = echo(frame);
@@ -37,4 +37,5 @@ void	execute_builtin(t_frame *frame, char *cmd)//TODO builtins protection? && ex
 		frame->e_status = env(frame);
 	else if (check_for_builtin(cmd, frame) == EXIT)
 		exit_minishell(frame);
+	return (frame->e_status);
 }
