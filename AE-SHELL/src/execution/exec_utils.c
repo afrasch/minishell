@@ -33,7 +33,7 @@ char	*change_caps(char *input_cmd)
 
 	i = 0;
 	lowletter_cmd = NULL;
-	lowletter_cmd = calloc(ft_strlen(input_cmd) + 2, sizeof(char));
+	lowletter_cmd = ft_calloc(ft_strlen(input_cmd) + 2, sizeof(char));
 	while (input_cmd != NULL && input_cmd[i])
 	{
 		lowletter_cmd[i] = ft_tolower(input_cmd[i]);

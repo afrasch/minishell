@@ -12,6 +12,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
+//# include <wait.h>
 
 # define PROMPT		"|SHELL~SHOCK| "
 # define SHELLNAME	"SHELL SHOCK"
@@ -28,7 +29,6 @@
 # define E_STATUS 1
 # define STAT_LOC 0
 
-int		global;
 typedef enum e_builtin
 {
 	B_ECHO,

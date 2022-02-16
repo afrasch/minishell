@@ -31,9 +31,11 @@ int	ft_childprocess(t_frame *frame, t_exec *exec)
 		dup2(exec->fd[1], STDOUT_FILENO);
 	else
 		dup2(frame->cc->out_fd, STDOUT_FILENO);
-	if (frame->cc->out_fd != STDOUT_FILENO)
+	if (frame->cc->out_fd != STDOUT_FILENO
+		&& frame->cc->out_fd < 0)
 		close(frame->cc->out_fd);
-	if (frame->cc->in_fd != STDIN_FILENO)
+	if (frame->cc->in_fd != STDIN_FILENO
+		&& frame->cc->in_fd < 0)
 		close(frame->cc->in_fd);
 	close(exec->fd[0]);
 	close(exec->fd[1]);
