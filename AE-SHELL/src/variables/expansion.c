@@ -44,15 +44,22 @@ void	q_var_expansion(char *str, t_frame *frame)
 	}
 }
 
-void	expand(char *str, int *i, t_frame *frame)
-{
-	char	*var_name;
+ void	expand(char *str, int *i, t_frame *frame)
+ {
+	int len;
+	int j;
+	char *var_name;
 
-	var_name = ft_calloc(1, sizeof(char));
+	len = 0;
+	j = 0;
+	while (str[*i + 1 + len] && (is_alnum_uscore(str[*i + 1 + len])) == 1)
+		len++;
+	var_name = ft_calloc(len + 1, sizeof(char));
 	while (str[*i + 1] && (is_alnum_uscore(str[*i + 1])) == 1)
 	{
-		var_name = ft_add_chr_to_str(var_name, str[*i + 1]);
+		var_name[j] = str[*i + 1];
+		j++;
 		(*i)++;
 	}
 	check_exp_var(var_name, frame);
-}
+ }

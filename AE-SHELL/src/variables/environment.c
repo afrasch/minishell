@@ -49,17 +49,14 @@ static void	split_env(char *str, t_frame *frame)
 {
 	char	*name;
 	char	*content;
-	char	*tmp;
 	int		find_nbr;
 
 	find_nbr = ft_int_strchr(str, '=');
-	str[find_nbr] = '"';
 	name = ft_substr(str, 0, find_nbr);
-	content = ft_substr(str, find_nbr, ft_strlen(str) - find_nbr);
-	tmp = ft_add_chr_to_str(content, '"');
-	add_var_node(frame, name, tmp, OFF);
+	content = ft_substr(str, find_nbr + 1, ft_strlen(str) - find_nbr);
+	content = ft_quote(content);
 	free(str);
-	free(content);
+	add_var_node(frame, name, content, OFF);
 }
 
 void get_env(t_frame *frame)

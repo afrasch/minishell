@@ -38,6 +38,8 @@ char	*ft_quote(char *str)
 		ret[j + 1] = str[j];
 		j++;
 	}
+	if (str)
+		free(str);
 	ret[j + 1] = '"';
 	return (ret);
 }

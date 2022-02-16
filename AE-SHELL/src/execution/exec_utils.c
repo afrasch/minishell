@@ -39,11 +39,6 @@ char	*change_caps(char *input_cmd)
 		lowletter_cmd[i] = ft_tolower(input_cmd[i]);
 		i++;
 	}
-	/* while (input_cmd != NULL && input_cmd[i])
-	{
-		lowletter_cmd = ft_add_chr_to_str(lowletter_cmd, ft_tolower(input_cmd[i]));
-		i++;
-	} */
 	return (lowletter_cmd);
 }
 
