@@ -13,7 +13,7 @@ int	do_here_doc(t_frame *frame)//TODO kontrolliere sig flag
 		// str = "end";
 		if (!str)
 			break ;
-		if (ft_strncmp(str, del, ft_strlen(del)) == 0)
+		if (ft_strcmp(str, del) == 0)
 		{
 			free (str);
 			break ;

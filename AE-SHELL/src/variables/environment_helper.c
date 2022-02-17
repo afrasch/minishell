@@ -62,6 +62,24 @@ char	*get_env_var(t_frame *frame, char *name)
 	return (NULL);
 }
 
+void	replace_env_var(t_frame *frame, char *name, char *new_content)
+{
+	t_var	*var;
+
+	var = frame->shell_env_start;
+	while (var)
+	{
+		if (ft_strcmp(name, var->name) == 0)
+		{
+			if (var->con)
+				free(var->con);
+			var->con = ft_quote(new_content);
+			return ;
+		}
+		var = var->next;
+	}
+}
+
 /* Checks if a variable already exists in env.
    Returns TRUE (1) if yes. */
 int	look_for_var(t_frame *frame, char *name)

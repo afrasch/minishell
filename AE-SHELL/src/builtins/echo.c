@@ -16,7 +16,7 @@ int	echo(t_frame *frame)
 		return (2);
 	if (!node->next || !node->next->content)
 	{
-		write (1, "\n", 1);
+		write (frame->cc->out_fd, "\n", 1);
 		return (0);
 	}
 	while (ft_strcmp(node->next->content, "-n") == 0)
@@ -34,6 +34,6 @@ int	echo(t_frame *frame)
 			write (frame->cc->out_fd, " ", 1);
 	}
 	if (frame->nl == OFF)
-		write (1, "\n", 1);
+		write (frame->cc->out_fd, "\n", 1);
 	return (0);
 }
