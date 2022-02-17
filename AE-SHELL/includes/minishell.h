@@ -158,6 +158,7 @@ int			var_lstsize(t_var *lst);
 void		set_list_2start(t_frame *frame);
 int			add_var_node(t_frame *frame, char *name, char *content, int just_export);
 int			is_alnum_uscore(char c);
+int			is_valid_varname(char *name);
 
 int			input_check(t_frame *frame);
 int			control_node(t_node *node, t_frame *frame);

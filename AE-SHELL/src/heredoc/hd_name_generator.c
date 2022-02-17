@@ -16,7 +16,7 @@ char *create_rand_name()
 			buf[i] = (buf[i] * buf[i]) % 25 + 'a';
 			i++;
 		}
-		if (access(buf, F_OK) != 0)//TODO free buf?
+		if (access(buf, F_OK) == ERROR)
 			break ;
 	}
 	close(fd);

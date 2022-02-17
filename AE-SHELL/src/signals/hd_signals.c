@@ -31,7 +31,7 @@ char	*get_heredoc_prompt()
 	if (sig_flag_hd(SHOW) == ON)
 		return (NULL);
 	signal(SIGQUIT, SIG_IGN);
-	if (tcgetattr(1, &term) == -1) //TODO auch protecten
+	if (tcgetattr(1, &term) == ERROR)
 	{
 		write(STDERR_FILENO, "Error while getting Attributes of Terminal\n", 43);
 		exit(EXIT_FAILURE);

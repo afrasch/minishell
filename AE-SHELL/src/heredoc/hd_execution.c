@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	do_here_doc(t_frame *frame)//TODO kontrolliere sig flag
+int	do_here_doc(t_frame *frame)
 {
 	char	*str;
 	char	*del;
@@ -32,14 +32,14 @@ int	do_here_doc(t_frame *frame)//TODO kontrolliere sig flag
 	return (0);
 }
 
-int	solve_heredocs(t_frame *frame)//TODO error management gemeinsam
+int	solve_heredocs(t_frame *frame)
 {
 	int		std_in;
 
 	frame->cc = frame->chunk_start;
 	std_in = dup(STDIN_FILENO);
 	if (std_in  == ERROR)
-		print_error("heredoc", NULL, "Dup fail");//TODO exit? return ERROR ?
+		print_error("heredoc", NULL, "Dup fail");
 	while (frame->cc != NULL)
 	{
 		frame->cc->cn = frame->cc->node_start;
@@ -51,7 +51,7 @@ int	solve_heredocs(t_frame *frame)//TODO error management gemeinsam
 				{
 					dup2(std_in, STDIN_FILENO);
 					if (std_in  == ERROR)
-						print_error("heredoc", NULL, "Dup fail");//TODO exit? return ERROR ?
+						print_error("heredoc", NULL, "Dup fail");
 					close(std_in);
 					return (ERROR);
 				}
@@ -63,7 +63,7 @@ int	solve_heredocs(t_frame *frame)//TODO error management gemeinsam
 	frame->cc = frame->chunk_start;
 	dup2(std_in, STDIN_FILENO);
 	if (std_in  == ERROR)
-		print_error("heredoc", NULL, "Dup fail");//TODO exit? return ERROR ?
+		print_error("heredoc", NULL, "Dup fail");
 	close(std_in);
 	return (0);
 }

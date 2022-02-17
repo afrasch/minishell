@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	set_quote_state(char c, t_frame *frame)//TODO aufteilen
+void	set_quote_state(char c, t_frame *frame)
 {
 	if (c == '\"' && frame->cc->cn->quote_st == NO_Q)
 	{

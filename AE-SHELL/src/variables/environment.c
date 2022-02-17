@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	is_valid_varname(char *name)
+int	is_valid_varname(char *name)
 {
 	int	i;
 

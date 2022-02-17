@@ -27,7 +27,7 @@ void	handle_hd_expansion(t_frame *frame, char *str)
 			ft_putstr_fd (var_name, frame->cc->in_fd);
 			if (var_name)
 				free(var_name);
-			var_name = NULL;//TODO eigene funktion ft_free
+			var_name = NULL;
 		}
 		else
 			ft_putchar_fd(str[i], frame->cc->in_fd);
