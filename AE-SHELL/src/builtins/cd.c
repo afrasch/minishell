@@ -6,8 +6,8 @@ int	cd(t_frame *frame)
 	char	*home_path;
 	char	*oldpwd;
 
-	oldpwd = getcwd(NULL, 0);
 	node = frame->cc->node_start;
+	oldpwd = get_env_var(frame, "OLDPWD");
 	home_path = get_env_var(frame, "HOME");
 	if (!oldpwd || !node || !home_path)
 	{

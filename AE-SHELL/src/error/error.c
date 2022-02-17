@@ -9,7 +9,6 @@ int	error_exit(t_frame *frame)
 void	print_error_exit(t_frame *frame, char *cmd, char *message)
 {
 	free_all(frame);
-
 	ft_putstr_fd(SHELLNAME, STDERR_FILENO);
 	if (cmd)
 		ft_putstr_fd(cmd, STDERR_FILENO);
