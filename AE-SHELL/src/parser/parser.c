@@ -82,7 +82,8 @@ static void	split_in_chunks(char *str, t_frame *frame)
 			else if (expand_requisites(frame, str[i], str[i + 1]) == 2)
 			{
 				add_e_status_node(frame);
-				return ;
+				i++;
+				// return ;
 			}
 			else
 				add_node(str[i], str[i + 1], frame);

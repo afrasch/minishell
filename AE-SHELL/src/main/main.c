@@ -29,6 +29,30 @@ int	main(void)
 		}
 	}
 }
+
 //TODO norm
 
 //TODO funktionen: malloc + protection, print_error, free_all, exit+status
+
+// /bin/echo "$""$"
+
+// /bin/echo $"$"
+
+// /bin/echo $"42$"
+
+// /bin/echo "$"$
+
+// /bin/echo "$"
+
+// /bin/echo $'HOM'E$USER
+
+// echo ''$PWD''
+
+// echo """"''""''""
+
+// expr $? + $?
+
+// /bin/echo "1"$X'2'
+
+// ./minishell fuehrt export aus
+

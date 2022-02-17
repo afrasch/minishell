@@ -46,12 +46,12 @@ int	get_access(t_frame *frame, char	*cmd)
 	i = 0;
 	if (access(cmd, F_OK) == 0)
 		return (-2);//means: absolute path works-> no ERROR
-	if (frame->paths)
+	if (ft_strchr(cmd, '/') == 0 && frame->paths)
 	{
 		while (frame->paths[i])
 		{
 			tmp_argv = ft_strjoin(frame->paths[i], cmd);
-			if (access(tmp_argv, X_OK) == 0)
+			if (access(tmp_argv, F_OK) == 0)// || stat()
 			{
 				free(tmp_argv);
 				tmp_argv = NULL;
@@ -63,9 +63,12 @@ int	get_access(t_frame *frame, char	*cmd)
 			i++;
 		}
 	}
-	frame->e_status = 127;
-	if (!frame->paths)
+	else if (ft_strchr(cmd, '/') != 0 || !frame->paths)
+	{
+		frame->e_status = 127;
 		print_error_exit(frame, cmd, "No such file or directory");
+	}
+	frame->e_status = 127;
 	print_error_exit(frame, cmd, "command not found");
 	return (ERROR);
 }

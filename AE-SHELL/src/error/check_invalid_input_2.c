@@ -22,7 +22,7 @@ static int	check_slashes(t_node *node, t_frame* frame)
 	return (0);
 }
 
-static int	check_redir(t_node *node)
+static int	check_redir(t_node *node, t_frame *frame)
 {
 	if (node->type == S_REDIR_L || node->type == S_REDIR_R || node->type == D_REDIR_L
 		|| node->type == D_REDIR_R)
@@ -32,30 +32,42 @@ static int	check_redir(t_node *node)
 			if ((node->type == D_REDIR_R && node->next->type != WORD)
 				|| (node->type == D_REDIR_L && node->next->type == D_REDIR_L)
 				|| (node->type == D_REDIR_L && node->next->type == S_REDIR_R))
+			{
+				frame->e_status = 258;
 				return (print_error(node->next->content, NULL, "syntax error near unexpected token"));
+			}
 			if (node->type != D_REDIR_L && node->next->type == WORD
 				&& access(node->next->content, F_OK) == ERROR && node->type != S_REDIR_R)
 				return (print_error(node->next->content, NULL, "No such file or directory"));
 		}
 		else
+		{
+			frame->e_status = 258;
 			return (print_error("newline", NULL, "syntax error near unexpected token"));
+		}
 	}
 	return (0);
 }
 
-static int	check_end_quotes(t_node *node)
+static int	check_end_quotes(t_node *node, t_frame *frame)
 {
 	if (node->quote_st == SINGLE_Q)
+	{
+		frame->e_status = 258;
 		return (print_error("\'", NULL, "syntax error near single quotes"));
+	}
 	if (node->quote_st == DOUBLE_Q)
+	{
+		frame->e_status = 258;
 		return (print_error("\"", NULL, "syntax error near double quotes"));
+	}
 	return (0);
 }
 
 int	control_node(t_node *node, t_frame *frame)
 {
-	if (check_redir(node) == ERROR
-		|| check_end_quotes(node) == ERROR
+	if (check_redir(node, frame) == ERROR
+		|| check_end_quotes(node, frame) == ERROR
 		|| check_slashes(node, frame) == ERROR)
 		return (ERROR);
 	return (0);
