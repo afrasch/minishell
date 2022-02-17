@@ -63,7 +63,8 @@ int	get_access(t_frame *frame, char	*cmd)
 			i++;
 		}
 	}
-	else
+	frame->e_status = 127;
+	if (!frame->paths)
 		print_error_exit(frame, cmd, "No such file or directory");
 	print_error_exit(frame, cmd, "command not found");
 	return (ERROR);

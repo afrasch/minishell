@@ -16,21 +16,22 @@ static int	is_valid_varname(char *name)
 	return (TRUE);
 }
 
-int	add_var_node(t_frame *frame, char *name, char *content, int just_export)//TODO absichern mit return val
+int	add_var_node(t_frame *frame, char *name, char *content, int just_export)
 {
 	t_var	*node;
 
 	if (is_valid_varname(name) == FALSE)
-		// return (print_error(SHELLNAME, "export", name, "not a valid identifier"));
 		return (print_error("export", name, "not a valid identifier"));
 	node = ft_calloc(1, sizeof(t_var));
 	if (!node)
 		return (ERROR);
 	node->con = ft_strdup(content);
 	node->name = ft_strdup(name);
-	free(content);
+	if (content)
+		free(content);
 	content = NULL;
-	free(name);
+	if (name)
+		free(name);
 	name = NULL;
 	node->just_export = just_export;
 	node->next = NULL;

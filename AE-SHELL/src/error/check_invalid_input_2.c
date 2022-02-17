@@ -2,18 +2,21 @@
 
 static int	check_slashes(t_node *node, t_frame* frame)
 {
-	if (node->content && ft_strncmp(node->content, "/", 1) == 0)
+	if (node == frame->cc->node_start)
 	{
-		if (ft_strlen(node->content) == 1
-			|| ft_strncmp(node->content, "//", 2) == 0)
+		if (node->content && ft_strncmp(node->content, "/", 1) == 0)
 		{
-			frame->e_status = 126;
-			return (print_error(node->content, NULL, "is a directory"));
-		}
-		else if (access(node->content, F_OK) < 0)
-		{
-			frame->e_status = 127;
-			return (print_error(node->content, NULL, NULL));
+			if (ft_strlen(node->content) == 1
+				|| ft_strncmp(node->content, "//", 2) == 0)
+			{
+				frame->e_status = 126;
+				return (print_error(node->content, NULL, "is a directory"));
+			}
+			else if (access(node->content, F_OK) < 0)
+			{
+				frame->e_status = 127;
+				return (print_error(node->content, NULL, NULL));
+			}
 		}
 	}
 	return (0);

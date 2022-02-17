@@ -2,7 +2,8 @@
 
 void	free_node(t_node *node)
 {
-	free(node->content);
+	if (node->content)
+		free(node->content);
 	free(node);
 	node = NULL;
 }
