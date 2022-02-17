@@ -56,7 +56,7 @@ int	set_fd_here_doc(t_frame *frame)
 		print_error(frame->cc->cn->next->content, NULL, NULL);
 		return (ERROR);
 	}
-	if (do_here_doc(frame) < 0)
+	if (do_here_doc(frame) == ERROR)
 		return (-1);
 	close(frame->cc->in_fd);
 	frame->cc->in_fd = STDIN_FILENO;
@@ -67,7 +67,7 @@ int	set_here_docs(t_frame *frame)
 {
 	if (frame->cc->in_fd > 3)
 		close(frame->cc->in_fd);
-	if (set_fd_here_doc(frame) < 0)
+	if (set_fd_here_doc(frame) == ERROR)
 		return (ERROR);
 	return (0);
 }

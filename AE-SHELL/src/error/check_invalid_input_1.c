@@ -26,12 +26,12 @@ int input_check(t_frame *frame)
 	set_list_2start(frame);
 	while (frame->cc != NULL)
 	{
-		if (control_chunk(frame) < 0)
+		if (control_chunk(frame) == ERROR)
 			return (ERROR);
 		frame->cc->cn = frame->cc->node_start;
 		while (frame->cc->cn != NULL)
 		{
-			if (control_node(frame->cc->cn, frame) < 0)
+			if (control_node(frame->cc->cn, frame) == ERROR)
 				return (ERROR);
 			frame->cc->cn = frame->cc->cn->next;
 		}

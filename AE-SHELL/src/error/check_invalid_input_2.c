@@ -12,7 +12,7 @@ static int	check_slashes(t_node *node, t_frame* frame)
 				frame->e_status = 126;
 				return (print_error(node->content, NULL, "is a directory"));
 			}
-			else if (access(node->content, F_OK) < 0)
+			else if (access(node->content, F_OK) == ERROR)
 			{
 				frame->e_status = 127;
 				return (print_error(node->content, NULL, NULL));

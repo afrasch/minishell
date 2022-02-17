@@ -184,14 +184,13 @@ void		debug_print_full(t_frame *frame);
 void 		print_hd_list(t_frame *frame);
 
 char		*change_caps(char *input_cmd);
-// int		print_error(char *s1, char *s2, char *s3, char *message);
 int 		print_error(char *cmd, char * arg, char *message);
 void		print_signal_error(int sig);
 char 		*init_signals_and_prompt(t_frame *frame);
 void		child_killer(int signal);
 void		clear_signals();//TODO what is that???
 
-int			ft_fork();
+int			ft_fork(t_frame *frame);
 void		init_exec(t_exec *exec);
 void		check_for_pipe(t_frame *frame);
 void		wait_for_childs(t_frame *frame);

@@ -36,8 +36,8 @@ int	ft_childprocess(t_frame *frame, t_exec *exec, char *str)
 		frame->cc->out_fd = STDOUT_FILENO;
 		exit(execute_builtin(frame, str));
 	}
-	execute_cmd(frame, i, change_caps(frame->cc->node_start->content));
-	error_exit(frame);//TODO
+	if (execute_cmd(frame, i, change_caps(frame->cc->node_start->content)) == ERROR)
+		error_exit(frame);
 	return (0);
 }
 

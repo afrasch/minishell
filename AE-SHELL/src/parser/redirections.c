@@ -37,12 +37,12 @@ int	set_right_red(t_frame *frame)
 		close(frame->cc->out_fd);
 	if (cn->type == S_REDIR_R)
 	{
-		if (set_out_fd(frame, 's') < 0)
+		if (set_out_fd(frame, 's') == ERROR)
 			return (ERROR);
 	}
 	else if (cn->type == D_REDIR_R)
 	{
-		if (set_out_fd(frame, 'd') < 0)
+		if (set_out_fd(frame, 'd') == ERROR)
 			return (ERROR);
 	}
 	delete_node(frame, frame->cc->cn);

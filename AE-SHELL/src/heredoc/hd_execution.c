@@ -27,7 +27,7 @@ int	do_here_doc(t_frame *frame)//TODO kontrolliere sig flag
 	if (sig_flag_hd(SHOW) == ON)
 	{
 		close(frame->cc->in_fd);
-		return (-1);
+		return (ERROR);
 	}
 	return (0);
 }
@@ -38,6 +38,8 @@ int	solve_heredocs(t_frame *frame)//TODO error management gemeinsam
 
 	frame->cc = frame->chunk_start;
 	std_in = dup(STDIN_FILENO);
+	if (std_in  == ERROR)
+		print_error("heredoc", NULL, "Dup fail");//TODO exit? return ERROR ?
 	while (frame->cc != NULL)
 	{
 		frame->cc->cn = frame->cc->node_start;
@@ -45,9 +47,11 @@ int	solve_heredocs(t_frame *frame)//TODO error management gemeinsam
 		{
 			if (frame->cc->cn->type == D_REDIR_L)
 			{
-				if (set_here_docs(frame) < 0)
+				if (set_here_docs(frame) == ERROR)
 				{
 					dup2(std_in, STDIN_FILENO);
+					if (std_in  == ERROR)
+						print_error("heredoc", NULL, "Dup fail");//TODO exit? return ERROR ?
 					close(std_in);
 					return (ERROR);
 				}
@@ -58,6 +62,8 @@ int	solve_heredocs(t_frame *frame)//TODO error management gemeinsam
 	}
 	frame->cc = frame->chunk_start;
 	dup2(std_in, STDIN_FILENO);
+	if (std_in  == ERROR)
+		print_error("heredoc", NULL, "Dup fail");//TODO exit? return ERROR ?
 	close(std_in);
 	return (0);
 }

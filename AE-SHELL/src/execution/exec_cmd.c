@@ -18,7 +18,6 @@ int	execute_one_cmd(t_frame *frame, t_exec *exec)
 	get_path(frame);
 	i = get_access(frame, change_caps(frame->cc->node_start->content));
 	if (i == ERROR)
-		// return (print_error(SHELLNAME, frame->cc->node_start->content, NULL, "No such file or directory"));
 		return (print_error(frame->cc->node_start->content, NULL, "No such file or directory"));
 	dup2(frame->cc->in_fd, STDIN_FILENO);
 	dup2(frame->cc->out_fd, STDOUT_FILENO);

@@ -24,12 +24,12 @@ int	check_for_redir(t_frame *frame)
 		cn = frame->cc->cn;
 		if (cn->type == S_REDIR_R || cn->type == D_REDIR_R)
 		{
-			if (set_right_red(frame) < 0)
+			if (set_right_red(frame) == ERROR)
 				return (ERROR);
 		}
 		else if (cn->type == S_REDIR_L)
 		{
-			if (set_left_red(frame) < 0)
+			if (set_left_red(frame) == ERROR)
 				return (ERROR);
 		}
 		else if (cn->type == D_REDIR_L)

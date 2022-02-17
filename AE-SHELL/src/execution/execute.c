@@ -2,8 +2,7 @@
 
 int prepare_pipe(t_exec *exec)
 {
-	if (pipe(exec->fd) < 0)
-		// print_error(SHELLNAME, NULL, NULL, NULL);
+	if (pipe(exec->fd) == ERROR)
 		print_error(NULL, NULL, NULL);
 	return (0);
 }
@@ -24,13 +23,13 @@ static void executer(t_frame *frame, t_exec *exec)
 	}
 	else
 	{
-		frame->pid = ft_fork();
+		frame->pid = ft_fork(frame);
 		signal(SIGINT, child_killer);
 		signal(SIGQUIT, child_killer);
 		if (frame->pid == 0)
 		{
 			free(lowletter_cmd);
-			ft_childprocess(frame, exec, lowletter_cmd);//TODO if == ERROR protec
+			ft_childprocess(frame, exec, lowletter_cmd);
 		}
 		else if (frame->single_com == OFF)
 			ft_parent(frame, exec, frame->cc);
@@ -42,11 +41,11 @@ int		execute_chunks(t_frame *frame)
 {
 	t_exec	exec;
 
-	init_exec(&exec); // TODO free exec (ist nicht in frame!) notwendig?
+	init_exec(&exec);
 	set_list_2start(frame);
 	if (frame->cc->next == NULL && frame->cc->prev == NULL)
 		frame->single_com = ON;
-	if (solve_heredocs(frame) < 0)
+	if (solve_heredocs(frame) == ERROR)
 	{
 		interrupt_rmv_hd(frame);
 		return (ERROR);
@@ -63,8 +62,6 @@ int		execute_chunks(t_frame *frame)
 		if (frame->cc->in_fd != STDIN_FILENO)
 			close(frame->cc->in_fd);
 		frame->cc = frame->cc->next;
-		/* if (frame->cc->hd_bool == ON)
-			remove_hd(frame); */
 	}
 	close(exec.tmp_fd);
 	wait_for_childs(frame);

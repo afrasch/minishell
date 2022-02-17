@@ -28,7 +28,7 @@ void	interrupt_rmv_hd(t_frame *frame)
 	while (node!= NULL)
 	{
 		tmp = node;
-		if (unlink(node->name_of_hd) < 0)//TODO protection
+		if (unlink(node->name_of_hd) == ERROR)
 			print_error("heredoc", NULL, NULL);
 		free(node->name_of_hd);
 		node->name_of_hd = NULL;

@@ -1,18 +1,12 @@
 #include "minishell.h"
 
-int	ft_fork()
+int	ft_fork(t_frame *frame)
 {
 	int	pid;
 
 	pid = fork();
-	if (pid < 0)
-	{
-		perror("");
-		exit(EXIT_FAILURE);
-		// exit(frame->e_status);
-
-		//Error exit;
-	}
+	if (pid == ERROR)
+		print_error_exit(frame, frame->cc->node_start->content, "Fork fail");
 	return (pid);
 }
 
@@ -20,10 +14,7 @@ void	init_exec(t_exec *exec)
 {
 	exec->tmp_fd = dup(STDIN_FILENO);
 	if (exec->tmp_fd < 0)
-	{
-		perror("");
-		//TODO ERRORFUNCTION
-	}
+		print_error(NULL, NULL, "Dup fail");
 }
 
 char	*change_caps(char *input_cmd)

@@ -101,9 +101,9 @@ int	ft_minishell(char *str, t_frame *frame)
 	split_in_chunks(str, frame);
 	handle_quotes(frame);
 	re_arrange_list(frame);
-	if (input_check(frame) < 0)
+	if (input_check(frame) == ERROR)
 		return (ERROR);
-	if (execute_chunks(frame) < 0)
+	if (execute_chunks(frame) == ERROR)
 	{
 		if (sig_flag_hd(SHOW) == ON)
 			clear_signals();//???
