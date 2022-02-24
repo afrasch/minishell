@@ -6,15 +6,19 @@
 /*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 20:00:01 by elenz             #+#    #+#             */
-/*   Updated: 2022/01/09 20:07:22 by elenz            ###   ########.fr       */
+/*   Updated: 2022/02/24 01:52:53 by elenz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_int_strchr(char *s, int c)
 {
 	int		i;
 
 	i = 0;
+	if (s == NULL)
+		return (-1);
 	while (s[i] != '\0')
 	{
 		if (s[i] == (char)c)

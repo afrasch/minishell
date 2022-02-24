@@ -51,7 +51,7 @@ static void	add_var(t_frame *frame)
 	{
 		del_i = ft_int_strchr(node->content, '=');
 		if (del_i == ERROR)
-			add_var_node(frame, node->content, NULL, ON);
+			add_var_node(frame, ft_strdup(node->content), NULL, ON);
 		else
 		{
 			name = ft_substr(node->content, 0, del_i);

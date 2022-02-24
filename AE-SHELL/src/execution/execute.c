@@ -16,16 +16,22 @@ static void executer(t_frame *frame, t_exec *exec)
 		lowletter_cmd = change_caps(frame->cc->node_start->content);
 	if ((check_for_builtin(lowletter_cmd, frame) != NONE) && (frame->single_com == ON))
 	{
-		prepare_builtin_alone(frame);
-		if (execute_builtin(frame, lowletter_cmd) != 0)
-			print_error(frame->cc->node_start->content, NULL, "Builtin cannot be executed");
-		set_back_builtin_alone(frame);
+		if (frame->chunk_start->e_status_file != 1)
+		{	
+			prepare_builtin_alone(frame);
+			if (execute_builtin(frame, lowletter_cmd) != 0)
+				print_error(frame->cc->node_start->content, NULL, "Builtin cannot be executed");
+			set_back_builtin_alone(frame);
+		}
 	}
 	else
 	{
 		frame->pid = ft_fork(frame);
+		if (frame->single_com == ON)
+			signal(SIGQUIT, child_killer);
+		else
+			signal(SIGQUIT, child_killer_one_cmd);
 		signal(SIGINT, child_killer);
-		signal(SIGQUIT, child_killer);
 		if (frame->pid == 0)
 		{
 			free(lowletter_cmd);
@@ -35,6 +41,7 @@ static void executer(t_frame *frame, t_exec *exec)
 			ft_parent(frame, exec, frame->cc);
 	}
 	free(lowletter_cmd);
+	lowletter_cmd = NULL;
 }
 
 int		execute_chunks(t_frame *frame)

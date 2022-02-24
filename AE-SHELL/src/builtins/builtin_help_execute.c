@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_help_execute.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 01:55:37 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/24 01:55:54 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	prepare_builtin_alone(t_frame *frame)
@@ -15,7 +27,7 @@ void	set_back_builtin_alone(t_frame *frame)
 		close (frame->cc->in_fd);
 	if (frame->cc->out_fd != STDOUT_FILENO)
 		close (frame->cc->out_fd);
-	dup2(frame->saved_in_fd, STDIN_FILENO) ;
+	dup2(frame->saved_in_fd, STDIN_FILENO);
 	dup2(frame->saved_out_fd, STDOUT_FILENO);
 	close(frame->saved_in_fd);
 	close(frame->saved_out_fd);

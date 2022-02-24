@@ -36,9 +36,9 @@ static int	check_redir(t_node *node, t_frame *frame)
 				frame->e_status = 258;
 				return (print_error(node->next->content, NULL, "syntax error near unexpected token"));
 			}
-			if (node->type != D_REDIR_L && node->next->type == WORD
+			/* if (node->type != D_REDIR_L && node->next->type == WORD
 				&& access(node->next->content, F_OK) == ERROR && node->type != S_REDIR_R)
-				return (print_error(node->next->content, NULL, "No such file or directory"));
+				return (print_error(node->next->content, NULL, "No such file or directory")); */
 		}
 		else
 		{

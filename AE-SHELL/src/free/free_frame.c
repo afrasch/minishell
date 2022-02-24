@@ -1,28 +1,5 @@
 #include "minishell.h"
 
-/*
-TODO
-THINGS TO FREE:
-
-at the end:
-- Shell_env
--
-
-after loop:
-- str von readline
-- alle chunks und Inhalt
- 	- get_path (2 D array!)
-	 - chunkstart
-		- alle nodes und Inhalt
-- hdliste
-- exec
-
-Things to set back:
-- printing in terminal
-- signals
--
- */
-
 static void	free_frame_nodes(t_frame *frame)
 {
 	t_node	*cn;
@@ -44,7 +21,6 @@ static void	free_chunks_and_nodes(t_frame *frame)
 	frame->cc = frame->chunk_start;
 	while (frame->cc != NULL)
 	{
-		tmp = frame->cc;
 		free_frame_nodes(frame);
 		ft_free_2d((void***) &frame->cc->cmd_arr);
 		if (frame->cc->hd_path != NULL)
@@ -52,9 +28,13 @@ static void	free_chunks_and_nodes(t_frame *frame)
 			free(frame->cc->hd_path);
 			frame->cc->hd_path = NULL;
 		}
+		tmp = frame->cc->next;
 		if (frame->cc)
+		{
 			free(frame->cc);
-		frame->cc = tmp->next;
+			frame->cc = NULL;
+		}
+		frame->cc = tmp;
 	}
 	frame->chunk_start = NULL;
 }

@@ -25,6 +25,7 @@ void	init_node(t_frame *frame)
 	frame->cc->cn->word = NO_Q;
 	frame->cc->node_start = frame->cc->cn;
 	frame->cc->in_fd = 0;
+	frame->cc->cn->content = NULL;
 }
 
 void	init_chunk(t_frame *frame)
@@ -39,4 +40,5 @@ void	init_chunk(t_frame *frame)
 	frame->cc->out_fd = STDOUT_FILENO;
 	frame->chunk_start = frame->cc;
 	frame->cc->hd_bool = OFF;
+	frame->cc->e_status_file = 0;
 }

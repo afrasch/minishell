@@ -42,11 +42,12 @@ char *init_signals_and_prompt(t_frame *frame)
 			str = readline(PROMPT);
 	}
 	else
-	// {
+	{
 		str = minishell_get_next_line(STDIN_FILENO);
-	// 	if (str)
-	// 		str[ft_strlen(str) - 1] = '\0';//weil newline und tabs nicht berücksichtigt werden
-	// }
+		//str = minishell_get_next_line(open("/Users/elenz/Documents/minishell/AE-SHELL/test", O_RDONLY));
+		if (str)
+			str[ft_strlen(str) - 1] = '\0';//weil newline und tabs nicht berücksichtigt werden
+	}
 	clear_signals();
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);

@@ -6,11 +6,12 @@
 /*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 20:53:08 by elenz             #+#    #+#             */
-/*   Updated: 2021/07/16 11:31:19 by elenz            ###   ########.fr       */
+/*   Updated: 2022/02/24 01:54:48 by elenz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 t_list	*ft_lstlast(t_list *lst)
 {
 	if (lst == NULL)

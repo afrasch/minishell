@@ -100,6 +100,7 @@ static void	split_in_chunks(char *str, t_frame *frame)
 int	ft_minishell(char *str, t_frame *frame)
 {
 	split_in_chunks(str, frame);
+	//ft_print_stack(frame);
 	handle_quotes(frame);
 	re_arrange_list(frame);
 	if (input_check(frame) == ERROR)

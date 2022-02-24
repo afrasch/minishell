@@ -9,7 +9,7 @@ int	ft_childprocess(t_frame *frame, t_exec *exec, char *str)
 	signal(SIGQUIT, SIG_DFL);
 	check_for_pipe(frame);
 	get_path(frame);
-	if (!frame->cc->node_start)
+	if (!frame->cc->node_start || frame->cc->e_status_file)
 		error_exit(frame);
 	i = get_access(frame, change_caps(frame->cc->node_start->content));
 	if (frame->single_com == ON && i != ERROR)
@@ -44,7 +44,7 @@ int	ft_childprocess(t_frame *frame, t_exec *exec, char *str)
 void	wait_for_childs(t_frame *frame)
 {
 	int	status[2];
-	int	sig;
+	//int	sig;
 
 	status[E_STATUS] = 0;
 	while (status[E_STATUS] != ERROR)
@@ -56,10 +56,10 @@ void	wait_for_childs(t_frame *frame)
 				frame->e_status = WEXITSTATUS(status[STAT_LOC]);
 			if (WIFSIGNALED(status[STAT_LOC]))//child process ended abnormally
 			{
-				sig = WTERMSIG(status[STAT_LOC]);//which signal caused child process to exit?
-				print_signal_error(sig);
+				WTERMSIG(status[STAT_LOC]);//which signal caused child process to exit?
+				/* print_signal_error(sig);
 				ft_putnbr_fd(sig, STDERR_FILENO);
-				write(STDERR_FILENO, "\n", 1);
+				write(STDERR_FILENO, "\n", 1); */
 				frame->e_status = 128 + WTERMSIG(status[STAT_LOC]);
 			}
 		}

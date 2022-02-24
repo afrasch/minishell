@@ -5,6 +5,8 @@ int	is_valid_varname(char *name)
 	int	i;
 
 	i = 0;
+	if (name == NULL)
+		return (FALSE);
 	if (ft_isdigit(name[0]) != 0)
 		return (FALSE);
 	while (name[i])

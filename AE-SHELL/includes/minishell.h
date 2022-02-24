@@ -16,7 +16,6 @@
 
 # define PROMPT		"|SHELL~SHOCK| "
 # define SHELLNAME	"SHELL SHOCK: "
-// # define PROMPT		"\033[1;34mAE\033[0;32m/\033[1;34mSHELL \033[0;32m~ \033[0;33m% \033[m"
 # define ON 1
 # define OFF 0
 # define SHOW 3
@@ -102,12 +101,13 @@ typedef struct s_chunk
 	int					hd_bool;
 	char				*hd_path;
 	int					expanded;
+	int					e_status_file;
 }	t_chunk;
 
 /*cc = current chunk*/
 typedef struct s_frame
 {
-	t_var				*shell_env;//TODO nur bei exit freen
+	t_var				*shell_env;
 	t_var				*shell_env_start;
 	int					exp_st;
 	t_chunk				*cc;
@@ -145,7 +145,7 @@ int			expand_requisites(t_frame *frame, char cur_c, char next_c);
 int			execute_chunks(t_frame *frame);
 int			check_for_redir(t_frame *frame);
 void		get_path(t_frame *frame);
-int		execute_builtin(t_frame *frame, char *cmd);
+int			execute_builtin(t_frame *frame, char *cmd);
 
 void		init_frame(t_frame *frame);
 void		next_node(t_frame *frame);
@@ -171,7 +171,7 @@ t_builtin	check_for_builtin(char *input_cmd, t_frame *frame);
 char		*ft_quote(char *str);
 char		*ft_unquote(char *str);
 
-void		 get_env(t_frame *frame);
+void		get_env(t_frame *frame);
 char		*get_env_var(t_frame *frame, char *name);
 void		replace_env_var(t_frame *frame, char *name, char *new_content);
 int			look_for_var(t_frame *frame, char *name);
@@ -190,6 +190,7 @@ void		print_signal_error(int sig);
 char 		*init_signals_and_prompt(t_frame *frame);
 void		child_killer(int signal);
 void		clear_signals();//TODO what is that???
+void		child_killer_one_cmd(int sig);
 
 int			ft_fork(t_frame *frame);
 void		init_exec(t_exec *exec);

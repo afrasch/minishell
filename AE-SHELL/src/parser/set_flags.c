@@ -41,17 +41,17 @@ void	set_quote_state_2(char c, t_frame *frame)
 		frame->cc->cn->handle_quote = DOUBLE_Q;
 		return ;
 	}
-	if (c == '\''&& frame->cc->cn->quote_st == NO_Q)
+	if (c == '\''&& frame->cc->cn->handle_quote == NO_Q)
 	{
 		frame->cc->cn->handle_quote = SINGLE_Q;
 		return ;
 	}
-	if (c == '\''&& frame->cc->cn->quote_st == SINGLE_Q)
+	if (c == '\''&& frame->cc->cn->handle_quote == SINGLE_Q)
 	{
 		frame->cc->cn->handle_quote = NO_Q;
 		return ;
 	}
-	if (c == '\"' && frame->cc->cn->quote_st == DOUBLE_Q)
+	if (c == '\"' && frame->cc->cn->handle_quote == DOUBLE_Q)
 	{
 		frame->cc->cn->handle_quote = NO_Q;
 		return ;

@@ -9,6 +9,10 @@ int	is_alnum_uscore(char c)
 
 int	expand_requisites(t_frame *frame, char cur_c, char next_c)
 {
+	if ((cur_c == '$' && next_c == ' ')||
+		(cur_c == '$' && next_c == '\"' && frame->cc->quote_st == DOUBLE_Q)||
+		(cur_c == '$' && next_c == '\'' && frame->cc->quote_st == SINGLE_Q))
+		return (0);
 	if (cur_c == '$' && next_c == '?' && frame->cc->quote_st != SINGLE_Q)
 		return (2);
 	if (cur_c == '$' && frame->cc->quote_st != SINGLE_Q
@@ -24,7 +28,7 @@ void	add_exp_node(char c, t_frame *frame)
 	set_quote_state(c, frame);
 }
 
-void	check_exp_var(char *var_name, t_frame *frame)
+void	 check_exp_var(char *var_name, t_frame *frame)
 {
 	frame->shell_env = frame->shell_env_start;
 	while (frame->shell_env != NULL)
@@ -36,7 +40,8 @@ void	check_exp_var(char *var_name, t_frame *frame)
 			if (frame->cc->cn->quote_st == DOUBLE_Q)
 				q_var_expansion(frame->shell_env->con, frame);
 			else if (frame->cc->cn->quote_st == NO_Q)
-				uq_var_expansion(frame->shell_env->con, frame);
+				uq_var_expansion(ft_unquote(frame->shell_env->con), frame);
+				//uq_var_expansion(frame->shell_env->con, frame);
 		}
 		frame->shell_env = frame->shell_env->next;
 	}

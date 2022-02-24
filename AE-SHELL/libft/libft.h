@@ -6,7 +6,7 @@
 /*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 15:24:56 by elenz             #+#    #+#             */
-/*   Updated: 2022/02/15 22:42:35 by elenz            ###   ########.fr       */
+/*   Updated: 2022/02/24 01:54:16 by elenz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
-char		*ft_add_chr_to_str(char * str, char c);
+char		*ft_add_chr_to_str(char *str, char c);
 int			ft_atoi(const char *nptr);
 void		ft_bzero(void *s, size_t n);
 int			ft_isalnum(int c);

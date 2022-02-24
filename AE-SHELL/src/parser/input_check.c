@@ -25,15 +25,18 @@ int	check_for_redir(t_frame *frame)
 		if (cn->type == S_REDIR_R || cn->type == D_REDIR_R)
 		{
 			if (set_right_red(frame) == ERROR)
-				return (ERROR);
+				break ;
 		}
 		else if (cn->type == S_REDIR_L)
 		{
 			if (set_left_red(frame) == ERROR)
-				return (ERROR);
+				break ;
 		}
 		else if (cn->type == D_REDIR_L)
-			set_hd_as_infd(frame);
+		{
+			if (set_hd_as_infd(frame) == ERROR)
+				break ;
+		}
 		else
 			frame->cc->cn = frame->cc->cn->next;
 	}

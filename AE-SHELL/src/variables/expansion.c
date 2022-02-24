@@ -17,13 +17,19 @@ void	uq_var_expansion(char *str, t_frame *frame)
 		{
 			if (frame->cc->cn == NULL && frame->cc->cn->content != NULL)
 				init_node(frame);
-			else if (frame->cc->cn->content != NULL && str[i - 1] == ' ' && str[i] != '\0')
+			else if ((frame->cc->cn->content != NULL && str[i - 1] == ' ' && str[i] != '\0') ||
+				(frame->cc->cn->quote_st == NO_Q && str[i] == '\''))
 				next_node(frame);
 			frame->cc->cn->word = DOUBLE_Q;
 		}
 		if (str[i] != ' ')
 			add_letter(str[i], frame);
 		i++;
+	}
+	if (str)
+	{
+		free(str);
+		str = NULL;
 	}
 }
 

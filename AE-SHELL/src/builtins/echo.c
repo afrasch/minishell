@@ -19,11 +19,9 @@ int	echo(t_frame *frame)
 		write (frame->cc->out_fd, "\n", 1);
 		return (0);
 	}
-	while (ft_strcmp(node->next->content, "-n") == 0)
+	while (node->next && ft_strcmp(node->next->content, "-n") == 0)
 	{
 		node = node->next;
-		if (!node->next)
-			return (2);
 		frame->nl = ON;
 	}
 	while (node->next)

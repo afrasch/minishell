@@ -6,7 +6,7 @@ static void	del_letter(int i, t_frame *frame)
 	ft_strlen(frame->cc->cn->content) - i);
 }
 
-static void	solve_quotes(t_frame *frame)
+static int	solve_quotes(t_frame *frame)
 {
 	int	i;
 	char *str;
@@ -20,10 +20,16 @@ static void	solve_quotes(t_frame *frame)
 		{
 			set_quote_state_2(str[i], frame);
 			del_letter(i, frame);
+			/* if (frame->cc->cn->content[0] == '\0')
+			{
+				delete_node(frame, frame->cc->cn);
+				return (1);
+			} */
 		}
 		else
 			i++;
 	}
+	return (0);
 }
 
 void handle_quotes(t_frame *frame)
@@ -34,8 +40,9 @@ void handle_quotes(t_frame *frame)
 		frame->cc->cn = frame->cc->node_start;
 		while (frame->cc->cn != NULL && frame->cc->cn->content)
 		{
-			solve_quotes(frame);
-			frame->cc->cn = frame->cc->cn->next;
+			if (solve_quotes(frame) == 0)
+				if (frame->cc->cn)
+					frame->cc->cn = frame->cc->cn->next;
 		}
 		frame->cc = frame->cc->next;
 	}

@@ -29,6 +29,7 @@ void	free_env(t_frame *frame)
 		free_var_node(var);
 		var = tmp;
 	}
+	free_var_node(var);
 }
 
 void	ft_free_2d(void ***to_free)

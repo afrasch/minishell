@@ -6,11 +6,75 @@ void	free_all(t_frame *frame)
 	reset_frame(frame);
 }
 
+int calc_ret(char *str)
+{
+	int ret;
+
+	ret = ft_atoi(str);
+	if (ret < 0)
+		return(256 + ret);
+	if (ret > 255)
+		return(256 % ret);
+	return (ret);
+}
+
+
+int check_input(t_frame *frame)
+{
+	t_node	*arg;
+	char	*str;
+	int		i;
+
+	i = 0;
+	arg = frame->cc->node_start->next;
+	str = frame->cc->node_start->next->content;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while(str[i])
+	{
+		if (ft_isdigit(str[i]) == 0)
+		{
+			frame->e_status = 255;
+			return (ERROR);
+		}
+		i++;
+	}
+	if (arg->next)
+	{
+		frame->e_status = 1;
+		return (-2);
+	}
+	frame->e_status = calc_ret(str);
+	return (0);
+}
+
 void	exit_minishell(t_frame *frame)
 {
+	t_node	*node;
+	int		ret;
+
+	ret = 0;
+	node = NULL;
+	if (frame->cc && frame->cc->node_start->next)
+	{
+		node = frame->cc->node_start;
+		ret = check_input(frame);
+	}
+	if (ret == -1)
+	{
+		ft_putstr_fd("exit\n", 2);
+		print_error("exit", node->next->content, "numeric argument requiered");
+	}
+	else if (ret == -2)
+	{
+		ft_putstr_fd("exit\n", 2);
+		print_error("exit", NULL, "too many arguments");
+		return ;
+	}
+	else if (frame->cc != NULL)
+		ft_putstr_fd("exit\n", 2);
 	free_all(frame);
-	if (isatty(STDIN_FILENO))
-		ft_putstr_fd("exit\n", 2);//if builtin
 	//system("leaks minishell");
 	exit(frame->e_status);
 }
+// if (isatty(STDIN_FILENO))

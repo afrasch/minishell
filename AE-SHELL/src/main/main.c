@@ -11,14 +11,17 @@ int	main(void)
 	while (1)
 	{
 		str = init_signals_and_prompt(&frame);
-		//str = "export a";
-		//str = "\" echo \"  \" cat";
-		//str = "export a b c d";
-		// str = "<file1 | wc";
+		// frame.shell_env_start->con = "A B ";
+		// frame.shell_env_start->name= "a";
+		//str = "export tmp_test=\"/bin/echo 1\" $tmp_test";
+		//str = "echo $OS_ACTIVITY_DT_MODE '2'";
+		//str = "echo \"1\"A B \"'2'";
+		//str = "echo >file1";
 		if (str == NULL)
 		{
 			exit_minishell(&frame);
-			break ;
+			free_all(&frame);
+			exit(frame.e_status);
 		}
 		if (str[0] != '\0')
 		{
@@ -26,6 +29,7 @@ int	main(void)
 			add_history(str);
 			free(str);//SIGABRT
 			reset_frame(&frame);
+			// break ;
 		}
 	}
 }
@@ -34,25 +38,13 @@ int	main(void)
 
 //TODO funktionen: malloc + protection, print_error, free_all, exit+status
 
-// /bin/echo "$""$"
 
-// /bin/echo $"$"
 
-// /bin/echo $"42$"
-
-// /bin/echo "$"$
-
-// /bin/echo "$"
-
-// /bin/echo $'HOM'E$USER
-
-// echo ''$PWD''
-
-// echo """"''""''""
-
-// expr $? + $?
-
-// /bin/echo "1"$X'2'
 
 // ./minishell fuehrt export aus
 
+/* unset PATH
+ls
+cd /bin/../bin/
+ls
+ */
