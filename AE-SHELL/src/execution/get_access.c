@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_access.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 02:49:46 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/25 00:31:50 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	**add_slash(char **paths)
@@ -25,7 +37,8 @@ void	get_path(t_frame *frame)
 		return ;
 	while (var)
 	{
-		if ((look_for_var(frame, "PATH") == TRUE) && (ft_strcmp(var->name, "PATH") == 0))
+		if ((look_for_var(frame, "PATH") == TRUE)
+			&& (ft_strcmp(var->name, "PATH") == 0))
 		{
 			tmp_path = ft_unquote(var->con);
 			frame->paths = ft_split(tmp_path, ':');
@@ -38,30 +51,43 @@ void	get_path(t_frame *frame)
 		free(tmp_path);
 }
 
-int	get_access(t_frame *frame, char	*cmd)
+static int	check_access(t_frame *frame, char *cmd)
 {
-	char	*tmp_argv;
 	int		i;
+	char	*tmp_argv;
 
 	i = 0;
+	while (frame->paths[i])
+	{
+		tmp_argv = ft_strjoin(frame->paths[i], cmd);
+		if (access(tmp_argv, F_OK) == 0)
+		{
+			free(tmp_argv);
+			tmp_argv = NULL;
+			return (i);
+		}
+		if (tmp_argv != NULL)
+			free(tmp_argv);
+		tmp_argv = NULL;
+		i++;
+	}
+	return (ERROR);
+}
+
+int	get_access(t_frame *frame, char	*cmd)
+{
+	int		ret;
+
+	ret = 0;
+	if (check_for_builtin(cmd, frame) != NONE)
+		return (0);
 	if (access(cmd, F_OK) == 0)
-		return (-2);//means: absolute path works-> no ERROR
+		return (-2);
 	if (ft_strchr(cmd, '/') == 0 && frame->paths)
 	{
-		while (frame->paths[i])
-		{
-			tmp_argv = ft_strjoin(frame->paths[i], cmd);
-			if (access(tmp_argv, F_OK) == 0)// || stat()
-			{
-				free(tmp_argv);
-				tmp_argv = NULL;
-				return (i);
-			}
-			if (tmp_argv != NULL)
-				free(tmp_argv);
-			tmp_argv = NULL;
-			i++;
-		}
+		ret = check_access(frame, cmd);
+		if (ret != ERROR)
+			return (ret);
 	}
 	else if (ft_strchr(cmd, '/') != 0 || !frame->paths)
 	{

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 02:13:25 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/27 19:51:33 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	print_export(t_frame *frame)
 {
-	t_var *var;
+	t_var	*var;
 
 	var = frame->shell_env_start;
 	if (!var)
@@ -22,17 +34,17 @@ static void	replace_var(t_frame *frame)
 {
 	t_node	*node;
 	char	*name;
-	char	*content;
-	int		del_i;
+	char	*con;
+	int		del;
 
 	node = frame->cc->node_start;
 	node = node->next;
 	while (node)
 	{
-		del_i = ft_int_strchr(node->content, '=');
-		name = ft_substr(node->content, 0, del_i);
-		content = ft_substr(node->content, del_i + 1, ft_strlen(node->content) - del_i);
-		replace_env_var(frame, name, content);
+		del = ft_int_strchr(node->content, '=');
+		name = ft_substr(node->content, 0, del);
+		con = ft_substr(node->content, del + 1, ft_strlen(node->content) - del);
+		replace_env_var(frame, name, con);
 		free(name);
 		node = node->next;
 	}
@@ -42,22 +54,23 @@ static void	add_var(t_frame *frame)
 {
 	t_node	*node;
 	char	*name;
-	char	*content;
-	int		del_i;
+	char	*con;
+	int		del;
 
 	node = frame->cc->node_start;
 	node = node->next;
 	while (node)
 	{
-		del_i = ft_int_strchr(node->content, '=');
-		if (del_i == ERROR)
+		del = ft_int_strchr(node->content, '=');
+		if (del == ERROR)
 			add_var_node(frame, ft_strdup(node->content), NULL, ON);
 		else
 		{
-			name = ft_substr(node->content, 0, del_i);
-			content = ft_substr(node->content, del_i + 1, ft_strlen(node->content) - del_i);
-			content = ft_quote(content);
-			add_var_node(frame, name, content, OFF);
+			name = ft_substr(node->content, 0, del);
+			del += 1;
+			con = ft_substr(node->content, del, ft_strlen(node->content) - del);
+			con = ft_quote(con, frame);
+			add_var_node(frame, name, con, OFF);
 		}
 		node = node->next;
 	}
@@ -71,14 +84,23 @@ int	export(t_frame *frame)
 
 	node = frame->cc->node_start;
 	if (!node)
-		return (2);
+		return (1);
 	if (!node->next)
 		return (print_export(frame));
 	node = node->next;
 	del_i = ft_int_strchr(node->content, '=');
 	if (del_i == 0)
-		return (print_error("export", "=", "not a valid identifier"));
+	{
+		print_error("export", "=", "not a valid identifier");
+		return (1);
+	}
 	name = ft_substr(node->content, 0, del_i);
+	if (is_valid_varname(name) == FALSE)
+	{
+		free(name);
+		print_error("export", name, "not a valid identifier");
+		return (1);
+	}
 	if (look_for_var(frame, name) == TRUE)
 		replace_var(frame);
 	else

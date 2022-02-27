@@ -1,18 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   deletion.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 14:28:15 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/24 14:30:48 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+
+static void	empty_prev(t_frame *frame, t_node *node)
+{
+	if (node->next != NULL)
+	{
+		node->next->prev = NULL;
+		frame->cc->node_start = node->next;
+		frame->cc->cn = node->next;
+	}
+	else
+		frame->cc->node_start = NULL;
+}
 
 void	delete_node(t_frame	*frame, t_node *node)
 {
 	if (node->prev == NULL)
-	{
-		if (node->next != NULL)
-		{
-			node->next->prev = NULL;
-			frame->cc->node_start = node->next;
-			frame->cc->cn = node->next;
-		}
-		else
-			frame->cc->node_start = NULL;
-	}
+		empty_prev(frame, node);
 	else
 	{
 		if (node->next == NULL)

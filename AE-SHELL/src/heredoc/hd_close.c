@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hd_close.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 14:02:59 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/24 14:03:11 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	close_all_fd(t_frame *frame)
@@ -21,11 +33,11 @@ void	remove_hd(t_frame *frame)
 
 void	interrupt_rmv_hd(t_frame *frame)
 {
-	t_hd_list *node;
-	t_hd_list *tmp;
+	t_hd_list	*node;
+	t_hd_list	*tmp;
 
 	node = frame->hd_list;
-	while (node!= NULL)
+	while (node != NULL)
 	{
 		tmp = node;
 		if (unlink(node->name_of_hd) == ERROR)

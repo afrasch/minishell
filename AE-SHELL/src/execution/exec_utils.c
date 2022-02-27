@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 02:40:58 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/24 02:40:59 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_fork(t_frame *frame)
@@ -19,7 +31,7 @@ void	init_exec(t_exec *exec)
 
 char	*change_caps(char *input_cmd)
 {
-	int	i;
+	int		i;
 	char	*lowletter_cmd;
 
 	i = 0;

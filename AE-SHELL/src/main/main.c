@@ -1,22 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 14:31:28 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/27 19:29:50 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	main(void)
+static int	ft_minishell(char *str, t_frame *frame)
+{
+	split_in_chunks(str, frame);
+	handle_quotes(frame);
+	re_arrange_list(frame);
+	if (input_check(frame) == ERROR)
+		return (ERROR);
+	if (execute_chunks(frame) == ERROR)
+	{
+		if (sig_flag_hd(SHOW) == ON)
+			clear_signals();
+		return (ERROR);
+	}
+	return (0);
+}
+
+int	main(int argc, char **argv, char **env)
 {
 	char		*str;
 	t_frame		frame;
 
 	init_frame(&frame);
-	get_env(&frame);
-	//save_builtins(&frame);
+	get_env(&frame, env);
 	while (1)
 	{
 		str = init_signals_and_prompt(&frame);
-		// frame.shell_env_start->con = "A B ";
-		// frame.shell_env_start->name= "a";
-		//str = "export tmp_test=\"/bin/echo 1\" $tmp_test";
-		//str = "echo $OS_ACTIVITY_DT_MODE '2'";
-		//str = "echo \"1\"A B \"'2'";
-		//str = "echo >file1";
+		//str = "export echo";
 		if (str == NULL)
 		{
 			exit_minishell(&frame);
@@ -27,24 +49,10 @@ int	main(void)
 		{
 			ft_minishell(str, &frame);
 			add_history(str);
-			free(str);//SIGABRT
+			free(str);
 			reset_frame(&frame);
-			// break ;
 		}
 	}
+	(void)argc;
+	(void)argv;
 }
-
-//TODO norm
-
-//TODO funktionen: malloc + protection, print_error, free_all, exit+status
-
-
-
-
-// ./minishell fuehrt export aus
-
-/* unset PATH
-ls
-cd /bin/../bin/
-ls
- */

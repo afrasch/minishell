@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_invalid_input_2.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 02:30:37 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/24 02:32:04 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static int	check_slashes(t_node *node, t_frame* frame)
+static int	check_slashes(t_node *node, t_frame *frame)
 {
 	if (node == frame->cc->node_start)
 	{
@@ -24,7 +36,8 @@ static int	check_slashes(t_node *node, t_frame* frame)
 
 static int	check_redir(t_node *node, t_frame *frame)
 {
-	if (node->type == S_REDIR_L || node->type == S_REDIR_R || node->type == D_REDIR_L
+	if (node->type == S_REDIR_L || node->type == S_REDIR_R
+		|| node->type == D_REDIR_L
 		|| node->type == D_REDIR_R)
 	{
 		if (node->next)
@@ -34,16 +47,15 @@ static int	check_redir(t_node *node, t_frame *frame)
 				|| (node->type == D_REDIR_L && node->next->type == S_REDIR_R))
 			{
 				frame->e_status = 258;
-				return (print_error(node->next->content, NULL, "syntax error near unexpected token"));
+				return (print_error(node->next->content, NULL,
+						"syntax error near unexpected token"));
 			}
-			/* if (node->type != D_REDIR_L && node->next->type == WORD
-				&& access(node->next->content, F_OK) == ERROR && node->type != S_REDIR_R)
-				return (print_error(node->next->content, NULL, "No such file or directory")); */
 		}
 		else
 		{
 			frame->e_status = 258;
-			return (print_error("newline", NULL, "syntax error near unexpected token"));
+			return (print_error("newline", NULL,
+					"syntax error near unexpected token"));
 		}
 	}
 	return (0);

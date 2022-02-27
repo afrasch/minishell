@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_update.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 02:11:48 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/25 13:26:34 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	update_oldpwd(t_frame *frame, char *oldpwd)
@@ -13,13 +25,13 @@ static void	update_oldpwd(t_frame *frame, char *oldpwd)
 			{
 				if (tmp->con)
 					free(tmp->con);
-				tmp->con = ft_strdup(ft_quote(oldpwd));
+				tmp->con = ft_quote(oldpwd, frame);
 			}
 			tmp = tmp->next;
 		}
 	}
 	else
-		add_var_node(frame, "OLDPWD", ft_quote(oldpwd), OFF);
+		add_var_node(frame, "OLDPWD", ft_quote(oldpwd, frame), OFF);
 }
 
 static void	update_pwd(t_frame *frame)
@@ -34,7 +46,7 @@ static void	update_pwd(t_frame *frame)
 			if (ft_strcmp(var->name, "PWD") == 0)
 			{
 				free(var->con);
-				var->con = ft_strdup(ft_quote(getcwd(NULL, 0)));
+				var->con = ft_quote(getcwd(NULL, 0), frame);
 				break ;
 			}
 			var = var->next;

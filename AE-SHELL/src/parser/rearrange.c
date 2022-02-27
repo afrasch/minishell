@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rearrange.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 14:45:57 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/24 15:25:34 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	delete_next_node(t_node *node)
@@ -21,18 +33,22 @@ void	fuse_arrows(t_frame *frame)
 	{
 		if (!frame->cc->cn->content)
 			return ;
-		if ((frame->cc->cn->content[0] == '>' && frame->cc->cn->word == NO_Q && frame->cc->cn->next != NULL)
-			&& (frame->cc->cn->next->content[0] == '>' && frame->cc->cn->next->word == NO_Q))
-			{
-				add_letter('>', frame);
-				delete_next_node(frame->cc->cn);
-			}
-		if ((frame->cc->cn->content[0] == '<' && frame->cc->cn->quote_st == NO_Q && frame->cc->cn->next != NULL)
-			&& (frame->cc->cn->next->content[0] == '<' && frame->cc->cn->next->word == NO_Q))
-			{
-				add_letter('<', frame);
-				delete_next_node(frame->cc->cn);
-			}
+		if ((frame->cc->cn->content[0] == '>' && frame->cc->cn->word == NO_Q
+				&& frame->cc->cn->next != NULL)
+			&& (frame->cc->cn->next->content[0] == '>'
+				&& frame->cc->cn->next->word == NO_Q))
+		{
+			add_letter('>', frame);
+			delete_next_node(frame->cc->cn);
+		}
+		if ((frame->cc->cn->content[0] == '<' && frame->cc->cn->quote_st == NO_Q
+				&& frame->cc->cn->next != NULL)
+			&& (frame->cc->cn->next->content[0] == '<'
+				&& frame->cc->cn->next->word == NO_Q))
+		{
+			add_letter('<', frame);
+			delete_next_node(frame->cc->cn);
+		}
 		tag_node(frame->cc->cn);
 		frame->cc->cn = frame->cc->cn->next;
 	}

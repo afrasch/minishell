@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hd_expansion.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 14:14:49 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/24 23:26:18 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	*expand_hd(char *str, int *i)
@@ -5,6 +17,8 @@ static char	*expand_hd(char *str, int *i)
 	char	*var_name;
 
 	var_name = ft_calloc(1, sizeof(char));
+	if (var_name == NULL)
+		print_error("malloc", NULL, "malloc failed");
 	while (str[*i + 1] && (is_alnum_uscore(str[*i + 1])) == 1)
 	{
 		var_name = ft_add_chr_to_str(var_name, str[*i + 1]);
@@ -15,9 +29,11 @@ static char	*expand_hd(char *str, int *i)
 
 void	handle_hd_expansion(t_frame *frame, char *str)
 {
-	int i = 0;
-	char	*var_name = NULL;
+	int		i;
+	char	*var_name;
 
+	i = 0;
+	var_name = NULL;
 	while (str[i])
 	{
 		if (str[i] == '$')

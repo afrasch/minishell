@@ -1,5 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 02:39:50 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/24 23:23:38 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "minishell.h"
 
 void	ft_parent(t_frame *frame, t_exec *exec, t_chunk *cc)
 {
@@ -18,7 +29,8 @@ int	execute_one_cmd(t_frame *frame, t_exec *exec)
 	get_path(frame);
 	i = get_access(frame, change_caps(frame->cc->node_start->content));
 	if (i == ERROR)
-		return (print_error(frame->cc->node_start->content, NULL, "No such file or directory"));
+		return (print_error(frame->cc->node_start->content, NULL,
+				"No such file or directory"));
 	dup2(frame->cc->in_fd, STDIN_FILENO);
 	dup2(frame->cc->out_fd, STDOUT_FILENO);
 	if (frame->cc->out_fd != STDOUT_FILENO)
@@ -30,12 +42,14 @@ int	execute_one_cmd(t_frame *frame, t_exec *exec)
 	return (0);
 }
 
-int	execute_cmd(t_frame *frame, int i, char* cmd)
+int	execute_cmd(t_frame *frame, int i, char *cmd)
 {
 	if (i == -2)
-		execve(cmd, list_to_arr(frame->cc->node_start), env_list_to_arr(frame));
+		execve(cmd, list_to_arr(frame->cc->node_start, frame),
+			env_list_to_arr(frame));
 	else
-		execve(ft_strjoin(frame->paths[i], cmd), list_to_arr(frame->cc->node_start), env_list_to_arr(frame));
+		execve(ft_strjoin(frame->paths[i], cmd),
+			list_to_arr(frame->cc->node_start, frame), env_list_to_arr(frame));
 	if (errno == ENOENT)
 	{
 		frame->e_status = 127;
@@ -48,6 +62,5 @@ int	execute_cmd(t_frame *frame, int i, char* cmd)
 	}
 	else
 		print_error(cmd, NULL, NULL);
-
 	return (ERROR);
 }

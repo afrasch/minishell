@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   environment.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 15:38:02 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/27 19:38:51 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_valid_varname(char *name)
@@ -18,13 +30,28 @@ int	is_valid_varname(char *name)
 	return (TRUE);
 }
 
+static void	set_node_to_env(t_frame *frame, t_var *node)
+{
+	frame->shell_env = frame->shell_env_start;
+	while (frame->shell_env && frame->shell_env->next)
+		frame->shell_env = frame->shell_env->next;
+	if (frame->shell_env != NULL)
+		frame->shell_env->next = node;
+	else
+		frame->shell_env_start = node;
+	frame->shell_env = node;
+}
+
 int	add_var_node(t_frame *frame, char *name, char *content, int just_export)
 {
 	t_var	*node;
 
 	if (is_valid_varname(name) == FALSE)
+	{
+		frame->e_status = 1;
 		return (print_error("export", name, "not a valid identifier"));
-	node = ft_calloc(1, sizeof(t_var));
+	}
+	node = ft_calloc_mini(1, sizeof(t_var), frame);
 	if (!node)
 		return (ERROR);
 	node->con = ft_strdup(content);
@@ -37,14 +64,7 @@ int	add_var_node(t_frame *frame, char *name, char *content, int just_export)
 	name = NULL;
 	node->just_export = just_export;
 	node->next = NULL;
-	frame->shell_env = frame->shell_env_start;
-	while (frame->shell_env && frame->shell_env->next)
-		frame->shell_env = frame->shell_env->next;
-	if (frame->shell_env != NULL)
-		frame->shell_env->next = node;
-	else
-		frame->shell_env_start = node;
-	frame->shell_env = node;
+	set_node_to_env(frame, node);
 	return (0);
 }
 
@@ -57,20 +77,19 @@ static void	split_env(char *str, t_frame *frame)
 	find_nbr = ft_int_strchr(str, '=');
 	name = ft_substr(str, 0, find_nbr);
 	content = ft_substr(str, find_nbr + 1, ft_strlen(str) - find_nbr);
-	content = ft_quote(content);
+	content = ft_quote(content, frame);
 	free(str);
 	add_var_node(frame, name, content, OFF);
 }
 
-void get_env(t_frame *frame)
+void	get_env(t_frame *frame, char **env)
 {
-	int	i;
-	extern char** environ;
+	int			i;
 
 	i = 0;
-	while (environ[i] != NULL)
+	while (env[i] != NULL)
 	{
-		split_env(ft_strdup(environ[i]), frame);
+		split_env(ft_strdup(env[i]), frame);
 		i++;
 	}
 }

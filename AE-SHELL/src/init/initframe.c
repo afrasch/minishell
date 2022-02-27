@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initframe.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 14:28:03 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/24 23:24:35 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	init_frame(t_frame *frame)
@@ -17,7 +29,7 @@ void	init_node(t_frame *frame)
 {
 	t_node	*node;
 
-	node = ft_calloc(1, sizeof(t_node));
+	node = ft_calloc_mini(1, sizeof(t_node), frame);
 	node->prev = NULL;
 	node->next = NULL;
 	frame->cc->cn = node;
@@ -32,7 +44,7 @@ void	init_chunk(t_frame *frame)
 {
 	t_chunk	*chunk;
 
-	chunk = ft_calloc(1, sizeof(t_chunk));
+	chunk = ft_calloc_mini(1, sizeof(t_chunk), frame);
 	chunk->prev = NULL;
 	chunk->next = NULL;
 	frame->cc = chunk;

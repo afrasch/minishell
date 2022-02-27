@@ -6,7 +6,7 @@
 /*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 15:56:21 by hepple            #+#    #+#             */
-/*   Updated: 2022/02/18 16:10:42 by elenz            ###   ########.fr       */
+/*   Updated: 2022/02/25 13:05:49 by elenz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static char	*str_append_chr(char *str, char append)
 	if (str == NULL)
 		return (NULL);
 	new_str = malloc(ft_strlen(str) + 2);
+	if (new_str == NULL)
+		print_error("substantial Error", NULL, "malloc failed - EXIT");
 	if (new_str != NULL)
 	{
 		i = 0;
@@ -67,4 +69,15 @@ static char	*minishell_gnl_free_line(char *line)
 {
 	free(line);
 	return (NULL);
+}
+
+void	*ft_calloc_mini(size_t count, size_t size, t_frame *frame)
+{
+	void	*ptr;
+
+	ptr = malloc(count * size);
+	if (ptr == NULL)
+		print_error_exit(frame, "substantial Error", "malloc failed - EXIT");
+	ft_bzero(ptr, count * size);
+	return (ptr);
 }

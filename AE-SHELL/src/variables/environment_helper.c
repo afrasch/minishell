@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   environment_helper.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 15:37:15 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/27 18:23:28 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*ft_unquote(char *str)
@@ -8,7 +20,7 @@ char	*ft_unquote(char *str)
 
 	i = 0;
 	j = 0;
-	ret = ft_calloc(ft_strlen(str) - 1, sizeof(char *));//where free?
+	ret = ft_calloc(ft_strlen(str) - 1, sizeof(char *));
 	if (ret == NULL)
 		return (NULL);
 	while (str[j])
@@ -23,13 +35,13 @@ char	*ft_unquote(char *str)
 	return (ret);
 }
 
-char	*ft_quote(char *str)
+char	*ft_quote(char *str, t_frame *frame)
 {
 	char	*ret;
 	int		j;
 
 	j = 0;
-	ret = ft_calloc(ft_strlen(str) + 3, sizeof(char *));
+	ret = ft_calloc_mini(ft_strlen(str) + 3, sizeof(char *), frame);
 	if (ret == NULL)
 		return (NULL);
 	ret[0] = '"';
@@ -73,7 +85,7 @@ void	replace_env_var(t_frame *frame, char *name, char *new_content)
 		{
 			if (var->con)
 				free(var->con);
-			var->con = ft_quote(new_content);
+			var->con = ft_quote(new_content, frame);
 			return ;
 		}
 		var = var->next;
@@ -84,7 +96,7 @@ void	replace_env_var(t_frame *frame, char *name, char *new_content)
    Returns TRUE (1) if yes. */
 int	look_for_var(t_frame *frame, char *name)
 {
-	t_var *var;
+	t_var	*var;
 
 	var = frame->shell_env_start;
 	while (var)

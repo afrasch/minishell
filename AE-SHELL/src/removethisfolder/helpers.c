@@ -1,9 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   helpers.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 15:44:24 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/24 15:45:33 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-
-
-
-void ft_print_stack(t_frame *frame)
+void	ft_print_stack(t_frame *frame)
 {
 	set_list_2start(frame);
 	while (frame->cc != NULL)
@@ -15,15 +24,13 @@ void ft_print_stack(t_frame *frame)
 			printf("%s\n", frame->cc->cn->content);
 			printf("******\nwordstate= %d\n", frame->cc->cn->word);
 			printf("IN FD FOR CHUNK: %i\n", frame->cc->in_fd);
-			printf("NODE TYPE: %s\n*****\n", frame->cc->cn->typ);
-
 			frame->cc->cn = frame->cc->cn->next;
 		}
 		frame->cc = frame->cc->next;
 	}
 }
 
-void ft_print_stack_plain(t_frame *frame)
+void	ft_print_stack_plain(t_frame *frame)
 {
 	set_list_2start(frame);
 	while (frame->cc != NULL)
@@ -33,21 +40,13 @@ void ft_print_stack_plain(t_frame *frame)
 		while (frame->cc->cn != NULL)
 		{
 			printf("%s\n", frame->cc->cn->content);
-			/* printf("******\nwordstate= %d\n", frame->cc->cn->word);
-			printf("IN FD FOR CHUNK: %i\n", frame->cc->in_fd);
-			printf("NODE TYPE: %s\n*****\n", frame->cc->cn->typ); */
-
 			frame->cc->cn = frame->cc->cn->next;
 		}
 		frame->cc = frame->cc->next;
 	}
 }
 
-
-
-
-
-void	debug_print(t_frame *frame)
+/* void	debug_print(t_frame *frame)
 {
 	printf("\n___________________\n\n");
 	t_node *node;
@@ -136,11 +135,11 @@ void	debug_print_full(t_frame *frame)
 	frame->cc = frame->cc->next;
 	}
 	frame->cc = frame->chunk_start;
-}
+} */
 
-void print_hd_list(t_frame *frame)
+void	print_hd_list(t_frame *frame)
 {
-	t_hd_list **node;
+	t_hd_list	**node;
 
 	node = &frame->hd_list;
 	while ((*node)->next != NULL)

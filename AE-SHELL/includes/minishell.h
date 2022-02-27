@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 15:41:55 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/27 17:58:23 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -38,7 +50,7 @@ typedef enum e_builtin
 	ENV,
 	EXIT,
 	NONE,
-} t_builtin;
+}	t_builtin;
 
 enum e_quote_status
 {
@@ -56,7 +68,6 @@ enum e_operators
 	D_REDIR_L,
 	D_REDIR_R,
 	WORD,
-	// META,
 };
 
 typedef struct s_var
@@ -82,10 +93,8 @@ typedef struct s_node
 	int					word;
 	struct s_node		*next;
 	struct s_node		*prev;
-	char				typ[15];//TODO delete
 }	t_node;
 
-/*cn = current node*/
 typedef struct s_chunk
 {
 	int					type;
@@ -104,11 +113,11 @@ typedef struct s_chunk
 	int					e_status_file;
 }	t_chunk;
 
-/*cc = current chunk*/
 typedef struct s_frame
 {
 	t_var				*shell_env;
 	t_var				*shell_env_start;
+	char				**env_copy;
 	int					exp_st;
 	t_chunk				*cc;
 	t_chunk				*chunk_start;
@@ -128,7 +137,7 @@ typedef struct s_exec
 	int	tmp_fd;
 }	t_exec;
 
-int			ft_minishell(char *str, t_frame *frame);
+void		split_in_chunks(char *str, t_frame *frame);
 void		add_letter(char c, t_frame *frame);
 void		handle_quotes(t_frame *frame);
 void		set_quote_state(char c, t_frame *frame);
@@ -156,7 +165,8 @@ void		init_node(t_frame *frame);
 int			lstsize(t_node *lst);
 int			var_lstsize(t_var *lst);
 void		set_list_2start(t_frame *frame);
-int			add_var_node(t_frame *frame, char *name, char *content, int just_export);
+int			add_var_node(t_frame *frame, char *name,
+				char *content, int just_export);
 int			is_alnum_uscore(char c);
 int			is_valid_varname(char *name);
 
@@ -164,14 +174,14 @@ int			input_check(t_frame *frame);
 int			control_node(t_node *node, t_frame *frame);
 void		delete_node(t_frame	*frame, t_node *node);
 void		delete_var_node(t_frame	*frame, t_var *node);
-char		**list_to_arr(t_node *node_start);
+char		**list_to_arr(t_node *node_start, t_frame *frame);
 char		**env_list_to_arr(t_frame *frame);
 void		re_arrange_list(t_frame *frame);
 t_builtin	check_for_builtin(char *input_cmd, t_frame *frame);
-char		*ft_quote(char *str);
+char		*ft_quote(char *str, t_frame *frame);
 char		*ft_unquote(char *str);
 
-void		get_env(t_frame *frame);
+void		get_env(t_frame *frame, char **env);
 char		*get_env_var(t_frame *frame, char *name);
 void		replace_env_var(t_frame *frame, char *name, char *new_content);
 int			look_for_var(t_frame *frame, char *name);
@@ -182,14 +192,14 @@ void		ft_print_stack(t_frame *frame);
 void		ft_print_stack_plain(t_frame *frame);
 void		debug_print(t_frame *frame);
 void		debug_print_full(t_frame *frame);
-void 		print_hd_list(t_frame *frame);
+void		print_hd_list(t_frame *frame);
 
 char		*change_caps(char *input_cmd);
-int 		print_error(char *cmd, char * arg, char *message);
+int			print_error(char *cmd, char *arg, char *message);
 void		print_signal_error(int sig);
-char 		*init_signals_and_prompt(t_frame *frame);
+char		*init_signals_and_prompt(t_frame *frame);
 void		child_killer(int signal);
-void		clear_signals();//TODO what is that???
+void		clear_signals(void);
 void		child_killer_one_cmd(int sig);
 
 int			ft_fork(t_frame *frame);
@@ -200,7 +210,7 @@ int			ft_childprocess(t_frame *frame, t_exec *exec, char *cmd);
 void		ft_parent(t_frame *frame, t_exec *exec, t_chunk *cc);
 int			get_access(t_frame *frame, char	*cmd);
 int			execute_one_cmd(t_frame *frame, t_exec *exec);
-int			execute_cmd(t_frame *frame, int i, char* cmd);
+int			execute_cmd(t_frame *frame, int i, char *cmd);
 void		prepare_builtin_alone(t_frame *frame);
 void		set_back_builtin_alone(t_frame *frame);
 
@@ -212,13 +222,13 @@ int			pwd(t_frame *frame);
 int			cd(t_frame *frame);
 int			echo(t_frame *frame);
 
-char 		*create_rand_name();
+char		*create_rand_name(void);
 int			set_here_docs(t_frame *frame);
 int			do_here_doc(t_frame *frame);
-char		*get_heredoc_prompt();
+char		*get_heredoc_prompt(void);
 void		handle_hd_expansion(t_frame *frame, char *str);
 int			solve_heredocs(t_frame *frame);
-int 		set_hd_as_infd(t_frame *frame);
+int			set_hd_as_infd(t_frame *frame);
 void		remove_hd(t_frame *frame);
 int			sig_flag_hd(int action);
 void		add_hd_name_to_list(t_frame *frame);
@@ -233,4 +243,5 @@ int			print_error_errno(char *s1, char *s2, char *s3);
 void		print_error_exit(t_frame *frame, char *cmd, char *message);
 
 char		*minishell_get_next_line(int fd);
+void		*ft_calloc_mini(size_t count, size_t size, t_frame *frame);
 #endif

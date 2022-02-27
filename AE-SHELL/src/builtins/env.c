@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 02:12:03 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/27 19:53:44 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	env(t_frame *frame)
@@ -7,7 +19,7 @@ int	env(t_frame *frame)
 
 	var = frame->shell_env_start;
 	if (!var)
-		return (2);
+		return (1);
 	while (var)
 	{
 		if (var->just_export == ON)

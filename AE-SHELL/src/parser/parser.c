@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 14:32:10 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/24 23:21:00 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void add_letter(char c, t_frame *frame)
+void	add_letter(char c, t_frame *frame)
 {
 	int		con_len;
 	char	*new_string;
@@ -8,7 +20,7 @@ void add_letter(char c, t_frame *frame)
 	if (!frame->cc->cn)
 		return ;
 	con_len = ft_strlen(frame->cc->cn->content);
-	new_string = ft_calloc(sizeof(char), (2 + con_len));
+	new_string = ft_calloc_mini(sizeof(char), (2 + con_len), frame);
 	if (frame->cc->cn->content != NULL)
 	{
 		ft_memcpy(new_string, frame->cc->cn->content, con_len);
@@ -26,17 +38,20 @@ static void	add_node(char c, char c_plus, t_frame *frame)
 	if (ft_strchr("<> 	\n", c) != NULL && frame->cc->cn->quote_st == NO_Q)
 	{
 		if ((frame->cc->cn->content != NULL
-			&& (check_spaces(c_plus) == 0 && c_plus != '|' && c_plus != '\0')) ||
-			(frame->cc->cn->content != NULL && ft_strchr("<>", c) != NULL))
+				&& (check_spaces(c_plus) == 0 && c_plus != '|'
+					&& c_plus != '\0')) || (frame->cc->cn->content
+				!= NULL && ft_strchr("<>", c) != NULL))
 			next_node(frame);
 		if (check_spaces(c) == 0)
 			add_letter(c, frame);
-		if ((ft_strchr("<>", c) != NULL && (c_plus != ' ' && c_plus != '|' && c_plus != '\0')))
+		if ((ft_strchr("<>", c) != NULL
+				&& (c_plus != ' ' && c_plus != '|' && c_plus != '\0')))
 			next_node(frame);
 	}
-	if((ft_strchr("<>| 	\n", c) == NULL && frame->cc->cn->quote_st == NO_Q)
-	|| (frame->cc->cn->quote_st == DOUBLE_Q)
-	|| (frame->cc->cn->quote_st == SINGLE_Q))
+	if ((ft_strchr("<>| 	\n", c) == NULL
+			&& frame->cc->cn->quote_st == NO_Q)
+		|| (frame->cc->cn->quote_st == DOUBLE_Q)
+		|| (frame->cc->cn->quote_st == SINGLE_Q))
 	{
 		if (ft_strrchr("\"\'", c) != NULL)
 			set_quote_state(c, frame);
@@ -62,7 +77,27 @@ static void	add_e_status_node(t_frame *frame)
 		frame->cc->cn->type = WORD;
 }
 
-static void	split_in_chunks(char *str, t_frame *frame)
+static int	expand_and_nodes(char *str, int i, t_frame *frame)
+{
+	while ((ft_strchr("|", str[i]) == NULL && str[i] != '\0')
+		|| (frame->cc->quote_st == DOUBLE_Q && str[i] != '\0')
+		|| (frame->cc->quote_st == SINGLE_Q && str[i] != '\0'))
+	{
+		if (expand_requisites(frame, str[i], str[i + 1]) == 1)
+			expand(str, &i, frame);
+		else if (expand_requisites(frame, str[i], str[i + 1]) == 2)
+		{
+			add_e_status_node(frame);
+			i++;
+		}
+		else
+			add_node(str[i], str[i + 1], frame);
+		i++;
+	}
+	return (i);
+}
+
+void	split_in_chunks(char *str, t_frame *frame)
 {
 	int	i;
 
@@ -73,43 +108,11 @@ static void	split_in_chunks(char *str, t_frame *frame)
 	{
 		while (check_spaces(str[i]) == 1 && frame->cc->quote_st == NO_Q)
 			i++;
-		while ((ft_strchr("|", str[i]) == NULL && str[i] != '\0')
-		|| (frame->cc->quote_st == DOUBLE_Q && str[i] != '\0')
-		|| (frame->cc->quote_st == SINGLE_Q && str[i] != '\0'))
-		{
-			if (expand_requisites(frame, str[i], str[i + 1]) == 1)
-				expand(str, &i, frame);
-			else if (expand_requisites(frame, str[i], str[i + 1]) == 2)
-			{
-				add_e_status_node(frame);
-				i++;
-				// return ;
-			}
-			else
-				add_node(str[i], str[i + 1], frame);
-			i++;
-		}
+		i = expand_and_nodes (str, i, frame);
 		if (str[i] == '|')
 		{
 			next_chunk(frame);
 			i++;
 		}
 	}
-}
-
-int	ft_minishell(char *str, t_frame *frame)
-{
-	split_in_chunks(str, frame);
-	//ft_print_stack(frame);
-	handle_quotes(frame);
-	re_arrange_list(frame);
-	if (input_check(frame) == ERROR)
-		return (ERROR);
-	if (execute_chunks(frame) == ERROR)
-	{
-		if (sig_flag_hd(SHOW) == ON)
-			clear_signals();//???
-		return (ERROR);
-	}
-	return (0);
 }

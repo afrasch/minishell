@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_nodes.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 14:02:24 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/24 23:32:14 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	free_node(t_node *node)
@@ -10,17 +22,17 @@ void	free_node(t_node *node)
 
 static void	free_var_node(t_var *var)
 {
-	if (var->con)
+	if (var && var->con)
 		free(var->con);
-	if (var->name)
+	if (var && var->name)
 		free(var->name);
 	free(var);
 }
 
 void	free_env(t_frame *frame)
 {
-	t_var *var;
-	t_var *tmp;
+	t_var	*var;
+	t_var	*tmp;
 
 	var = frame->shell_env_start;
 	while (var && var->next)

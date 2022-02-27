@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 02:12:15 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/27 19:22:23 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	free_all(t_frame *frame)
@@ -6,20 +18,19 @@ void	free_all(t_frame *frame)
 	reset_frame(frame);
 }
 
-int calc_ret(char *str)
+int	calc_ret(char *str)
 {
-	int ret;
+	int	ret;
 
 	ret = ft_atoi(str);
 	if (ret < 0)
-		return(256 + ret);
+		return (256 + ret);
 	if (ret > 255)
-		return(256 % ret);
+		return (256 % ret);
 	return (ret);
 }
 
-
-int check_input(t_frame *frame)
+int	check_input(t_frame *frame)
 {
 	t_node	*arg;
 	char	*str;
@@ -30,7 +41,7 @@ int check_input(t_frame *frame)
 	str = frame->cc->node_start->next->content;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
-	while(str[i])
+	while (str[i])
 	{
 		if (ft_isdigit(str[i]) == 0)
 		{
@@ -74,7 +85,6 @@ void	exit_minishell(t_frame *frame)
 	else if (frame->cc != NULL)
 		ft_putstr_fd("exit\n", 2);
 	free_all(frame);
-	//system("leaks minishell");
 	exit(frame->e_status);
 }
-// if (isatty(STDIN_FILENO))
+// if (isatty(STDIN_FILENO)) TODO: MUSS DAS REIN?

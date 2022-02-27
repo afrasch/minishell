@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 15:30:13 by elenz             #+#    #+#             */
+/*   Updated: 2022/02/27 19:20:11 by elenz            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	new_prompt(int sig)
@@ -11,7 +23,6 @@ void	new_prompt(int sig)
 	rl_redisplay();
 }
 
-
 void	clear_signals(void)
 {
 	struct termios	term;
@@ -21,32 +32,37 @@ void	clear_signals(void)
 	tcsetattr(1, 0, &term);
 }
 
-char *init_signals_and_prompt(t_frame *frame)
+static char	*get_str_and_set_term(void)
+{
+	struct termios	term;
+	char			*str;
+
+	if (tcgetattr(1, &term) == ERROR)
+	{
+		write(STDERR_FILENO,
+			"Error while getting Attributes of Terminal\n", 43);
+		exit(EXIT_FAILURE);
+	}
+	if (term.c_lflag & ECHOCTL)
+		term.c_lflag &= ~ECHOCTL;
+	tcsetattr(1, 0, &term);
+	return (str = readline(PROMPT));
+}
+
+char	*init_signals_and_prompt(t_frame *frame)
 {
 	char			*str;
-	struct termios	term;
 
 	sig_flag_hd(OFF);
 	signal(SIGINT, new_prompt);
 	signal(SIGQUIT, SIG_IGN);
 	if (isatty(STDIN_FILENO))
-	{
-		if (tcgetattr(1, &term) == ERROR)
-		{
-			write(STDERR_FILENO, "Error while getting Attributes of Terminal\n", 43);
-			exit(EXIT_FAILURE);
-		}
-		if (term.c_lflag & ECHOCTL)
-			term.c_lflag &= ~ECHOCTL;
-		tcsetattr(1, 0, &term);
-			str = readline(PROMPT);
-	}
+		str = get_str_and_set_term();
 	else
 	{
 		str = minishell_get_next_line(STDIN_FILENO);
-		//str = minishell_get_next_line(open("/Users/elenz/Documents/minishell/AE-SHELL/test", O_RDONLY));
 		if (str)
-			str[ft_strlen(str) - 1] = '\0';//weil newline und tabs nicht berücksichtigt werden
+			str[ft_strlen(str) - 1] = '\0';
 	}
 	clear_signals();
 	signal(SIGINT, SIG_DFL);
