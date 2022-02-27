@@ -6,7 +6,7 @@
 /*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:31:28 by elenz             #+#    #+#             */
-/*   Updated: 2022/02/27 19:29:50 by elenz            ###   ########.fr       */
+/*   Updated: 2022/02/27 21:12:57 by elenz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		str = init_signals_and_prompt(&frame);
-		//str = "export echo";
 		if (str == NULL)
 		{
 			exit_minishell(&frame);

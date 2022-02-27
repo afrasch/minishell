@@ -6,7 +6,7 @@
 /*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 02:13:25 by elenz             #+#    #+#             */
-/*   Updated: 2022/02/27 19:51:33 by elenz            ###   ########.fr       */
+/*   Updated: 2022/02/27 21:23:04 by elenz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,13 @@ static void	add_var(t_frame *frame)
 	}
 }
 
+static int	error_val_varname(char *name)
+{
+	print_error("export", name, "not a valid identifier");
+	free(name);
+	return (1);
+}
+
 int	export(t_frame *frame)
 {
 	t_node	*node;
@@ -96,11 +103,7 @@ int	export(t_frame *frame)
 	}
 	name = ft_substr(node->content, 0, del_i);
 	if (is_valid_varname(name) == FALSE)
-	{
-		free(name);
-		print_error("export", name, "not a valid identifier");
-		return (1);
-	}
+		return (error_val_varname(name));
 	if (look_for_var(frame, name) == TRUE)
 		replace_var(frame);
 	else

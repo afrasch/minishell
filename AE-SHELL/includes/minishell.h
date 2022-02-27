@@ -6,7 +6,7 @@
 /*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 15:41:55 by elenz             #+#    #+#             */
-/*   Updated: 2022/02/27 17:58:23 by elenz            ###   ########.fr       */
+/*   Updated: 2022/02/27 21:23:31 by elenz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
-//# include <wait.h>
 
 # define PROMPT		"|SHELL~SHOCK| "
 # define SHELLNAME	"SHELL SHOCK: "
@@ -187,7 +186,6 @@ void		replace_env_var(t_frame *frame, char *name, char *new_content);
 int			look_for_var(t_frame *frame, char *name);
 void		update_env(t_frame *frame, char *name, char *content, char *oldpwd);
 
-//helpers TODO delete
 void		ft_print_stack(t_frame *frame);
 void		ft_print_stack_plain(t_frame *frame);
 void		debug_print(t_frame *frame);

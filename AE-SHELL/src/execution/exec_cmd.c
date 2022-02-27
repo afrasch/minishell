@@ -6,7 +6,7 @@
 /*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 02:39:50 by elenz             #+#    #+#             */
-/*   Updated: 2022/02/24 23:23:38 by elenz            ###   ########.fr       */
+/*   Updated: 2022/02/27 21:04:01 by elenz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ int	execute_cmd(t_frame *frame, int i, char *cmd)
 	else if (errno == EACCES)
 	{
 		frame->e_status = 126;
+		if (ft_strlen(frame->chunk_start->node_start->content) == 0)
+		{
+			frame->e_status = 127;
+			print_error_exit(frame, cmd, "command not found");
+		}
 		print_error_exit(frame, cmd, "Permission denied");
 	}
 	else
