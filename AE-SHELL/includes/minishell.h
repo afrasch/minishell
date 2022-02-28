@@ -184,13 +184,8 @@ void		get_env(t_frame *frame, char **env);
 char		*get_env_var(t_frame *frame, char *name);
 void		replace_env_var(t_frame *frame, char *name, char *new_content);
 int			look_for_var(t_frame *frame, char *name);
-void		update_env(t_frame *frame, char *name, char *content, char *oldpwd);
-
-void		ft_print_stack(t_frame *frame);
-void		ft_print_stack_plain(t_frame *frame);
-void		debug_print(t_frame *frame);
-void		debug_print_full(t_frame *frame);
-void		print_hd_list(t_frame *frame);
+void		update_env(t_frame *frame, char *name,
+				char *content, char *oldpwd);
 
 char		*change_caps(char *input_cmd);
 int			print_error(char *cmd, char *arg, char *message);

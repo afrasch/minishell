@@ -12,12 +12,6 @@
 
 #include "minishell.h"
 
-static void	echo_init(t_frame *frame)
-{
-	frame->cc->built_in = B_ECHO;
-	frame->nl = OFF;
-}
-
 static void	echo_write(t_node *node, t_frame *frame)
 {
 	while (node->next)
@@ -31,11 +25,28 @@ static void	echo_write(t_node *node, t_frame *frame)
 		write (frame->cc->out_fd, "\n", 1);
 }
 
+static int	check_newline_flag(char *str)
+{
+	int	i;
+
+	if (str[0] != '-' || str[1] == '\0')
+		return (FALSE);
+	i = 1;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
 int	echo(t_frame *frame)
 {
 	t_node	*node;
 
-	echo_init(frame);
+	frame->cc->built_in = B_ECHO;
+	frame->nl = OFF;
 	node = frame->cc->node_start;
 	if (!node)
 		return (1);
@@ -44,7 +55,7 @@ int	echo(t_frame *frame)
 		write (frame->cc->out_fd, "\n", 1);
 		return (0);
 	}
-	while (node->next && ft_strcmp(node->next->content, "-n") == 0)
+	while (node->next && check_newline_flag(node->next->content) == TRUE)
 	{
 		node = node->next;
 		frame->nl = ON;

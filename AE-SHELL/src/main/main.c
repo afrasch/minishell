@@ -33,6 +33,8 @@ int	main(int argc, char **argv, char **env)
 	char		*str;
 	t_frame		frame;
 
+	(void)argc;
+	(void)argv;
 	init_frame(&frame);
 	get_env(&frame, env);
 	while (1)
@@ -52,6 +54,4 @@ int	main(int argc, char **argv, char **env)
 			reset_frame(&frame);
 		}
 	}
-	(void)argc;
-	(void)argv;
 }
