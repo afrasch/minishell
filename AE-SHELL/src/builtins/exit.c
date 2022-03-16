@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*   By: afrasch <afrasch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 02:12:15 by elenz             #+#    #+#             */
-/*   Updated: 2022/02/27 19:22:23 by elenz            ###   ########.fr       */
+/*   Updated: 2022/03/16 21:13:00 by afrasch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,3 @@ void	exit_minishell(t_frame *frame)
 	free_all(frame);
 	exit(frame->e_status);
 }
-// if (isatty(STDIN_FILENO)) TODO: MUSS DAS REIN?

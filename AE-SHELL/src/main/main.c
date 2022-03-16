@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*   By: afrasch <afrasch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:31:28 by elenz             #+#    #+#             */
-/*   Updated: 2022/02/27 21:12:57 by elenz            ###   ########.fr       */
+/*   Updated: 2022/03/16 20:52:23 by afrasch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int	main(int argc, char **argv, char **env)
 		{
 			ft_minishell(str, &frame);
 			add_history(str);
-			free(str);
 			reset_frame(&frame);
 		}
+		free(str);
 	}
 }

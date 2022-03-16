@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*   By: afrasch <afrasch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:32:10 by elenz             #+#    #+#             */
-/*   Updated: 2022/02/24 23:21:00 by elenz            ###   ########.fr       */
+/*   Updated: 2022/03/16 20:52:52 by afrasch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	add_e_status_node(t_frame *frame)
 
 	i = 0;
 	e_status = ft_itoa(frame->e_status);
-	while (e_status[i])
+	while (e_status && e_status[i])
 	{
 		add_letter(e_status[i], frame);
 		i++;

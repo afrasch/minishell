@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*   By: afrasch <afrasch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 02:13:25 by elenz             #+#    #+#             */
-/*   Updated: 2022/02/27 21:23:04 by elenz            ###   ########.fr       */
+/*   Updated: 2022/03/16 20:59:16 by afrasch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,3 +111,5 @@ int	export(t_frame *frame)
 	free(name);
 	return (0);
 }
+
+/*export var (without =) && export var=content -> doesnt work*/

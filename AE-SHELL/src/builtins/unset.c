@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elenz <elenz@student.42.fr>                +#+  +:+       +#+        */
+/*   By: afrasch <afrasch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 02:20:44 by elenz             #+#    #+#             */
-/*   Updated: 2022/02/27 19:55:06 by elenz            ###   ########.fr       */
+/*   Updated: 2022/03/16 20:58:28 by afrasch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	iter_var_del(t_var *var, t_node *node, t_frame *frame)
 {
 	while (var)
 	{
-		if (ft_strcmp(node->content, var->name) == 0)
+		if (node->content && (ft_strcmp(node->content, var->name) == 0))
 		{
 			delete_var_node(frame, var);
 			break ;
@@ -39,7 +39,7 @@ int	unset(t_frame *frame)
 	{
 		var = frame->shell_env_start;
 		node = node->next;
-		if (is_valid_varname(node->content) == FALSE)
+		if (node->content && (is_valid_varname(node->content) == FALSE))
 		{
 			re = 1;
 			print_error("unset", node->content, "not a valid identifier");
